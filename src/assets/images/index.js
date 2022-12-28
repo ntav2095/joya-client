@@ -1,0 +1,16 @@
+export const travelPic = require("./sec_inbound_tour_bg.jpg");
+export const one = require("./1.jpg");
+export const aboutCompany = require("./about.jpg");
+export const brokenImage = require("./broken-image.jpg");
+export const placeholder = require("./placeholder.jpg");
+export const home1 = require("./home1.png");
+export const home2 = require("./home2.png");
+export const home3 = require("./home3.png");
+export const home4 = require("./home4.png");
+export const hearder = require("./hearder.PNG");
+export const giangsinh = require("./cho_giang_sinh_o_paris_12.jpg");
+export const giangsinh2 = require("./cho_giang_sinh_o_paris_2.jpg");
+export const imagevietnam = require("./la-co-viet-nam.png");
+export const imageMy = require("./american-flag-g1192aabb9_640.png");
+export const altThumbnail = require("./alt_thumb.jpg");
+export const blog = require("./blog.jpg");

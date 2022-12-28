@@ -1,0 +1,117 @@
+.title p {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.carouselItem {
+  width: 100%;
+  padding: 0 8px;
+}
+
+.carouselItem > a {
+  display: block;
+  color: #050505;
+  border-radius: 12px;
+  box-shadow: var(--box-shadow-border);
+  overflow: hidden;
+}
+
+.carouselItem:hover {
+  transition: 3px;
+}
+.img {
+  height: 0;
+  padding-top: 62.5%;
+  position: relative;
+}
+.img > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  position: absolute;
+  top: 0;
+}
+
+.content {
+  padding: 16px 12px;
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    padding: 10px 8px;
+  }
+}
+
+.content > h5 {
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.content p {
+  margin-bottom: 2px;
+  line-height: 1.4;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.content p::before {
+  content: "•";
+  padding-right: 6px;
+}
+/* reposive */
+@media screen and (max-width: 600px) {
+  .title p {
+    margin-left: 14px;
+    margin-bottom: 8px;
+  }
+  .tourdetail {
+    padding: 0 !important;
+    height: 2rem !important;
+    width: 7rem !important;
+    line-height: 1.9rem !important;
+    margin: 2px 0px 0px 0.8rem !important;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .title p {
+    margin-left: 14px;
+    margin-bottom: 0.7rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .title p {
+    margin-left: 14px;
+  }
+}
+
+/* ============== button ===============  */
+
+.tourdetail {
+  width: 9rem;
+  display: block;
+  color: #050505;
+  padding: 0 0.4em;
+  height: 2.6rem;
+  line-height: 2.6rem;
+  font-size: 14px;
+  border: 1px solid rgb(192, 188, 188);
+  border-radius: 24px;
+  text-align: center;
+  margin: 2px 0px 1rem 1rem;
+}
+.tourdetail:hover {
+  border: 1px solid rgb(192, 188, 188);
+  color: #050505;
+  background-color: rgb(243, 245, 247);
+}
+.container {
+  width: 100%;
+}
+.placeholder {
+  background: var(--skeleton-color);
+  height: 110px;
+}

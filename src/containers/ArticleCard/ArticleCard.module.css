@@ -1,0 +1,54 @@
+.card {
+  box-shadow: var(--box-shadow);
+  box-shadow: var(--box-shadow-border);
+  border-radius: 12px;
+  overflow: hidden;
+  color: #050505;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.image {
+  height: 0;
+  padding-top: 60%;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.image img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  top: 0;
+  object-position: center;
+  transition: 0.36s;
+  z-index: 2;
+}
+
+.card:hover img {
+  transform: scale(1.03);
+}
+
+.textBox {
+  padding: 10px;
+}
+
+.card h2 {
+  color: #050505;
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+.card p {
+  color: #4f4f4f;
+  margin: 0;
+  margin-bottom: 3px;
+}
+.card p::before {
+  content: "•";
+  padding-right: 6px;
+}

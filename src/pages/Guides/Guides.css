@@ -1,0 +1,36 @@
+@media screen and (max-width:779px) {
+    .TourList_title__AtY-u {
+        font-size: 3rem;
+        font-weight: 600;
+        width: 100%;
+        display:inline-table
+    }
+    .TourList_search__jVIIS {
+        width: 100%;
+        text-align: right;
+        display: inline-table;
+        padding-right: 8px;
+    }
+    
+}
+@media screen and (max-width:400px) {
+    .TourList_search__jVIIS {
+        width: 100%;
+        text-align: center;
+        display: inline-table;
+        padding:0px 8px;
+    }
+    .TourList_search_container__x5A\+9 {
+        padding: 0px 10px 0px 10px;
+        width: 100%;
+        background-color: rgba(239,243,246,255);
+        height: 36px;
+        padding: 5px;
+        display: inline-block;
+        border-radius: 5px;
+    }
+}
+.containerArticleList{
+        padding: 0px 20px !important;
+        margin: auto;
+}

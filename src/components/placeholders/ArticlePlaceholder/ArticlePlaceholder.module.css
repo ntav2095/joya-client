@@ -1,0 +1,18 @@
+/* =============== placeholder ============== */
+.placeholder h3 span {
+  height: 25px;
+}
+
+.placeholder span {
+  background: var(--skeleton-color);
+}
+
+.paragraphPlaceholder {
+  margin-top: 8px;
+}
+
+.datePlaceholder {
+  height: 13px;
+  min-height: 5px;
+  display: inline-block;
+}

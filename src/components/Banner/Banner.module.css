@@ -1,0 +1,25 @@
+.container {
+  max-width: 1500px;
+}
+
+.banner {
+  padding: 0;
+}
+
+.banner img {
+  display: flex;
+  aspect-ratio: 2.5;
+  object-fit: cover;
+  object-position: center;
+}
+.image {
+  height: 500px;
+  width: 100%;
+}
+
+.image img {
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
+}

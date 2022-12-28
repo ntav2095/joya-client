@@ -1,0 +1,73 @@
+.sidebar {
+  border-radius: 6px;
+  padding: 32px 16px;
+  position: relative;
+  box-shadow: var(--box-shadow-border);
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.contactInfo h6 {
+  font-size: 15px;
+}
+
+.image {
+  width: 20%;
+  margin: 0 auto;
+  position: absolute;
+  right: 16px;
+
+  top: 16px;
+}
+
+.image img {
+  width: 100%;
+}
+
+.sidebar .input {
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+  position: relative;
+  padding: 6px;
+}
+
+.input input {
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+.input input::placeholder {
+  color: rgb(194, 194, 194);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.input span {
+  position: absolute;
+  left: 6px;
+  top: 0;
+  transform: translateY(-50%);
+  background: white;
+  font-size: 12px;
+  padding: 0 6px;
+  font-weight: 500;
+  color: #4f4f4f;
+}
+
+.sidebar button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 999px;
+  border: 1px solid #050505;
+  font-weight: 500;
+  background: white;
+  letter-spacing: 0.6px;
+}
+
+.sidebar button {
+  color: rgb(247, 247, 247);
+  background: #050505;
+}

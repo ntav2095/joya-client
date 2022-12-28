@@ -1,0 +1,99 @@
+.containner{
+  width: 60%;
+  margin: auto
+}
+
+.story article p {
+  margin-bottom: 1.3em;
+}
+
+.story article h3 {
+  font-size: 1.25em;
+  color: #555;
+  line-height: 1.6;
+  font-weight: 700;
+}
+
+.storyHeader h1 {
+  text-align: center;
+  line-height: 54px;
+  color: #555;
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  text-rendering: optimizeSpeed;
+  font-size: 48px;
+}
+
+.storyHeader .date {
+  font-size: 13px;
+  color: #777;
+}
+
+.storyHeader .date a,
+span {
+  color: #334862;
+}
+
+.travelHandbookDetail aside {
+  padding-bottom: 16px;
+}
+
+.travelHandbookDetail aside h2 {
+  color: #777;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.travelHandbookDetail ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.travelHandbookDetail aside li {
+  border-bottom: 1px solid #ececec;
+}
+
+.quillContent img {
+  width: 100%;
+  margin: auto;
+  display: block;
+}
+.quillContent p span {
+  width: 100%;
+  margin: auto;
+  display: block;
+}
+
+/* =============== related articles ==================  */
+.relatedArticle {
+  border-radius: 3.8px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  overflow: hidden;
+}
+
+.relatedArticle .image {
+  height: 0;
+  padding-top: 60%;
+  position: relative;
+}
+
+.relatedArticle .image img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  top: 0;
+}
+
+.relatedArticle .textBox {
+  padding: 8px;
+  color: #050505;
+}
+
+.relatedArticle .textBox p {
+  font-size: 13px;
+  color: #4f4f4f;
+}

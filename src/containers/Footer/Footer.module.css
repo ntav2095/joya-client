@@ -1,0 +1,59 @@
+.footer {
+  background: #000;
+  color: white;
+  font-size: 13px;
+}
+
+.inner {
+  max-width: 1500px;
+  margin: 0 auto;
+}
+.footer .inner{
+  padding: 0px 44px;
+}
+.footer ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footer h6 {
+  font-size: 14px;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+  font-weight: 600;
+  /* white-space: nowrap; */
+}
+
+.footer a,
+.footer p,
+.footer li {
+  font-size: 13px;
+  color: white;
+}
+
+.footer a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 992px) {
+  .inner {
+    flex-wrap: wrap;
+  }
+
+  .inner > div:nth-of-type(1),
+  .inner > div:nth-of-type(3) {
+    width: 60%;
+  }
+
+  .inner > div:nth-of-type(2),
+  .inner > div:nth-of-type(4) {
+    width: 20%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .inner > div {
+    width: 100% !important;
+  }
+}
