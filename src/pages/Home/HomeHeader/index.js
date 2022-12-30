@@ -3,11 +3,11 @@ import i18next from "i18next";
 import { home1 } from "../../../assets/images/index";
 import { home2 } from "../../../assets/images/index";
 import { home4 } from "../../../assets/images/index";
-import styles from "./hearder.module.css";
+import styles from "./header.module.css";
 
-function HomeHearder() {
+function HomeHeader() {
   return (
-    <div className={styles.hearder}>
+    <div className={styles.header}>
       <div className={styles.container}>
         <div className={styles.about}>
           <div className="col-12 col-md-4 col-lg-4">
@@ -30,4 +30,4 @@ function HomeHearder() {
     </div>
   );
 }
-export default HomeHearder;
+export default HomeHeader;

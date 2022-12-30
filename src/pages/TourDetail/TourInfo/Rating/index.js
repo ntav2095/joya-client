@@ -123,7 +123,7 @@ function Rating({ tour }) {
           </Slider>
         )}
 
-        {tour.rating.length === 0 && <h3>Hiện chưa có đánh giá nào</h3>}
+        {tour.rating.length === 0 && <h5>Hiện chưa có đánh giá nào</h5>}
       </div>
     </div>
   );

@@ -21,27 +21,15 @@ import FacebookComment from "../../containers/facebookComment";
 import { useTranslation } from "react-i18next";
 import Placeholder from "../../components/placeholders/Placeholder";
 import { useDispatch } from "react-redux";
-import { updateBanner } from "../../store/banner.slice";
+import Banner from "../../components/Banner";
 
 function TourDetail() {
   const [sendRequest, isLoading, data, error] = useAxios();
-  const dispatch = useDispatch();
   const { tourId } = useParams();
   const { i18n } = useTranslation();
 
   const tour = data ? data.data.item : null;
   const tourName = tour ? tour.name : "Tour du lịch";
-
-  useEffect(() => {
-    if (tour) {
-      dispatch(
-        updateBanner({
-          type: "tourDetail",
-          bannerItem: { _id: tour._id, banner: tour.banner },
-        })
-      );
-    }
-  }, [tour]);
 
   useEffect(() => {
     sendRequest(tourApi.getSingleTour(tourId));
@@ -51,7 +39,15 @@ function TourDetail() {
 
   return (
     <>
-      <div className={styles.tourDetail + " container-fluid"}>
+      <Banner
+        banner={{
+          isLoading,
+          error,
+          image: tour?.banner,
+        }}
+      />
+
+      <div className={styles.tourDetail + " container-lg"}>
         {!error && (
           <div>
             <h1 className="text-uppercase my-4 fs-4 fw-bold ">

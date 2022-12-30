@@ -1,34 +1,24 @@
-import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import styles from "./ArticleCard.module.css";
+import { altThumbnail } from "../../assets/images";
 
-const CATEGORY_MAPS = new Map([
-  ["diem-den", { en: "Nice places", vi: "Điểm đến hấp dẫn" }],
-  ["trai-nghiem", { en: "Experiences", vi: "Trải nghiệm" }],
-  ["cam-nang", { en: "Travel handbook", vi: "Cẩm nang du lịch" }],
-  ["nhat-ky", { en: "Travel diary", vi: "Nhật ký hành trình" }],
-]);
-
-function ArticleCard({ article }) {
-  const lang = useTranslation().i18n.language;
-  const getArticleType = (categoryArr) => {
-    return ["cam-nang", "nhat-ky", "trai-nghiem", "diem-den"].find((item) =>
-      categoryArr.includes(item)
-    );
-  };
-
+function ArticleCard({ thumb, title, to, category }) {
   return (
-    <div className={styles.card}>
-      <Link to={`/guides/${getArticleType(article.category)}/${article._id}`}>
-        <div className={styles.image}>
-          <img src={article.thumb} alt={article.title} />
+    <Link className={styles.cartItem} to={to}>
+      <div className={styles.image}>
+        <div className={styles.imageInner}>
+          <img
+            src={thumb}
+            alt={title}
+            onError={(e) => (e.target.src = altThumbnail)}
+          />
         </div>
-        <div className={styles.textBox}>
-          <h2>{article.title}</h2>
-          <p>{CATEGORY_MAPS.get(getArticleType(article.category))[lang]}</p>
-        </div>
-      </Link>
-    </div>
+      </div>
+      <div className={styles.textBox}>
+        <h5>{title}</h5>
+        <p>{category}</p>
+      </div>
+    </Link>
   );
 }
 

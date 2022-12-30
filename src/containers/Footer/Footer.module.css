@@ -7,10 +7,9 @@
 .inner {
   max-width: 1500px;
   margin: 0 auto;
-}
-.footer .inner{
   padding: 0px 44px;
 }
+
 .footer ul {
   list-style-type: none;
   padding: 0;
@@ -49,6 +48,12 @@
   .inner > div:nth-of-type(2),
   .inner > div:nth-of-type(4) {
     width: 20%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .inner {
+    padding: 0 0;
   }
 }
 

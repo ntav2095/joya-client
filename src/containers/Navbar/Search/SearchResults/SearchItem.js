@@ -1,12 +1,18 @@
 import styles from "../Search.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { brokenImage } from "../../../../assets/images";
+import {
+  TOUR_MAP,
+  GUIDES_MAP,
+} from "../../../../services/constants/productsMap";
 
 function SearchItem({ searchItem, type }) {
-  const navigate = useNavigate();
-  if (type === "tour")
+  if (type === "tour") {
+    const path = TOUR_MAP.find((item) =>
+      searchItem.category.includes(item.category)
+    ).path;
     return (
-      <Link to={`/danh-sach-tour/${searchItem._id}`}>
+      <Link to={`/${path}/${searchItem._id}`}>
         <div className={styles.image}>
           <img
             src={searchItem.thumb}
@@ -26,16 +32,13 @@ function SearchItem({ searchItem, type }) {
         </div>
       </Link>
     );
+  }
 
+  const path = GUIDES_MAP.find((item) =>
+    searchItem.category.includes(item.category)
+  ).path;
   return (
-    <Link
-      to={`/cam-nang-du-lich/${searchItem._id}`}
-      //   onClick={() => {
-      //     navigate(`/cam-nang-du-lich/${searchItem._id}`);
-      //     setIsFocus(false);
-      //     setText("");
-      //   }}
-    >
+    <Link to={`/guides/${path}/${searchItem._id}`}>
       <div className={styles.image}>
         <img
           src={searchItem.thumb}

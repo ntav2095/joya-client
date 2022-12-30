@@ -1,54 +1,62 @@
-.card {
-  box-shadow: var(--box-shadow);
-  box-shadow: var(--box-shadow-border);
+.cartItem {
   border-radius: 12px;
-  overflow: hidden;
   color: #050505;
   max-width: 360px;
   margin: 0 auto;
+  border: 0.5px solid #ccc;
+  display: block;
+  overflow: hidden;
+  background: white;
 }
 
 .image {
   height: 0;
   padding-top: 60%;
-  background-position: center;
-  background-size: cover;
-  position: relative;
   z-index: 2;
   overflow: hidden;
+  position: relative;
 }
 
-.image img {
+.imageInner {
   position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  font-size: 0;
+}
+
+.imageInner img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  top: 0;
   object-position: center;
-  transition: 0.36s;
-  z-index: 2;
+  display: block;
+  font-size: 0;
+  transition: 0.3s;
 }
 
-.card:hover img {
+.cartItem:hover img {
   transform: scale(1.03);
 }
 
 .textBox {
-  padding: 10px;
+  padding: 16px 12px;
 }
 
-.card h2 {
+.cartItem h5 {
   color: #050505;
   font-size: 15px;
   text-transform: uppercase;
+  font-weight: 600;
 }
 
-.card p {
-  color: #4f4f4f;
+.cartItem p {
+  color: #050505;
   margin: 0;
   margin-bottom: 3px;
 }
-.card p::before {
+.cartItem p::before {
   content: "•";
   padding-right: 6px;
 }

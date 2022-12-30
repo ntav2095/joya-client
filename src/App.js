@@ -14,6 +14,8 @@ import DefaultLayout from "./layout/DefaultLayout";
 import Spinner from "./components/Spinner";
 import routes from "./routes";
 
+import useBanner from "./components/Banner/useBanner";
+
 function App() {
   const dispatch = useDispatch();
   // ******************** handle visa *********************************
@@ -33,6 +35,8 @@ function App() {
       liveChat();
     }, 2000);
   }, []);
+
+  useBanner();
   return (
     <>
       <GoToTop />

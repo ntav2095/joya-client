@@ -1,17 +1,22 @@
 //
 
 import { Link } from "react-router-dom";
-import Slider from "react-slick";
-import styles from "./Visa.module.css";
-import settings from "./responsiveCarousel";
-import usePageTitle from "../../hooks/usePageTitle";
-import SignupConsultModal from "./SignupConsultModal";
-import { useRef, useState } from "react";
-import SearchResults from "./SearchResults";
 import { useSelector } from "react-redux";
-import accentsRemover from "../../services/helpers/accentsRemover";
-import { countriesImages } from "./mockImages";
+import { useState } from "react";
+import Slider from "react-slick";
+
+import Banner from "../../components/Banner";
+import SignupConsultModal from "./SignupConsultModal";
 import VisaSteps from "./VisaSteps";
+
+// other
+import accentsRemover from "../../services/helpers/accentsRemover";
+import usePageTitle from "../../hooks/usePageTitle";
+import { countriesImages } from "./mockImages";
+import settings from "./responsiveCarousel";
+
+// css
+import styles from "./Visa.module.css";
 
 function VisaService() {
   const [show, setShow] = useState(false);
@@ -31,6 +36,8 @@ function VisaService() {
 
   return (
     <>
+      <Banner bannerKey="visa" bannerType="image" />
+
       <SignupConsultModal handleClose={handleClose} show={show} />
 
       <div className="container-lg">

@@ -1,4 +1,3 @@
-import { one } from "../../assets/images";
 import * as svg from "../../assets/svgs";
 
 export const steps = [
@@ -54,65 +53,5 @@ export const reasons = [
     icon: svg.like,
     name: "Dịch vụ chuyên nghiệp - Uy Tín",
     desc: "Dịch vụ visa trọn gói uy tín - chất lượng - trên 10 năm kinh nghiệm với các hồ sơ khó.",
-  },
-];
-
-export const visaProducts = [
-  {
-    image: one,
-    name: "Visa Ý",
-  },
-  {
-    image: one,
-    name: "Visa Pháp",
-  },
-  {
-    image: one,
-    name: "Visa Vatican",
-  },
-  {
-    image: one,
-    name: "Visa Anh",
-  },
-  {
-    image: one,
-    name: "Visa Ba lan",
-  },
-  {
-    image: one,
-    name: "Visa Thụy Sỹ",
-  },
-];
-
-export const searchResults = [
-  {
-    id: 1,
-    image: one,
-    name: "Dịch vụ dịch thuật văn phòng (một trang)",
-  },
-  {
-    id: 2,
-    image: one,
-    name: "Dịch vụ điền tờ khai xin visa Ý",
-  },
-  {
-    id: 3,
-    image: one,
-    name: "Dịch vụ chứng minh công việc xin visa Ý",
-  },
-  {
-    id: 4,
-    image: one,
-    name: "Dịch vụ chứng minh tài chính xin visa Ý",
-  },
-  {
-    id: 5,
-    image: one,
-    name: "Visa Ý (Trẻ em 6 - 12 tuổi)",
-  },
-  {
-    id: 6,
-    image: one,
-    name: "Visa Ý Du Lịch, Công Tác & Thăm Thân (Người lớn)",
   },
 ];

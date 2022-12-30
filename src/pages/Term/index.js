@@ -60,7 +60,7 @@ const TERM_ITEMS = new Map([
 
 function Term() {
   // luu-y | dieu-kien-dang-ky | phuong-thuc-thanh-toan | chinh-sach-bao-mat | dieu-kien-dang-ky
-  const { type } = useParams();
+  const { typeOfTerm } = useParams();
   const [sendRequest, isLoading, data, error, resetStates] = useAxios();
   const lang = useTranslation().i18n.language;
 
@@ -72,19 +72,17 @@ function Term() {
   useEffect(() => {
     sendRequest({
       method: "GET",
-      url: `http://localhost:5000/term/${TERM_ITEMS.get(type).code}`,
+      url: `http://localhost:5000/term/${TERM_ITEMS.get(typeOfTerm).code}`,
     });
-  }, [type, lang]);
+  }, [typeOfTerm, lang]);
 
   return (
-    <div className=" p-0 m-0">
-      <div className="container-lg pt-5">
-        <h1 className={Styles.h1 + " fs-3 mb-4"}>
-          {TERM_ITEMS.get(type).title[lang]}
-        </h1>
-        <div className={Styles.content + " bg-light"}>
-          <QuillReader className delta={delta} />
-        </div>
+    <div className="container-lg py-5">
+      <h1 className="text-center fs-3 mb-4">
+        {TERM_ITEMS.get(typeOfTerm).title[lang]}
+      </h1>
+      <div className={Styles.content + " bg-light border p-4"}>
+        <QuillReader className delta={delta} />
       </div>
     </div>
   );

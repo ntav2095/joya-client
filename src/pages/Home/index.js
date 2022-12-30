@@ -1,88 +1,82 @@
 // main
+import { useSelector } from "react-redux";
 import React, { useEffect } from "react";
-import i18next from "i18next";
 import { useTranslation } from "react-i18next";
 
 // components
+import Banner from "../../components/Banner";
 import HomeHeader from "./HomeHeader";
-import Slider from "./HomeSlider";
-import ErrorPage from "../../containers/ErrorPage";
-
-// apis
-import useAxios from "../../hooks/useAxios";
-import { postsApi, tourApi } from "../../services/apis";
+import Container from "../../components/Container";
+import HomeRow from "./HomeRow";
 
 // other
 import useLazyLoading, { loadingImg } from "../../hooks/uselazyLoading";
+import useFetchHomeData from "../../hooks/useFetchHomeData";
 
 // css
-import "./home.css";
+import styles from "./Home.module.css";
 
-function HomeNew() {
-  const { i18n } = useTranslation();
+const trans = {
+  euTours: {
+    title: {
+      en: "Europe Tours",
+      vi: "Du lịch châu Âu",
+    },
+  },
+  vnTours: {
+    title: {
+      en: "Vietnam Tours",
+      vi: "Du lịch trong nước",
+    },
+  },
+};
+
+function Home() {
+  const { euTours, vnTours, guides } = useSelector((state) => state.home);
+  const lang = useTranslation().i18n.language;
   const [lazy] = useLazyLoading(loadingImg);
-
-  const [
-    sendRequestTourTrongNuoc,
-    isLoadingTourTrongNuoc,
-    dataTourTrongNuoc,
-    errorTourTrongNuoc,
-  ] = useAxios();
-
-  const [sendRequestGuides, isLoadingGuides, dataGuides, errorGuides] =
-    useAxios();
-
-  useEffect(() => {
-    sendRequestTourTrongNuoc(tourApi.get({ page: 1, page_size: 6 }));
-    sendRequestGuides(postsApi.get({ page: 1, page_size: 6 }));
-  }, [i18n.language]);
-
+  useFetchHomeData();
   useEffect(() => {
     lazy();
-  }, [isLoadingGuides, isLoadingTourTrongNuoc]);
+  }, []);
+
   return (
     <>
-      <div className="containerHomeabout">
-        <HomeHeader />
-      </div>
+      <Banner
+        storedBanner={{
+          key: "homeSliders",
+          type: "slider", // slider | image
+          productType: "tour", // tour | article
+        }}
+      />
 
-      <div className="containerHomeabout">
-        <Slider
-          title={i18next.t("homeMain.titleTourChauAu")}
-          data={dataTourTrongNuoc?.data}
-          loadingCard={true}
-          naviga={"/du-lich-chau-au"}
-          page={"home"}
-        />
-      </div>
+      <Container>
+        <div className={styles.welcome}>
+          <HomeHeader />
+        </div>
 
-      <div className="containerHomeabout">
-        <Slider
-          title={i18next.t("homeMain.titleTourTrongNuoc")}
-          data={dataTourTrongNuoc?.data}
-          loadingCard={true}
-          naviga={"/du-lich-trong-nuoc"}
-          page={"home"}
+        <HomeRow
+          title={trans.euTours.title[lang]}
+          rowData={euTours}
+          to="/du-lich-chau-au"
+          type="tour"
         />
-      </div>
 
-      <div className="containerHomeabout">
-        <Slider
-          title={i18next.t("homeMain.titleCamNang")}
-          data={dataGuides?.data}
-          loadingCard={true}
-          naviga={"/guides"}
-          page={"article"}
+        <HomeRow
+          title={trans.vnTours.title[lang]}
+          rowData={vnTours}
+          to="/du-lich-trong-nuoc"
+          type="tour"
         />
-      </div>
 
-      {errorTourTrongNuoc && (
-        <ErrorPage
-          code={errorTourTrongNuoc.httpCode}
-          message={errorTourTrongNuoc.message}
+        <HomeRow
+          title={trans.euTours.title[lang]}
+          rowData={guides}
+          to="/guides"
+          type="article"
         />
-      )}
+      </Container>
     </>
   );
 }
-export default HomeNew;
+export default Home;

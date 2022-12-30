@@ -81,7 +81,6 @@ function ContactTable({ tour, isLoading }) {
           onHide={() => setModalShow("")}
           tour={tour}
           selectedDate={selectedDate}
-          success={success}
         />
       )}
 
@@ -95,13 +94,6 @@ function ContactTable({ tour, isLoading }) {
         />
       )}
 
-      {successModal && (
-        <NotificationModal
-          err={false}
-          message={"Đặt tour thành công."}
-          success={success}
-        />
-      )}
       <ContactModal
         show={modalShow === "contact"}
         onHide={() => setModalShow("")}

@@ -6,6 +6,7 @@ import styles from "./ContactModal.module.css";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
+import NotifyModal from "../../../../components/NotifyModal";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -49,7 +50,7 @@ const trans = {
     vi: "Yêu cầu gọi lại thành công. Chúng tôi sẽ liên hệ với bạn trong vòng 2 giờ.",
   },
   requested_failed: {
-    en: "Something wrong happens. Please try again, hoặc yêu cầu gọi lại, or contact us: 123456789",
+    en: "Something wrong happens. Please try again, or contact us: 123456789",
     vi: "Có lỗi xảy ra. Vui lòng thử lại, hoặc yêu cầu gọi lại, hoặc liên hệ với chúng tôi theo số: 123456789",
   },
   call_me: {
@@ -80,23 +81,6 @@ const trans = {
   },
 };
 
-const validator = (values) => {
-  const errors = {};
-  if (!values.firstname) {
-    errors.firstname = "required";
-  }
-
-  if (!values.surname) {
-    errors.surname = "required";
-  }
-
-  if (!values.phone) {
-    errors.phone = "required";
-  }
-
-  return errors;
-};
-
 const initialValues = {
   firstname: "",
   surname: "",
@@ -104,7 +88,7 @@ const initialValues = {
   gender: "",
 };
 
-function ContactModal({ success, ...props }) {
+function ContactModal({ success, onHide, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -158,15 +142,39 @@ function ContactModal({ success, ...props }) {
 
   useEffect(() => {
     if (isSuccess) {
-      success(true);
-      props.onHide();
+      onHide();
     }
   }, [isSuccess]);
 
+  let notify = {};
+
+  if (isSuccess) {
+    notify = {
+      message:
+        "Yêu cầu tư vấn thành công! Chúng tôi sẽ gọi lại cho bạn sau ít phút.",
+      type: "success",
+      btn: {
+        cb: () => {
+          setIsSuccess(false);
+          setError(null);
+        },
+        component: "button",
+      },
+      show: isSuccess,
+    };
+  }
+
   return (
     <>
+      <NotifyModal {...notify} />
+
       <Modal
         {...props}
+        onHide={() => {
+          onHide();
+          setIsSuccess(false);
+          setError(null);
+        }}
         size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
@@ -241,8 +249,8 @@ function ContactModal({ success, ...props }) {
                   </div>
 
                   {error && (
-                    <p className={styles.errorMessage + " fs-6 text-danger"}>
-                      {trans.booked_failed[lang]}
+                    <p className={styles.errorMessage + " mb-2 text-danger"}>
+                      {trans.requested_failed[lang]}
                     </p>
                   )}
                   <button className="btn btn-dark btn-sm" type="submit">

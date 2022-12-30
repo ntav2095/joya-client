@@ -85,3 +85,7 @@
 .form select {
   color: grey;
 }
+
+.errorMessage {
+  font-size: 14px;
+}

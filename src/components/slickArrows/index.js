@@ -19,6 +19,7 @@ export const SlickArrowLeft = ({
     {chevronRight}
   </button>
 );
+
 export const SlickArrowRight = ({
   slideCount,
   currentSlide,
@@ -27,15 +28,19 @@ export const SlickArrowRight = ({
   infinite,
   ...props
 }) => {
+  const disabled = currentSlide + slidesToShow - slideCount === 0 && !infinite;
+
+  // if (!infinite) {
+  //   console.log("currentSlide", currentSlide);
+  //   console.log("slidesToShow", slidesToShow);
+  //   console.log("slidesToScroll", slidesToScroll);
+  //   console.log("slideCount", slideCount);
+  //   console.log(currentSlide + slidesToShow - slideCount);
+  // }
   return (
     <button
       {...props}
-      className={
-        "slick-next slick-arrow" +
-        (slideCount <= slidesToShow + currentSlide * slidesToScroll && !infinite
-          ? " slick-disabled"
-          : "")
-      }
+      className={"slick-next slick-arrow" + (disabled ? " slick-disabled" : "")}
       aria-hidden="true"
       aria-disabled={
         slideCount <= slidesToShow + currentSlide * slidesToScroll && !infinite

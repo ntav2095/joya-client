@@ -1,129 +1,82 @@
-import React, { useEffect, useState } from "react";
-import { Outlet, useParams } from "react-router-dom";
-import { brokenImage, hearder as bannerImg } from "../../assets/images";
-import Slider from "react-slick";
-import Placeholder from "../placeholders/Placeholder";
-import { chevronLeft, chevronRight } from "../../assets/svgs";
-import { useLocation, useNavigate } from "react-router-dom";
-import { layoutApi } from "../../services/apis";
-import useAxios from "../../hooks/useAxios";
+import {
+  Image,
+  Failure,
+  Pending,
+  BannerContainer,
+  React,
+  Slider,
+  useSelector,
+  getPath,
+  settings,
+  createMsg,
+  SliderItem,
+  styles,
+} from "./Banner.import";
 
-import { SlickArrowLeft, SlickArrowRight } from "../slickArrows";
-import { useDispatch, useSelector } from "react-redux";
-import { updateBanner, setBanners } from "../../store/banner.slice";
-import { countriesImages } from "../../pages/Visa/mockImages";
+import "./Banner.override.css";
 
-import styles from "./Banner.module.css";
-import "./banner.css";
+// storedBanner: key, productType, type
+// là banner lấy trong store
+// type: slider | image
+// key: key của state trong banner slice: homeSliders vnTours euTours guides experience destination diary handbook visa tourDetail articleDetail visaCountry
+// productType: tour | article
 
-const BANNERS_MAP = [
-  { path: "/", type: "homeSliders" },
-  { path: "/du-lich-chau-au", type: "euTours" },
-  { path: "/du-lich-trong-nuoc", type: "vnTours" },
-  { path: "/guides/cam-nang", type: "handbook" },
-  { path: "/guides/nhat-ky", type: "diary" },
-  { path: "/guides/trai-nghiem", type: "experience" },
-  { path: "/guides/diem-den", type: "destination" },
-  { path: "/guides", type: "handbook" },
-  { path: "/dich-vu-visa", type: "visa" },
-];
+// banner: {image, isLoading, error}
+// banner nhập từ ngoài vào: cái bài chi tiết tour / bài viết
+function Banner({ storedBanner, banner }) {
+  let content;
 
-function Banner() {
-  const [sendRequest, isLoading, data, error] = useAxios();
-  const { tourId, articleId, visaCountry } = useParams();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const path = location.pathname;
   const banners = useSelector((state) => state.banner);
 
-  const settings = {
-    infinite: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    speed: 1000,
-    autoplay: true,
-    autoplaySpeed: 2500,
-    prevArrow: <SlickArrowLeft infinite />,
-    nextArrow: <SlickArrowRight slidesToShow={1} slidesToScroll={1} infinite />,
-  };
+  // not store banner
+  if (banner) {
+    const { isLoading, error, image } = banner;
+    content = <Pending />;
 
-  const handlerBrokenImg = (e) => {
-    e.target.src = brokenImage;
-  };
-
-  useEffect(() => {
-    sendRequest(layoutApi.get());
-  }, []);
-
-  useEffect(() => {
-    if (data) {
-      dispatch(setBanners(data.data));
+    if (error) {
+      content = <Failure msg={createMsg(error.httpCode, error.message)} />;
     }
-  }, [data]);
 
-  if (path.startsWith("/dieu-khoan") || path.startsWith("/gioi-thieu"))
-    return null;
+    if (!isLoading && !error && image) {
+      content = <Image src={image} />;
+    }
+  }
 
-  return (
-    <div className={styles.container}>
-      {path === "/" && (
-        <div className={styles.banner + " home__banner"}>
-          {banners.homeSliders && (
-            <Slider {...settings}>
-              {banners.homeSliders.map((item, index) => (
-                <div
-                  key={item._id}
-                  className={styles.image}
-                  onClick={() => navigate(`/danh-sach-tour/${item._id}`)}
-                >
-                  <img
-                    src={item.banner}
-                    alt={"banner"}
-                    onError={handlerBrokenImg}
-                  />
-                </div>
-              ))}
-            </Slider>
-          )}
+  // store banner
+  if (storedBanner) {
+    const { type, productType, key } = storedBanner;
+    const { status, error } = banners;
 
-          {!banners.homeSliders && (
-            <Slider {...settings}>
-              {new Array(4).fill(1).map((item, index) => (
-                <div key={index} className={styles.image}>
-                  <Placeholder width="100%" height="100%" />
-                </div>
-              ))}
-            </Slider>
-          )}
-        </div>
-      )}
+    if (status === "pending") {
+      content = <Pending />;
+    }
 
-      {path !== "/" && (
-        <div className={styles.banner}>
-          <img
-            src={
-              tourId
-                ? banners.tourDetail?.banner
-                : articleId
-                ? banners.articleDetail?.banner
-                : visaCountry
-                ? countriesImages[visaCountry]
-                : banners[
-                    BANNERS_MAP.find((item) => {
-                      console.log("---", item.path);
-                      return path.startsWith(item.path) && item.path !== "/";
-                    })?.type
-                  ]?.banner
-            }
-            className="img-fluid w-100"
-            alt="banner"
-            onError={handlerBrokenImg}
-          />
-        </div>
-      )}
-    </div>
-  );
+    if (status === "failed") {
+      content = <Failure msg={createMsg(error.httpCode, error.message)} />;
+    }
+
+    if (status !== "pending" && status !== "failed" && type === "image") {
+      content = <Image src={banners[key].banner} />;
+    }
+
+    if (status !== "pending" && status !== "failed" && type === "slider") {
+      const prods = banners[key];
+      content = (
+        <Slider {...settings}>
+          {prods.map((item) => (
+            <SliderItem
+              key={item._id}
+              to={`${getPath(productType, item)}/${item._id}`}
+              image={item.banner}
+              alt={item.name || item.title}
+            />
+          ))}
+        </Slider>
+      );
+    }
+  }
+
+  return <BannerContainer>{content}</BannerContainer>;
 }
 
 export default React.memo(Banner);

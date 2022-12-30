@@ -1,1 +1,0 @@
-const appendItems = (formData, items) => {};

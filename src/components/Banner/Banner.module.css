@@ -1,25 +1,38 @@
 .container {
-  max-width: 1500px;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+.wrapper {
+  position: relative;
+  padding-top: 40%;
+  height: 0;
 }
 
 .banner {
-  padding: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
 }
 
-.banner img {
-  display: flex;
-  aspect-ratio: 2.5;
-  object-fit: cover;
-  object-position: center;
-}
-.image {
-  height: 500px;
-  width: 100%;
-}
-
-.image img {
+.sliderItem {
+  display: block;
   width: 100%;
   height: 100%;
-  object-position: center;
+}
+
+.sliderItem img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  object-position: center;
+}
+
+.bannerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
