@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import useAxios from "../../hooks/useAxios";
 import { useTranslation } from "react-i18next";
 import QuillReader from "../../components/QuillReader";
+import ErrorPage from "../../containers/ErrorPage";
+import Placeholder from "../../components/placeholders/Placeholder";
 import Styles from "./Term.module.css";
 
 const TERM_ITEMS = new Map([
@@ -77,14 +79,57 @@ function Term() {
   }, [typeOfTerm, lang]);
 
   return (
-    <div className="container-lg py-5">
-      <h1 className="text-center fs-3 mb-4">
-        {TERM_ITEMS.get(typeOfTerm).title[lang]}
-      </h1>
-      <div className={Styles.content + " bg-light border p-4"}>
-        <QuillReader className delta={delta} />
-      </div>
-    </div>
+    <>
+      {!error && data && (
+        <div className="container-lg py-5">
+          <h1 className="text-center fs-3 mb-4">
+            {TERM_ITEMS.get(typeOfTerm).title[lang]}
+          </h1>
+
+          <div className={Styles.content + " bg-light border p-4"}>
+            <QuillReader className delta={delta} />
+          </div>
+        </div>
+      )}
+
+      {isLoading && (
+        <div className="container-lg py-5">
+          <h1 className="text-center fs-3 mb-4">
+            <Placeholder col={8} height="20px" />
+          </h1>
+
+          <div className={Styles.content + " bg-light border p-4"}>
+            <div className="mb-2">
+              <Placeholder col={7} height="15px" />
+              <Placeholder col={8} height="15px" />
+              <Placeholder col={9} height="15px" />
+            </div>
+            <div className="mb-2">
+              <Placeholder col={7} height="15px" />
+              <Placeholder col={8} height="15px" />
+              <Placeholder col={9} height="15px" />
+            </div>{" "}
+            <div className="mb-2">
+              <Placeholder col={7} height="15px" />
+              <Placeholder col={8} height="15px" />
+              <Placeholder col={9} height="15px" />
+            </div>{" "}
+            <div className="mb-2">
+              <Placeholder col={7} height="15px" />
+              <Placeholder col={8} height="15px" />
+              <Placeholder col={9} height="15px" />
+            </div>{" "}
+            <div className="mb-2">
+              <Placeholder col={7} height="15px" />
+              <Placeholder col={8} height="15px" />
+              <Placeholder col={9} height="15px" />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {error && <ErrorPage code={error.httpCode} message={error.message} />}
+    </>
   );
 }
 

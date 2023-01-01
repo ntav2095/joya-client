@@ -171,9 +171,15 @@ function ContactTable({ tour, isLoading }) {
             <div className="col-8 ">
               <h4 className="mb-2 fs-6 fw-bold">{translation.contact[lang]}</h4>
               <ul>
-                <li>Hotline: 123456789</li>
-                <li>Zalo: 123456789</li>
-                <li>Email: abcxyz@gmail.com</li>
+                <li>
+                  Hotline: <a href="tel:123456789">0123 456 789</a>
+                </li>
+                <li>
+                  Zalo: <a href="tel:123456789">0123 456 789</a>
+                </li>
+                <li>
+                  Email: <a href="mailto:abcxyz@gmail.com">abcxyz@gmail.com</a>
+                </li>
               </ul>
             </div>
             <div className="col-4 d-flex align-items-center justify-content-center ">

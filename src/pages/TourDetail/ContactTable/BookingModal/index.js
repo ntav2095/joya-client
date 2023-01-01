@@ -125,20 +125,12 @@ function BookingModal({ selectedDate, onHide, ...props }) {
   const submitHandler = async (values) => {
     const tour = props.tour;
 
-    const formData = new FormData();
-    formData.append("tour", `${tour.name} [${tour.code}]`);
-    formData.append("firstname", values.firstname);
-    formData.append("surname", values.surname);
-    formData.append("email", values.email);
-    formData.append("phone", values.phone);
-    formData.append("gender", values.gender);
-    formData.append("address", values.address);
-    formData.append("adults", values.adult);
-    formData.append("children", values.children);
-
-    const request1 = axios.post("https://sheetdb.io/api/v1/31iln4h8j6ok8", {
-      data: {
-        tour: `${tour.name} [${tour.code}]`,
+    try {
+      setError(null);
+      setIsSuccess(false);
+      setIsLoading(true);
+      await axios.post("http://localhost:5000/tour/booking", {
+        tourId: tour._id,
         firstname: values.firstname,
         surname: values.surname,
         email: values.email,
@@ -147,16 +139,8 @@ function BookingModal({ selectedDate, onHide, ...props }) {
         address: values.address,
         adult: values.adult,
         children: values.children,
-      },
-    });
-
-    const request2 = axios.post("https://formspree.io/f/mgeqpdao", formData);
-
-    try {
-      setError(null);
-      setIsSuccess(false);
-      setIsLoading(true);
-      await Promise.all([request1, request2]);
+        departureDate: values.date,
+      });
       setIsSuccess(true);
     } catch (error) {
       console.error(error);

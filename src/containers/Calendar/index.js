@@ -140,6 +140,23 @@ function Calendar({ onSelect = function () {}, availableDates = [] }) {
     }
   }, [selectedDate]);
 
+  const dateClasses = (is_current_month, is_selected, is_available) => {
+    let classes = styles.date + " ";
+    if (is_available) {
+      classes += styles.available + " ";
+    }
+
+    if (!is_current_month) {
+      classes += styles.notCurrentMonth + " ";
+    }
+
+    if (is_selected) {
+      classes += styles.isSelected + " ";
+    }
+
+    return classes;
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.header + " d-flex justify-content-between pb-1"}>
@@ -176,15 +193,20 @@ function Calendar({ onSelect = function () {}, availableDates = [] }) {
         {viewed_dates.map((item, index) => (
           <li
             key={index}
-            className={
-              !item.is_current_month
-                ? styles.notCurrentMonth
-                : item.is_selected
-                ? styles.selected
-                : item.is_available
-                ? styles.available
-                : styles.unavailable
-            }
+            // className={
+            //   !item.is_current_month
+            //     ? styles.notCurrentMonth
+            //     : item.is_selected
+            //     ? styles.selected
+            //     : item.is_available
+            //     ? styles.available
+            //     : styles.unavailable
+            // }
+            className={dateClasses(
+              item.is_current_month,
+              item.is_selected,
+              item.is_available
+            )}
             onClick={() => {
               if (item.is_available) {
                 setSelectedDate(item.value);

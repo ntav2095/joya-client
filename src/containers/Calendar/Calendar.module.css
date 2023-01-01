@@ -46,7 +46,7 @@ h6.month {
   justify-content: center;
 }
 
-.dates li.available {
+.dates li.available span {
   color: white;
   cursor: pointer;
 }
@@ -112,4 +112,16 @@ h6.month {
   line-height: 30px;
   text-align: center;
   color: white;
+}
+
+li.date {
+  color: #050505 !important;
+}
+
+li.notCurrentMonth span {
+  color: rgb(168, 168, 168);
+}
+
+li.available {
+  color: white !important;
 }

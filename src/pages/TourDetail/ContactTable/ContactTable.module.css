@@ -97,3 +97,14 @@
 .contactInfo img {
   width: 80%;
 }
+
+.contactInfo li a {
+  color: #050505;
+  cursor: pointer;
+}
+
+.contactInfo li a:hover {
+  color: #050505;
+  cursor: pointer;
+  text-decoration: underline;
+}

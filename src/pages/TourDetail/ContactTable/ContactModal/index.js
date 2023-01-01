@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 import NotifyModal from "../../../../components/NotifyModal";
+import { useParams } from "react-router-dom";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -93,29 +94,21 @@ function ContactModal({ success, onHide, ...props }) {
   const [error, setError] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const lang = useTranslation().i18n.language;
+  const tourId = useParams().tourId;
+  console.log(tourId);
 
   const submitHandler = async (values) => {
-    const request1 = axios.post("https://sheetdb.io/api/v1/31iln4h8j6ok8", {
-      data: {
-        firstname: values.firstname,
-        surname: values.surname,
-        phone: values.phone,
-        gender: values.gender,
-      },
-    });
-
-    const formData = new FormData();
-    formData.append("firstname", values.firstname);
-    formData.append("surname", values.surname);
-    formData.append("phone", values.phone);
-
-    const request2 = axios.post("https://formspree.io/f/mgeqpdao", formData);
-
     try {
       setIsLoading(true);
       setError(null);
       setIsSuccess(false);
-      await Promise.all([request1, request2]);
+      await axios.post("http://localhost:5000/tour/advisory", {
+        firstname: values.firstname,
+        surname: values.surname,
+        phone: values.phone,
+        gender: values.gender,
+        tourId,
+      });
       setIsSuccess(true);
     } catch (error) {
       console.error(error);

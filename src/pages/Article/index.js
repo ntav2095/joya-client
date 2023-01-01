@@ -21,7 +21,7 @@ import QuillReader from "../../components/QuillReader";
 import { GUIDES_MAP } from "../../services/constants/productsMap";
 
 // css
-import styles from "./TravelHandbookDetail.module.css";
+import styles from "./Article.module.css";
 
 function TravelHandbookDetail() {
   const { i18n } = useTranslation();

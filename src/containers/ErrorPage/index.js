@@ -1,9 +1,31 @@
 import { Link, useNavigate } from "react-router-dom";
 import Container from "../../components/Container";
+import { useTranslation } from "react-i18next";
 
 import styles from "./ErrorPage.module.css";
 
+const trans = {
+  goHome: {
+    en: "Go to home",
+    vi: "Về trang chủ",
+  },
+  goBack: {
+    en: "Go back",
+    vi: "Quay lại",
+  },
+  somethingWrongHappened: {
+    en: "Something wrong happened",
+    vi: "Đã có lỗi xảy ra",
+  },
+  pageNotFound: {
+    en: "Page Not Found",
+    vi: "Trang bạn yêu cầu không tồn tại",
+  },
+};
+
 function ErrorPage({ code, message }) {
+  const lang = useTranslation().i18n.language;
+
   const navigate = useNavigate();
   return (
     <Container>
@@ -11,12 +33,12 @@ function ErrorPage({ code, message }) {
         {code === 404 && (
           <div>
             <h2>404</h2>
-            <h3>Not Found</h3>
+            <h3 className="mb-2">Not Found</h3>
 
-            <p>Trang bạn yêu cầu không tồn tại</p>
+            {/* <p>{trans.pageNotFound[lang]}</p> */}
 
-            <button onClick={() => navigate("/")}>Về trang chủ</button>
-            <button onClick={() => navigate(-1)}>Quay lại</button>
+            <button onClick={() => navigate("/")}>{trans.goHome[lang]}</button>
+            <button onClick={() => navigate(-1)}>{trans.goBack[lang]}</button>
           </div>
         )}
 
@@ -24,12 +46,12 @@ function ErrorPage({ code, message }) {
           <div>
             {code && <h2>{code}</h2>}
 
-            <h3>Đã có lỗi xảy ra</h3>
+            <h3 className="mb-2">{message}</h3>
 
-            <p className="mb-2">{message}</p>
+            {/* <p className="mb-2">{message}</p> */}
 
-            <button onClick={() => navigate("/")}>Về trang chủ</button>
-            <button onClick={() => navigate(-1)}>Quay lại</button>
+            <button onClick={() => navigate("/")}>{trans.goHome[lang]}</button>
+            <button onClick={() => navigate(-1)}>{trans.goBack[lang]}</button>
           </div>
         )}
       </div>

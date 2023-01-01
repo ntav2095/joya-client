@@ -1,6 +1,6 @@
-.containner{
+.containner {
   width: 60%;
-  margin: auto
+  margin: auto;
 }
 
 .story article p {
@@ -31,7 +31,7 @@
 }
 
 .storyHeader .date a,
-span {
+.storyHeader .date span {
   color: #334862;
 }
 
