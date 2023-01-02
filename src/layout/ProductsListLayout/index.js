@@ -34,7 +34,12 @@ function ProductsListLayout({
           !isLoading &&
           products.length > 0 &&
           products.map(({ component, id }) => (
-            <div key={id} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div
+              key={id}
+              className={
+                styles.product + " col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
+              }
+            >
               {component}
             </div>
           ))}

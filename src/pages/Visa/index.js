@@ -1,8 +1,7 @@
-//
-
+// main
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
 import Slider from "react-slick";
 
 import Banner from "../../components/Banner";
@@ -14,17 +13,30 @@ import accentsRemover from "../../services/helpers/accentsRemover";
 import usePageTitle from "../../hooks/usePageTitle";
 import { countriesImages } from "./mockImages";
 import settings from "./responsiveCarousel";
+import useAxios from "../../hooks/useAxios";
+import { visaApi } from "../../services/apis";
+import { setVisaTypes } from "../../store/visa.slice";
 
 // css
 import styles from "./Visa.module.css";
 
 function VisaService() {
+  const dispatch = useDispatch();
+  const [sendRequest, isLoading, data, error, resetStates] = useAxios();
+  // ******************** init visa *********************************
+  useEffect(() => {
+    sendRequest(visaApi.getVisasCountries());
+  }, []);
+
+  useEffect(() => {
+    if (data) dispatch(setVisaTypes(data.data));
+  }, [data]);
+  // ******************** end init visa *********************************
+
   const [show, setShow] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const handleClose = () => setShow(false);
   const visa = useSelector((state) => state.visa);
-
-  usePageTitle(`Dịch vụ visa || Go Travel`);
 
   const results = searchInput.trim()
     ? visa.availableCountries.filter((item) => {
@@ -34,9 +46,16 @@ function VisaService() {
       })
     : null;
 
+  usePageTitle(`Dịch vụ visa || Go Travel`);
   return (
     <>
-      <Banner bannerKey="visa" bannerType="image" />
+      <Banner
+        storedBanner={{
+          type: "image",
+          productType: "visa",
+          key: "visa",
+        }}
+      />
 
       <SignupConsultModal handleClose={handleClose} show={show} />
 

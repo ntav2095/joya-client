@@ -66,3 +66,20 @@
     left: -8px;
   }
 }
+
+/* ======== force carousel items to have the same height ==========  */
+.cardCarousel .slick-track {
+  display: flex !important;
+}
+
+.cardCarousel .slick-track .slick-slide {
+  height: inherit !important;
+}
+
+.cardCarousel .slick-track .slick-slide > div {
+  height: 100% !important;
+}
+
+/* .cardCarousel .slick-track .slick-slide > div > * {
+  height: 100% !important;
+} */

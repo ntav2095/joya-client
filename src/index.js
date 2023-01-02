@@ -13,15 +13,13 @@ import { i18nInjector } from "./hooks/useAxios";
 // css bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
 
-// react slick
+// css react slick
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-// general css
+// css joya
 import "./assets/css/variables.css";
 import "./assets/css/normalize.css";
-
-import "./App.css";
 
 // injecting
 storeInjector(store);

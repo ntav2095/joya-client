@@ -9,6 +9,7 @@
   border-radius: 12px;
   box-shadow: var(--box-shadow-border);
   overflow: hidden;
+  height: 100%;
 }
 
 .card > a:hover {

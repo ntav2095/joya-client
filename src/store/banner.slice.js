@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const VISA_COUNTRY_BANNER =
   "https://cdn.travelpulse.com/images/31aaedf4-a957-df11-b491-006073e71405/bb73aab8-f2bf-4278-88c3-33dd628df23f/630x355.jpg";
 
-const VISA_BANNER = "http://www.maashaktivisaservices.com/img/TOurist1.jpg";
+const VISA_BANNER = require("../assets/images/visa-banner.jpg");
 
 const initialState = {
   status: "pending", //  pending | failed | succeed

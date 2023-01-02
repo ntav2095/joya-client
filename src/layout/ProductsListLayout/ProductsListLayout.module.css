@@ -46,3 +46,7 @@
     justify-content: flex-start;
   }
 }
+
+.product > * {
+  height: 100%;
+}

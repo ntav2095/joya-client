@@ -46,6 +46,7 @@ function Banner({ storedBanner, banner }) {
   if (storedBanner) {
     const { type, productType, key } = storedBanner;
     const { status, error } = banners;
+    console.log(type, productType, key);
 
     if (status === "pending") {
       content = <Pending />;

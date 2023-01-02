@@ -1,5 +1,4 @@
 import { Slider, settings } from "./CardCarousel.import";
-
 import styles from "./CardCarousel.module.css";
 import "./CardCarousel.override.css";
 

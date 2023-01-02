@@ -9,6 +9,7 @@ const settings = {
   slidesToShow: 4,
   slidesToScroll: 2,
   initialSlide: 0,
+  useTransform: false,
   nextArrow: <SlickArrowRight slidesToScroll={2} slidesToShow={4} />,
   prevArrow: <SlickArrowLeft />,
   responsive: [
@@ -16,7 +17,7 @@ const settings = {
       breakpoint: 1024,
       settings: {
         slidesToShow: 3,
-        slidesToScroll: 2,
+        slidesToScroll: 3,
         infinite: false,
         dots: false,
         nextArrow: <SlickArrowRight slidesToScroll={3} slidesToShow={3} />,
