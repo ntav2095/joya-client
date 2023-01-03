@@ -42,7 +42,6 @@ function useAxios(dataHandler = defaultDataHadnler) {
       console.error(error);
 
       if (error.response) {
-        console.log("x", error.response);
         setError({
           httpCode: error.response.data.code,
           message: error.response.data.message[i18n.language],

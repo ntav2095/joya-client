@@ -3,12 +3,14 @@ import "./pagination.css";
 import { chevronLeft, chevronRight } from "../../assets/svgs";
 import Overlay from "react-bootstrap/Overlay";
 import Popover from "react-bootstrap/Popover";
+import { useTranslation } from "react-i18next";
 
 export default function CustomPagination({ total, pagenumber, callback }) {
   const [state, setState] = useState(pagenumber);
   const [pageInput, setPageInput] = useState(pagenumber);
   const [show, setShow] = useState(false);
   const [target, setTarget] = useState(null);
+  const { t } = useTranslation();
 
   const ref = useRef(null);
 
@@ -82,7 +84,7 @@ export default function CustomPagination({ total, pagenumber, callback }) {
                 value={pageInput}
                 onChange={changeHandler}
               />
-              <button type="submit">Go</button>
+              <button type="submit">{t("components.pagination.go")}</button>
             </form>
           </Popover.Body>
         </Popover>

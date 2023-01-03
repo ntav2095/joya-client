@@ -1,25 +1,50 @@
 import styles from "./ProductsListLayout.module.css";
 import Container from "../../components/Container";
 import CustomPagination from "../../containers/customerPagination";
+import { useTranslation } from "react-i18next";
 
 function ProductsListLayout({
   pagination,
   title,
-  filter,
+  onFilter,
   products,
   placeholder,
   isLoading,
 }) {
   const { pageCount, currentPage, changePageHandler } = pagination;
+  const { t } = useTranslation();
+
+  const FILTER_LIST = [
+    {
+      label: t("tourPages.filter.newest"),
+      value: "time-desc",
+    },
+    {
+      label: t("tourPages.filter.priceAscending"),
+      value: "price-asc",
+    },
+    {
+      label: t("tourPages.filter.priceDescending"),
+      value: "price-desc",
+    },
+    {
+      label: t("tourPages.filter.durationAscending"),
+      value: "duration-asc",
+    },
+    {
+      label: t("tourPages.filter.durationDescending"),
+      value: "duration-desc",
+    },
+  ];
   return (
     <Container>
       <div className={styles.header}>
         <h1>{title}</h1>
 
-        {filter && (
+        {onFilter && (
           <div className={styles.filter}>
-            <select onChange={filter.changeFilterHandler}>
-              {filter.filterList.map((item) => (
+            <select onChange={onFilter}>
+              {FILTER_LIST.map((item) => (
                 <option key={item.value} value={item.value}>
                   {item.label}
                 </option>

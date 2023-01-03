@@ -6,6 +6,7 @@ import ContactTable from "./ContactTable";
 import TourInfo from "./TourInfo";
 import TourCarousel from "./TourCarousel";
 import ErrorPage from "../../containers/ErrorPage";
+import ErrorBoundary from "../../components/ErrorBoundary";
 
 // apis
 import useAxios from "../../hooks/useAxios";
@@ -20,7 +21,6 @@ import styles from "./TourDetail.module.css";
 import FacebookComment from "../../containers/facebookComment";
 import { useTranslation } from "react-i18next";
 import Placeholder from "../../components/placeholders/Placeholder";
-import { useDispatch } from "react-redux";
 import Banner from "../../components/Banner";
 
 function TourDetail() {
@@ -39,13 +39,15 @@ function TourDetail() {
 
   return (
     <>
-      <Banner
-        banner={{
-          isLoading,
-          error,
-          image: tour?.banner,
-        }}
-      />
+      <ErrorBoundary>
+        <Banner
+          banner={{
+            isLoading,
+            error,
+            image: tour?.banner,
+          }}
+        />
+      </ErrorBoundary>
 
       <div className={styles.tourDetail + " container-lg"}>
         {!error && (
@@ -57,15 +59,21 @@ function TourDetail() {
 
             <div className="row ">
               <div className="col-12 col-lg-8 mb-4 px-0 px-md-1">
-                <TourCarousel tour={tour} isLoading={isLoading} />
+                <ErrorBoundary>
+                  <TourCarousel tour={tour} isLoading={isLoading} />
+                </ErrorBoundary>
 
                 <div className="pt-5 ">
-                  <TourInfo tour={tour} isLoading={isLoading} />
+                  <ErrorBoundary>
+                    <TourInfo tour={tour} isLoading={isLoading} />
+                  </ErrorBoundary>
                 </div>
               </div>
 
               <div className="col-12 col-lg-4 mb-4">
-                <ContactTable tour={tour} isLoading={isLoading} />
+                <ErrorBoundary>
+                  <ContactTable tour={tour} isLoading={isLoading} />
+                </ErrorBoundary>
               </div>
             </div>
 

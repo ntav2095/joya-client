@@ -5,8 +5,6 @@ import "./QuillReader.css";
 function QuillReader({ delta }) {
   const containerRef = useRef();
 
-  console.log(delta);
-
   useEffect(() => {
     containerRef.current.innerHTML = quillGetHTML(delta);
   }, [delta]);

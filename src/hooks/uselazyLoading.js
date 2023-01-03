@@ -1,22 +1,20 @@
+import { useEffect } from "react";
 import { useMemo } from "react";
-import { placeholder } from "../assets/images/index";
+import { useLocation } from "react-router-dom";
 
-export function loadingImg(img) {
-  const lazzy = img.getAttribute("lazy");
-  if (lazzy) {
-    img.setAttribute("src", lazzy);
-    // img.removeAttribute('lazy')
-  }
-}
-export default function useLazyLoading(loadingimage) {
+export default function useLazyLoading() {
+  const location = useLocation();
+
   const observer = useMemo(
     () =>
       new IntersectionObserver(
         (entry) =>
           entry.forEach((item) => {
             if (item.isIntersecting) {
-              loadingimage(item.target);
-              observer.unobserve(item.target);
+              const img = item.target;
+              console.log(img.getAttribute("lazy"));
+              img.setAttribute("src", img.getAttribute("lazy"));
+              observer.unobserve(img);
             }
           }),
         {
@@ -26,15 +24,10 @@ export default function useLazyLoading(loadingimage) {
     []
   );
 
-  function lazzy() {
-    const image = document.querySelectorAll("img[lazy]");
-    image.forEach((item) => {
+  useEffect(() => {
+    const images = document.querySelectorAll("img[lazy]");
+    images.forEach((item) => {
       observer.observe(item);
     });
-  }
-  return [
-    () => {
-      lazzy();
-    },
-  ];
+  }, [location]);
 }

@@ -3,7 +3,6 @@ import styles from "./CardCarousel.module.css";
 import "./CardCarousel.override.css";
 
 function CardCarousel({ cards }) {
-  console.log(cards);
   return (
     <div className={styles.container + " cardCarousel"}>
       {cards && (

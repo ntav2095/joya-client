@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import BookingModal from "./BookingModal";
-import { home3 as phonePng } from "../../../assets/images";
+import { phone as phonePng } from "../../../assets/images";
 import { arrowRight as arrowSvg } from "../../../assets/svgs";
 import styles from "./ContactTable.module.css";
 import { useTranslation } from "react-i18next";
 import Placeholder from "../../../components/placeholders/Placeholder";
 import DatePickerModal from "./DatePickerModal";
-import { useEffect } from "react";
 import ContactModal from "./ContactModal";
-import NotificationModal from "./notificationModal/notification";
 
 const translation = {
   fullPackage: {

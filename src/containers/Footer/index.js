@@ -1,7 +1,5 @@
-import { Link } from "react-router-dom";
 import FooterGroup from "./FooterGroup";
 import styles from "./Footer.module.css";
-import { useTranslation } from "react-i18next";
 
 const footerItems = {
   contact: {
@@ -73,7 +71,7 @@ const footerItems = {
     items: [
       {
         url: "",
-        path: "/tours-chau-au",
+        path: "/du-lich-chau-au",
         label: {
           vi: `Du lịch châu Âu`,
           en: "Europe tours",
@@ -81,7 +79,7 @@ const footerItems = {
       },
       {
         url: "",
-        path: "/tours-trong-nuoc",
+        path: "/du-lich-trong-nuoc",
         label: {
           vi: `Du lịch trong nước`,
           en: "Vietnam tours",
@@ -89,7 +87,7 @@ const footerItems = {
       },
       {
         url: "",
-        path: "/cam-nang-du-lich",
+        path: "/guides",
         label: {
           vi: `Guides`,
           en: `Guides`,

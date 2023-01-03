@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: grey;
+  background: rgb(29, 29, 29);
 }
 
 .header svg {
@@ -19,8 +19,9 @@
   color: rgb(245, 245, 245);
 }
 
-.content {
+.modal .content {
   border-radius: 0 !important;
+  border: none;
 }
 
 .error .header {

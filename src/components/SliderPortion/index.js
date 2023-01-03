@@ -9,7 +9,6 @@ const seeAll = {
 };
 
 function SliderPortion({ title, cards, error, to }) {
-  console.log(cards);
   const lang = useTranslation().i18n.language;
   return (
     <div className={styles.container}>

@@ -1,29 +1,33 @@
 import React from "react";
-import i18next from "i18next";
-import { home1 } from "../../../assets/images/index";
-import { home2 } from "../../../assets/images/index";
-import { home4 } from "../../../assets/images/index";
+import { useTranslation } from "react-i18next";
+import {
+  check,
+  victoryFingers,
+  holdingHands,
+} from "../../../assets/images/index";
 import styles from "./header.module.css";
 
 function HomeHeader() {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.header}>
       <div className={styles.container}>
         <div className={styles.about}>
           <div className="col-12 col-md-4 col-lg-4">
-            <img src={home1} />
-            <h6>{i18next.t("homeMain.title1")}</h6>
-            <p>{i18next.t("homeMain.session1")}</p>
+            <img src={check} />
+            <h6>{t("homePage.intro.highClassService.title")}</h6>
+            <p>{t("homePage.intro.highClassService.content")}</p>
           </div>
           <div className="col-12 col-md-4 col-lg-4">
-            <img src={home2} />
-            <h6>{i18next.t("homeMain.title2")}</h6>
-            <p>{i18next.t("homeMain.session2")}</p>
+            <img src={victoryFingers} />
+            <h6>{t("homePage.intro.impressiveJourney.title")}</h6>
+            <p>{t("homePage.intro.impressiveJourney.content")}</p>
           </div>
           <div className="col-12 col-md-4 col-lg-4">
-            <img src={home4} />
-            <h6>{i18next.t("homeMain.title3")}</h6>
-            <p>{i18next.t("homeMain.session3")}</p>
+            <img src={holdingHands} />
+            <h6>{t("homePage.intro.trustedPartner.title")}</h6>
+            <p>{t("homePage.intro.trustedPartner.content")}</p>
           </div>
         </div>
       </div>

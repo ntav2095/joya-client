@@ -5,8 +5,6 @@ import { useTranslation } from "react-i18next";
 
 // components
 import SliderPortion from "../../../components/SliderPortion";
-import CardCarousel from "../../../containers/CardCarousel";
-import RoundedButton from "../../../components/RoundedButton";
 import CardPlaceholder from "../../../components/placeholders/CardPlaceholder";
 
 // apis
@@ -15,19 +13,10 @@ import { postsApi } from "../../../services/apis";
 import ArticleCard from "../../../containers/ArticleCard";
 
 // other
-import useLazyLoading, { loadingImg } from "../../../hooks/uselazyLoading";
 import { GUIDES_MAP } from "../../../services/constants/productsMap";
-
-const trans = {
-  seeAll: {
-    en: "See all",
-    vi: "Xem tất cả",
-  },
-};
 
 function GuidesRow({ category }) {
   const [sendRequest, isLoading, data, error] = useAxios();
-  const [lazy] = useLazyLoading(loadingImg);
   const location = useLocation();
   const lang = useTranslation().i18n.language;
 
@@ -42,10 +31,6 @@ function GuidesRow({ category }) {
       behavior: "smooth",
     });
   }, [lang, location.search]);
-
-  useEffect(() => {
-    lazy();
-  }, [isLoading]);
 
   const placeholders = new Array(6).fill(1).map((_, index) => ({
     card: <CardPlaceholder key={index} type="article" />,

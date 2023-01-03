@@ -1,37 +1,17 @@
 export const tourApi = {
-  add: (formData) => ({
-    url: "/tour",
-    method: "POST",
-    data: formData,
-  }),
   get: (params = {}) => ({
     url: `/tour`,
     method: "GET",
     params: params,
   }),
-  edit: (formData) => ({
-    url: "/tour",
-    method: "PUT",
-    data: formData,
-  }),
   getSingleTour: (tourId) => ({
     url: `/tour/${tourId}`,
     method: "GET",
   }),
-
-  updateItinerary: (data) => ({
-    url: "/tour/itinerary",
-    method: "PUT",
-    data: data,
-  }),
-  delete: (tourId) => ({
-    url: `/tour`,
-    method: "DELETE",
-    data: { tourId },
-  }),
-  getHotTours: () => ({
-    url: `/tour/hot-tours`,
-    method: "GET",
+  book: (data) => ({
+    method: "POST",
+    url: "/tour/booking",
+    data,
   }),
 };
 
@@ -114,5 +94,12 @@ export const layoutApi = {
   get: () => ({
     url: `/layout`,
     method: "GET",
+  }),
+};
+
+export const termApi = {
+  getSingle: (type) => ({
+    method: "GET",
+    url: `/term/${type}`,
   }),
 };

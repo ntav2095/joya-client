@@ -30,13 +30,6 @@ export const SlickArrowRight = ({
 }) => {
   const disabled = currentSlide + slidesToShow - slideCount === 0 && !infinite;
 
-  // if (!infinite) {
-  //   console.log("currentSlide", currentSlide);
-  //   console.log("slidesToShow", slidesToShow);
-  //   console.log("slidesToScroll", slidesToScroll);
-  //   console.log("slideCount", slideCount);
-  //   console.log(currentSlide + slidesToShow - slideCount);
-  // }
   return (
     <button
       {...props}

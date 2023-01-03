@@ -12,76 +12,6 @@ import { useParams } from "react-router-dom";
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
-const trans = {
-  firstname: {
-    en: "Firstname",
-    vi: "Họ",
-  },
-  surname: {
-    en: "Surname",
-    vi: "Tên",
-  },
-  phone: {
-    en: "Phone number",
-    vi: "Số điện thoại",
-  },
-  gender: {
-    en: "Gender",
-    vi: "Giới tính",
-  },
-  male: {
-    en: "Male",
-    vi: "Nam",
-  },
-  female: {
-    en: "Female",
-    vi: "Nữ",
-  },
-
-  other: {
-    en: "Other",
-    vi: "Khác",
-  },
-  plz_choose_gender: {
-    en: "please choose gender",
-    vi: "Vui lòng chọn giới tính",
-  },
-  requested_successfully: {
-    en: "Requested successfully. We will contact you in 2 hours.",
-    vi: "Yêu cầu gọi lại thành công. Chúng tôi sẽ liên hệ với bạn trong vòng 2 giờ.",
-  },
-  requested_failed: {
-    en: "Something wrong happens. Please try again, or contact us: 123456789",
-    vi: "Có lỗi xảy ra. Vui lòng thử lại, hoặc yêu cầu gọi lại, hoặc liên hệ với chúng tôi theo số: 123456789",
-  },
-  call_me: {
-    en: "Call me",
-    vi: "Yêu cầu gọi lại",
-  },
-  form_validation: {
-    too_short: {
-      en: "Too short",
-      vi: "Quá ngắn",
-    },
-    too_long: {
-      en: "Too long",
-      vi: "Quá dài",
-    },
-    required: {
-      en: "Required",
-      vi: "Bắt buộc",
-    },
-    invalid_email: {
-      en: "Invalid email",
-      vi: "Email không hợp lệ",
-    },
-    invalid_phone: {
-      en: "Invalid phone number",
-      vi: "Số điện thoại không hợp lệ",
-    },
-  },
-};
-
 const initialValues = {
   firstname: "",
   surname: "",
@@ -93,9 +23,9 @@ function ContactModal({ success, onHide, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const { t } = useTranslation();
   const lang = useTranslation().i18n.language;
   const tourId = useParams().tourId;
-  console.log(tourId);
 
   const submitHandler = async (values) => {
     try {
@@ -118,19 +48,20 @@ function ContactModal({ success, onHide, ...props }) {
     }
   };
 
+  const tooShort = t("components.form.errors.tooShort");
+  const tooLong = t("components.form.errors.tooLong");
+  const required = t("components.form.errors.required");
+
   const contactFormSchema = Yup.object().shape({
     firstname: Yup.string()
-      .min(2, trans.form_validation.too_short[lang])
-      .max(50, trans.form_validation.too_long[lang])
-      .required(trans.form_validation.required[lang]),
-    surname: Yup.string()
-      .min(2, trans.form_validation.too_short[lang])
-      .max(50, trans.form_validation.too_long[lang])
-      .required(trans.form_validation.required[lang]),
+      .min(2, tooShort)
+      .max(50, tooLong)
+      .required(required),
+    surname: Yup.string().min(2, tooShort).max(50, tooLong).required(required),
     phone: Yup.string()
-      .matches(phoneRegExp, trans.form_validation.invalid_phone[lang])
-      .required(trans.form_validation.required[lang]),
-    gender: Yup.string().required(trans.form_validation.required[lang]),
+      .matches(phoneRegExp, t("components.form.errors.invalidPhone"))
+      .required(required),
+    gender: Yup.string().required(required),
   });
 
   useEffect(() => {
@@ -143,8 +74,7 @@ function ContactModal({ success, onHide, ...props }) {
 
   if (isSuccess) {
     notify = {
-      message:
-        "Yêu cầu tư vấn thành công! Chúng tôi sẽ gọi lại cho bạn sau ít phút.",
+      message: t("components.form.success.callMeBack"),
       type: "success",
       btn: {
         cb: () => {
@@ -174,7 +104,7 @@ function ContactModal({ success, onHide, ...props }) {
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            <h6 className="fs-6">{trans.call_me[lang]}</h6>
+            <h6 className="fs-6">{t("components.form.title.callMe")}</h6>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -197,7 +127,7 @@ function ContactModal({ success, onHide, ...props }) {
                   <div className="row">
                     <div className="col-12 col-sm-6">
                       <div className={styles.label}>
-                        <h6>{trans.firstname[lang]}:</h6>
+                        <h6>{t("components.form.firstname")}:</h6>
                         <Field type="text" name="firstname" />
                         <ErrorMessage name="firstname" component="p" />
                       </div>
@@ -205,7 +135,7 @@ function ContactModal({ success, onHide, ...props }) {
 
                     <div className="col-12 col-sm-6">
                       <div className={styles.label}>
-                        <h6>{trans.surname[lang]}:</h6>
+                        <h6>{t("components.form.surname")}:</h6>
                         <Field type="text" name="surname" />
                         <ErrorMessage name="surname" component="p" />
                       </div>
@@ -213,7 +143,7 @@ function ContactModal({ success, onHide, ...props }) {
 
                     <div className="col-12 col-sm-6">
                       <div className={styles.label}>
-                        <h6>{trans.phone[lang]}:</h6>
+                        <h6>{t("components.form.phoneNumber")}:</h6>
                         <Field type="tel" name="phone" />
                         <ErrorMessage name="phone" component="p" />
                       </div>
@@ -221,7 +151,7 @@ function ContactModal({ success, onHide, ...props }) {
 
                     <div className="col-12 col-sm-6">
                       <div className={styles.label}>
-                        <h6>{trans.gender[lang]}:</h6>
+                        <h6>{t("components.form.gender")}:</h6>
                         <Field
                           as="select"
                           name="gender"
@@ -230,11 +160,17 @@ function ContactModal({ success, onHide, ...props }) {
                           }}
                         >
                           <option value="" disabled defaultValue>
-                            {trans.plz_choose_gender[lang]}
+                            {t("components.form.pleaseChooseGender")}
                           </option>
-                          <option value="male">{trans.male[lang]}</option>
-                          <option value="female">{trans.female[lang]}</option>
-                          <option value="other">{trans.other[lang]}</option>
+                          <option value="male">
+                            {t("components.form.male")}
+                          </option>
+                          <option value="female">
+                            {t("components.form.female")}
+                          </option>
+                          <option value="other">
+                            {t("components.form.other")}
+                          </option>
                         </Field>
                         <ErrorMessage name="gender" component="p" />
                       </div>
@@ -243,11 +179,11 @@ function ContactModal({ success, onHide, ...props }) {
 
                   {error && (
                     <p className={styles.errorMessage + " mb-2 text-danger"}>
-                      {trans.requested_failed[lang]}
+                      {t("components.form.errors.callMeBack")}
                     </p>
                   )}
                   <button className="btn btn-dark btn-sm" type="submit">
-                    {trans.call_me[lang]}
+                    {t("components.form.title.callMe")}
                   </button>
                 </Form>
               )}

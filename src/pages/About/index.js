@@ -38,17 +38,18 @@ const trans = {
 function About() {
   const [sendRequest, isLoading, data, error, resetStates] = useAxios();
   const lang = useTranslation().i18n.language;
+  const { t } = useTranslation();
 
-  useEffect(() => {
-    sendRequest({
-      method: "GET",
-      url: "http://localhost:5000/about",
-    });
-  }, [lang]);
-  usePageTitle("Tổng quan công ty || Joya Travel");
+  // useEffect(() => {
+  //   sendRequest({
+  //     method: "GET",
+  //     url: "http://localhost:5000/about",
+  //   });
+  // }, [lang]);
 
-  const delta = data ? data.data.content : null;
+  // const delta = data ? data.data.content : null;
 
+  usePageTitle(t("pageTitles.about"));
   return (
     <>
       <div className={styles.fluid + " bg-dark text-light "}>

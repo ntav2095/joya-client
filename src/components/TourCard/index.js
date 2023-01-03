@@ -1,26 +1,11 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { altThumbnail } from "../../assets/images";
+import { altThumbnail, lazyImg } from "../../assets/images";
 import styles from "./TourCard.module.css";
 
-const trans = {
-  days: {
-    en: "days",
-    vi: "ngày",
-  },
-  nights: {
-    en: "nights",
-    vi: "đêm",
-  },
-  full_package: {
-    en: "Full package: ",
-    vi: "Trọn gói: ",
-  },
-};
-
 function TourCard({ tour }) {
-  const lang = useTranslation().i18n.language;
   const { to, thumb, name, price, countries, journey, duration } = tour;
+  const { t } = useTranslation();
 
   const errorHandler = (e) => {
     e.target.src = altThumbnail;
@@ -36,11 +21,13 @@ function TourCard({ tour }) {
           <h5 className="text-uppercase">{name}</h5>
           <p>{countries || journey}</p>
           <p>
-            {duration.days} {trans.days[lang]} {duration.nights}{" "}
-            {trans.nights[lang]}
+            {duration.days}{" "}
+            {duration.days > 1 ? t("general.days") : t("general.day")}{" "}
+            {duration.nights}{" "}
+            {duration.nights > 1 ? t("general.nights") : t("general.night")}
           </p>
           <p>
-            {trans.full_package[lang]}{" "}
+            {t("general.fullPackage")}:{" "}
             <strong>{price.toLocaleString()} đ</strong>
           </p>
         </div>

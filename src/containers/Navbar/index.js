@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 // lang
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
@@ -60,7 +59,6 @@ const navItems = [
 
 function Header() {
   const [expanded, setExpanded] = useState(false);
-
   const location = useLocation();
   const lang = useTranslation().i18n.language;
 
@@ -86,7 +84,7 @@ function Header() {
               <Navbar.Brand>
                 <LogoComponent
                   to="/"
-                  href="http://localhost:3000"
+                  href="https://ntav.org"
                   className="travel__navbar__branch"
                 >
                   <h5 className="m-0 text-center">JOYA LOGO</h5>

@@ -1,5 +1,5 @@
 import Modal from "react-bootstrap/Modal";
-import axios from "axios";
+import axios from "../../../../services/axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import styles from "./BookingModal.module.css";
 import { useTranslation } from "react-i18next";
@@ -10,91 +10,7 @@ import { useEffect } from "react";
 import { format } from "date-fns";
 import NotifyModal from "../../../../components/NotifyModal";
 import * as Yup from "yup";
-
-const trans = {
-  firstname: {
-    en: "Firstname",
-    vi: "Họ",
-  },
-  surname: {
-    en: "Surname",
-    vi: "Tên",
-  },
-  email: {
-    en: "Email",
-    vi: "Email",
-  },
-  phone: {
-    en: "Phone number",
-    vi: "Số điện thoại",
-  },
-  gender: {
-    en: "Gender",
-    vi: "Giới tính",
-  },
-  male: {
-    en: "Male",
-    vi: "Nam",
-  },
-  female: {
-    en: "Female",
-    vi: "Nữ",
-  },
-  other: {
-    en: "Other",
-    vi: "Khác",
-  },
-  address: {
-    en: "Address",
-    vi: "Địa chỉ",
-  },
-  depature_date: {
-    en: "Departure date",
-    vi: "Ngày khởi hành",
-  },
-  adults: {
-    en: "Adults",
-    vi: "Số người lớn",
-  },
-  children: {
-    en: "Children",
-    vi: "Số trẻ em",
-  },
-  book_now: {
-    en: "Book now",
-    vi: "Đăng ký",
-  },
-  booked_successfully: {
-    en: "Booked successfully. We will contact you in 2 hours.",
-    vi: "Đặt tour thành công. Chúng tôi sẽ liên hệ với bạn trong vòng 2 giờ.",
-  },
-  booked_failed: {
-    en: "Something wrong happens. Please try again, or contact us: 123456789",
-    vi: "Có lỗi xảy ra. Vui lòng thử lại, hoặc yêu cầu gọi lại, hoặc liên hệ với chúng tôi theo số: 123456789",
-  },
-  form_validation: {
-    too_short: {
-      en: "Too short",
-      vi: "Quá ngắn",
-    },
-    too_long: {
-      en: "Too long",
-      vi: "Quá dài",
-    },
-    required: {
-      en: "Required",
-      vi: "Bắt buộc",
-    },
-    invalid_email: {
-      en: "Invalid email",
-      vi: "Email không hợp lệ",
-    },
-    invalid_phone: {
-      en: "Invalid phone number",
-      vi: "Số điện thoại không hợp lệ",
-    },
-  },
-};
+import { tourApi } from "../../../../services/apis";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -120,7 +36,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
   const calendarRef = useRef();
   const dateLabelRef = useRef();
 
-  const lang = useTranslation().i18n.language;
+  const { t } = useTranslation();
 
   const submitHandler = async (values) => {
     const tour = props.tour;
@@ -129,18 +45,20 @@ function BookingModal({ selectedDate, onHide, ...props }) {
       setError(null);
       setIsSuccess(false);
       setIsLoading(true);
-      await axios.post("http://localhost:5000/tour/booking", {
-        tourId: tour._id,
-        firstname: values.firstname,
-        surname: values.surname,
-        email: values.email,
-        phone: values.phone,
-        gender: values.gender,
-        address: values.address,
-        adult: values.adult,
-        children: values.children,
-        departureDate: values.date,
-      });
+      await axios(
+        tourApi.book({
+          tourId: tour._id,
+          firstname: values.firstname,
+          surname: values.surname,
+          email: values.email,
+          phone: values.phone,
+          gender: values.gender,
+          address: values.address,
+          adult: values.adult,
+          children: values.children,
+          departureDate: values.date,
+        })
+      );
       setIsSuccess(true);
     } catch (error) {
       console.error(error);
@@ -156,25 +74,26 @@ function BookingModal({ selectedDate, onHide, ...props }) {
     }
   };
 
+  const tooShort = t("components.form.errors.tooShort");
+  const tooLong = t("components.form.errors.tooLong");
+  const required = t("components.form.errors.required");
+
   const bookingTourSchema = Yup.object().shape({
     firstname: Yup.string()
-      .min(2, trans.form_validation.too_short[lang])
-      .max(50, trans.form_validation.too_long[lang])
-      .required(trans.form_validation.required[lang]),
-    surname: Yup.string()
-      .min(2, trans.form_validation.too_short[lang])
-      .max(50, trans.form_validation.too_long[lang])
-      .required(trans.form_validation.required[lang]),
+      .min(2, tooShort)
+      .max(50, tooLong)
+      .required(required),
+    surname: Yup.string().min(2, tooShort).max(50, tooLong).required(required),
     email: Yup.string()
-      .email(trans.form_validation.invalid_email[lang])
-      .required(trans.form_validation.required[lang]),
-    address: Yup.string().required(trans.form_validation.required[lang]),
+      .email(t("components.form.errors.invalidEmail"))
+      .required(required),
+    address: Yup.string().required(required),
     phone: Yup.string()
-      .matches(phoneRegExp, trans.form_validation.invalid_phone[lang])
-      .required(trans.form_validation.required[lang]),
-    gender: Yup.string().required(trans.form_validation.required[lang]),
-    adult: Yup.number().min(1).required(trans.form_validation.required[lang]),
-    date: Yup.string().required(trans.form_validation.required[lang]),
+      .matches(phoneRegExp, t("components.form.errors.invalidPhone"))
+      .required(required),
+    gender: Yup.string().required(required),
+    adult: Yup.number().min(1).required(required),
+    date: Yup.string().required(required),
   });
 
   useEffect(() => {
@@ -204,7 +123,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
   if (isSuccess) {
     notify = {
       type: "success",
-      message: trans.booked_successfully[lang],
+      message: t("components.form.success.bookSuccess"),
       btn: {
         component: "button",
         cb: () => {
@@ -263,7 +182,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
                   <div className="row">
                     <div className="col-12 col-sm-6">
                       <div className={styles.label}>
-                        <h6>{trans.firstname[lang]}:</h6>
+                        <h6>{t("components.form.firstname")}:</h6>
                         <Field type="text" name="firstname" />
                         <ErrorMessage name="firstname" component="h5" />
                       </div>
@@ -271,7 +190,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
 
                     <div className="col-12 col-sm-6">
                       <div className={styles.label}>
-                        <h6>{trans.surname[lang]}:</h6>
+                        <h6>{t("components.form.surname")}:</h6>
                         <Field type="text" name="surname" />
                         <ErrorMessage name="surname" component="h5" />
                       </div>
@@ -281,7 +200,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
                   <div className="row">
                     <div className="col-12 col-sm-6">
                       <div className={styles.label}>
-                        <h6>{trans.email[lang]}:</h6>
+                        <h6>Email:</h6>
                         <Field type="email" name="email" />
                         <ErrorMessage name="email" component="h5" />
                       </div>
@@ -289,7 +208,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
 
                     <div className="col-12 col-sm-6">
                       <div className={styles.label}>
-                        <h6>{trans.phone[lang]}:</h6>
+                        <h6>{t("components.form.phoneNumber")}:</h6>
                         <Field type="tel" name="phone" />
                         <ErrorMessage name="phone" component="h5" />
                       </div>
@@ -297,7 +216,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
                   </div>
 
                   <div className={styles.gendersGroup + " " + styles.label}>
-                    <h6>{trans.gender[lang]}:</h6>
+                    <h6>{t("components.form.gender")}:</h6>
                     <div className="row">
                       <div className="col-4 ">
                         <label
@@ -306,7 +225,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
                             " d-flex align-items-center border justify-content-center mb-0"
                           }
                         >
-                          <p className="m-0">{trans.male[lang]}</p>
+                          <p className="m-0">{t("components.form.male")}</p>
                           <input
                             type="radio"
                             name="gender"
@@ -326,7 +245,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
                             " d-flex align-items-center border justify-content-center mb-0"
                           }
                         >
-                          <p className="m-0">{trans.female[lang]}</p>
+                          <p className="m-0">{t("components.form.female")}</p>
                           <input
                             type="radio"
                             name="gender"
@@ -346,7 +265,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
                             " d-flex align-items-center border justify-content-center mb-0"
                           }
                         >
-                          <p className="m-0">{trans.other[lang]}</p>
+                          <p className="m-0">{t("components.form.other")}</p>
                           <input
                             type="radio"
                             name="gender"
@@ -363,7 +282,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
                   </div>
 
                   <div className={styles.label}>
-                    <h6>{trans.address[lang]}:</h6>
+                    <h6>{t("components.form.address")}:</h6>
                     <Field type="text" name="address" />
                     <ErrorMessage name="address" component="h5" />
                   </div>
@@ -374,7 +293,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
                         styles.dateField + " col-6 col-sm-4 " + styles.label
                       }
                     >
-                      <h6>{trans.depature_date[lang]}:</h6>
+                      <h6>{t("components.form.departureDate")}:</h6>
 
                       <input
                         ref={dateLabelRef}
@@ -410,7 +329,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
 
                     <div className="col-6 col-sm-4">
                       <div className={styles.label}>
-                        <h6>{trans.adults[lang]}:</h6>
+                        <h6>{t("components.form.adults")}:</h6>
                         <Field type="number" name="adult" />
                         <ErrorMessage name="adult" component="h5" />
                       </div>
@@ -418,7 +337,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
 
                     <div className="col-6 col-sm-4">
                       <div className={styles.label}>
-                        <h6>{trans.children[lang]}:</h6>
+                        <h6>{t("components.form.children")}:</h6>
                         <Field type="number" name="children" />
                         <ErrorMessage name="children" component="h5" />
                       </div>
@@ -427,11 +346,11 @@ function BookingModal({ selectedDate, onHide, ...props }) {
 
                   {error && (
                     <p className={styles.errorMessage + " mb-1 text-danger"}>
-                      {trans.booked_failed[lang]}
+                      {t("components.form.errors.bookFailed")}
                     </p>
                   )}
                   <button className="btn btn-dark btn-sm" type="submit">
-                    {trans.book_now[lang]}
+                    {t("components.form.bookNow")}
                   </button>
                 </Form>
               )}

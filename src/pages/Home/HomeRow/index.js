@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import SliderPortion from "../../../components/SliderPortion";
-import { TOUR_MAP, GUIDES_MAP } from "../../../services/constants/productsMap";
-import RoundedButton from "../../../components/RoundedButton";
+import { GUIDES_MAP } from "../../../services/constants/productsMap";
 import CardPlaceholder from "../../../components/placeholders/CardPlaceholder";
 import ArticleCard from "../../../containers/ArticleCard";
 import TourCard from "../../../components/TourCard";

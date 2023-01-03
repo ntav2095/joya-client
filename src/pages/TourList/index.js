@@ -1,6 +1,5 @@
 // main
 import { useEffect, useState } from "react";
-import useLazyLoading, { loadingImg } from "../../hooks/uselazyLoading";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import useAxios from "../../hooks/useAxios";
@@ -11,81 +10,27 @@ import TourCard from "../../components/TourCard";
 import CardPlaceholder from "../../components/placeholders/CardPlaceholder";
 import ErrorPage from "../../containers/ErrorPage";
 import Banner from "../../components/Banner";
+import ProductsListLayout from "../../layout/ProductsListLayout";
+import ErrorBoundary from "../../components/ErrorBoundary";
 
 // apis
 import { tourApi } from "../../services/apis";
 
-// css
-import ProductsListLayout from "../../layout/ProductsListLayout";
-
-const trans = {
-  title: {
-    euTours: {
-      en: "Europe Tours",
-      vi: "Du lịch châu Âu",
-    },
-    vnTours: {
-      en: "Vietnam Tours",
-      vi: "Du lịch trong nước",
-    },
-  },
-};
-
-const FILTER_LIST = [
-  {
-    label: {
-      en: "Newest",
-      vi: "Mới nhất",
-    },
-    value: "time-desc",
-  },
-  {
-    label: {
-      en: "Price ascending",
-      vi: "Giá tăng dần",
-    },
-    value: "price-asc",
-  },
-  {
-    label: {
-      en: "Price descending",
-      vi: "Giá giảm dần",
-    },
-    value: "price-desc",
-  },
-  {
-    label: {
-      en: "Duration descending",
-      vi: "Số ngày lưu trú giảm dần",
-    },
-    value: "duration-desc",
-  },
-  {
-    label: {
-      en: "Duration ascending",
-      vi: "Số ngày lưu trú tăng dần",
-    },
-    value: "duration-asc",
-  },
-];
-
 function TourList({ cat_params }) {
   const [sendRequest, isLoading, data, error] = useAxios();
-  const [lazy] = useLazyLoading(loadingImg);
   const [search, setSearch] = useState({
     sort: "time-asc",
   });
   const location = useLocation();
   const navigate = useNavigate();
-  const { i18n } = useTranslation();
-  const lang = i18n.language;
+  const { i18n, t } = useTranslation();
 
   let page = new URLSearchParams(location.search).get("page");
   if (!page || isNaN(Number(page))) {
     page = 1;
   }
 
-  const hangdleChangeSelect = (e) => {
+  const filterHandler = (e) => {
     setSearch({ sort: e.target.value });
   };
 
@@ -126,16 +71,16 @@ function TourList({ cat_params }) {
     );
   }, [i18n.language, location.search, cat_params, search]);
 
-  useEffect(() => {
-    lazy();
-  }, [isLoading]);
-
   const title =
     cat_params.cat !== "vi"
-      ? trans.title.euTours[lang]
-      : trans.title.vnTours[lang];
+      ? t("tourPages.euTours.title")
+      : t("tourPages.vnTours.title");
 
-  usePageTitle(`${title} || JOYA Travel`);
+  usePageTitle(
+    cat_params.cat !== "vi"
+      ? t("pageTitles.tours.euTours")
+      : t("pageTitles.tours.vnTours")
+  );
 
   const products =
     (data &&
@@ -158,32 +103,31 @@ function TourList({ cat_params }) {
 
   return (
     <>
-      <Banner
-        storedBanner={{
-          key: cat_params.cat !== "vi" ? "euTours" : "vnTours",
-          type: "slider",
-          productType: "tour",
-        }}
-      />
+      <ErrorBoundary>
+        <Banner
+          storedBanner={{
+            key: cat_params.cat !== "vi" ? "euTours" : "vnTours",
+            type: "slider",
+            productType: "tour",
+          }}
+        />
+      </ErrorBoundary>
 
       {!error && (
-        <ProductsListLayout
-          title={title}
-          pagination={{
-            pageCount: data?.metadata.page_count,
-            currentPage: Number(page),
-            changePageHandler: changePageHandler,
-          }}
-          products={products}
-          filter={{
-            changeFilterHandler: hangdleChangeSelect,
-            filterList: FILTER_LIST.map((item) => {
-              return { value: item.value, label: item.label[lang] };
-            }),
-          }}
-          placeholder={<CardPlaceholder />}
-          isLoading={isLoading}
-        />
+        <ErrorBoundary>
+          <ProductsListLayout
+            title={title}
+            pagination={{
+              pageCount: data?.metadata.page_count,
+              currentPage: Number(page),
+              changePageHandler: changePageHandler,
+            }}
+            products={products}
+            onFilter={filterHandler}
+            placeholder={<CardPlaceholder />}
+            isLoading={isLoading}
+          />
+        </ErrorBoundary>
       )}
 
       {error && <ErrorPage code={error.httpCode} message={error.message} />}

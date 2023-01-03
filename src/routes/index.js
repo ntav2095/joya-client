@@ -44,11 +44,11 @@ export default [
     element: <Guides />,
   },
   {
-    path: "/guides/:typeOfGuides",
+    path: "/guides/:categoryPath",
     element: <GuidesCategory />,
   },
   {
-    path: "/guides/:typeOfGuides/:articleId",
+    path: "/guides/:categoryPath/:articleId",
     element: <Article />,
   },
   {

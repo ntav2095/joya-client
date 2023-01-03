@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import Slider from "react-slick";
 
+// components
 import Banner from "../../components/Banner";
 import SignupConsultModal from "./SignupConsultModal";
 import VisaSteps from "./VisaSteps";

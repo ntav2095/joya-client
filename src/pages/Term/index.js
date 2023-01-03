@@ -1,11 +1,12 @@
 import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import useAxios from "../../hooks/useAxios";
 import { useTranslation } from "react-i18next";
 import QuillReader from "../../components/QuillReader";
 import ErrorPage from "../../containers/ErrorPage";
 import Placeholder from "../../components/placeholders/Placeholder";
-import Styles from "./Term.module.css";
+import useAxios from "../../hooks/useAxios";
+import { termApi } from "../../services/apis";
+import styles from "./Term.module.css";
 
 const TERM_ITEMS = new Map([
   [
@@ -72,10 +73,7 @@ function Term() {
   );
 
   useEffect(() => {
-    sendRequest({
-      method: "GET",
-      url: `http://localhost:5000/term/${TERM_ITEMS.get(typeOfTerm).code}`,
-    });
+    sendRequest(termApi.getSingle(TERM_ITEMS.get(typeOfTerm).code));
   }, [typeOfTerm, lang]);
 
   return (
@@ -86,7 +84,7 @@ function Term() {
             {TERM_ITEMS.get(typeOfTerm).title[lang]}
           </h1>
 
-          <div className={Styles.content + " bg-light border p-4"}>
+          <div className={styles.content + " bg-light border p-4"}>
             <QuillReader className delta={delta} />
           </div>
         </div>
@@ -98,7 +96,7 @@ function Term() {
             <Placeholder col={8} height="20px" />
           </h1>
 
-          <div className={Styles.content + " bg-light border p-4"}>
+          <div className={styles.content + " bg-light border p-4"}>
             <div className="mb-2">
               <Placeholder col={7} height="15px" />
               <Placeholder col={8} height="15px" />
