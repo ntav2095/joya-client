@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 import NotifyModal from "../../../../components/NotifyModal";
 import { useParams } from "react-router-dom";
+import { tourApi } from "../../../../services/apis";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -32,13 +33,15 @@ function ContactModal({ success, onHide, ...props }) {
       setIsLoading(true);
       setError(null);
       setIsSuccess(false);
-      await axios.post("http://localhost:5000/tour/advisory", {
-        firstname: values.firstname,
-        surname: values.surname,
-        phone: values.phone,
-        gender: values.gender,
-        tourId,
-      });
+      await axios(
+        tourApi.callMe({
+          firstname: values.firstname,
+          surname: values.surname,
+          phone: values.phone,
+          gender: values.gender,
+          tourId,
+        })
+      );
       setIsSuccess(true);
     } catch (error) {
       console.error(error);

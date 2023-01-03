@@ -13,6 +13,11 @@ export const tourApi = {
     url: "/tour/booking",
     data,
   }),
+  callMe: (data) => ({
+    method: "POST",
+    url: "/tour/advisory",
+    data,
+  }),
 };
 
 export const postsApi = {
