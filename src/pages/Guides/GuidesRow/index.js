@@ -12,16 +12,37 @@ import useAxios from "../../../hooks/useAxios";
 import { postsApi } from "../../../services/apis";
 import ArticleCard from "../../../containers/ArticleCard";
 
-// other
-import { GUIDES_MAP } from "../../../services/constants/productsMap";
-
 function GuidesRow({ category }) {
   const [sendRequest, isLoading, data, error] = useAxios();
   const location = useLocation();
   const lang = useTranslation().i18n.language;
+  const { t } = useTranslation();
 
-  const GUIDE_ITEM = GUIDES_MAP.find((item) => item.category === category);
-  const title = GUIDE_ITEM.label[lang];
+  const guidesMap = [
+    {
+      category: "diem-den",
+      title: t("guidesPage.title.nicePlaces"),
+      path: "diem-den-hap-dan",
+    },
+    {
+      category: "cam-nang",
+      title: t("guidesPage.title.handbooks"),
+      path: "cam-nang-du-lich",
+    },
+    {
+      category: "trai-nghiem",
+      title: t("guidesPage.title.experiences"),
+      path: "trai-nghiem-kham-pha",
+    },
+    {
+      category: "nhat-ky",
+      title: t("guidesPage.title.diaries"),
+      path: "nhat-ky-hanh-trinh",
+    },
+  ];
+
+  const GUIDE_ITEM = guidesMap.find((item) => item.category === category);
+  const title = GUIDE_ITEM.title;
 
   useEffect(() => {
     sendRequest(postsApi.get({ page_size: 6, cat: category }));
@@ -44,7 +65,7 @@ function GuidesRow({ category }) {
           title={article.title}
           thumb={article.thumb}
           to={`/guides/${GUIDE_ITEM.path}/${article._id}`}
-          category={GUIDE_ITEM.label[lang]}
+          category={GUIDE_ITEM.title}
         />
       ),
       id: article._id,
