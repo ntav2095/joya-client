@@ -51,28 +51,9 @@ export const postsApi = {
 };
 
 export const visaApi = {
-  addVisa: (data) => ({
-    method: "POST",
-    url: "/visa",
-    data,
-  }),
-  editVisa: (data) => ({
-    method: "PUT",
-    url: "/visa",
-    data,
-  }),
-  getVisas: () => ({
+  getVisaProductsAccordingToCountry: (country) => ({
     method: "GET",
-    url: "/visa",
-  }),
-  getSingleVisa: (visaId) => ({
-    method: "GET",
-    url: `/visa/${visaId}`,
-  }),
-  deleteVisa: (visaId) => ({
-    method: "DELETE",
-    url: "/visa",
-    data: { visaId },
+    url: `/visa/country/${country}`,
   }),
   getVisasCountries: () => ({
     method: "GET",
