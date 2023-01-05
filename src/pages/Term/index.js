@@ -72,10 +72,18 @@ function Term() {
     [data]
   );
 
-  useEffect(() => {
-    sendRequest(termApi.getSingle(TERM_ITEMS.get(typeOfTerm).code));
-  }, [typeOfTerm, lang]);
+  const termItem = TERM_ITEMS.get(typeOfTerm);
+  const isCorrectCode = Boolean(termItem);
 
+  useEffect(() => {
+    if (isCorrectCode) {
+      sendRequest(termApi.getSingle(termItem.code));
+    }
+  }, [typeOfTerm, lang, isCorrectCode]);
+
+  if (!isCorrectCode) {
+    return <ErrorPage code={404} message={"Page Not Found"} />;
+  }
   return (
     <>
       {!error && data && (
