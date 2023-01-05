@@ -5,7 +5,7 @@ import styles from "./VisaBooking.module.css";
 import { Modal } from "react-bootstrap";
 import VisaBookingModal from "./VisaBookingModal";
 
-function VisaBooking({ color, product }) {
+function VisaBooking({ product }) {
   let [guesses, setGuesses] = useState(1);
   const [date, setDate] = useState("");
   const [isShowModal, setIsShowModal] = useState(false);
@@ -113,7 +113,6 @@ function VisaBooking({ color, product }) {
         <div className="col-3 d-flex align-items-center justify-content-end">
           <button
             className={styles.bookBtn}
-            style={{ background: color.book }}
             onClick={() => setIsShowModal(true)}
           >
             Đặt Ngay

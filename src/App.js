@@ -1,5 +1,5 @@
 // main
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import React, { useEffect } from "react";
 import GoToTop from "./components/GoToTop";
 import { liveChat } from "./containers/Livechat";
@@ -9,6 +9,8 @@ import useBanner from "./components/Banner/useBanner";
 import useLazyLoading from "./hooks/useLazyLoading";
 
 function App() {
+  const location = useLocation();
+
   useEffect(() => {
     setTimeout(() => {
       liveChat();
@@ -17,6 +19,13 @@ function App() {
 
   useLazyLoading();
   useBanner();
+
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      // behavior: "smooth",
+    });
+  }, [location]);
 
   return (
     <>

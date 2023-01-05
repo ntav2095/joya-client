@@ -8,7 +8,7 @@ import VisaBooking from "./VisaBooking";
 
 import styles from "./VisaProduct.module.css";
 
-function VisaProduct({ product, color }) {
+function VisaProduct({ product }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
@@ -35,7 +35,6 @@ function VisaProduct({ product, color }) {
           <div className="d-flex justify-content-end">
             <button
               onClick={toggle}
-              style={{ background: isOpen ? "#fff" : color.choose }}
               className={styles.chooseBtn + " " + (isOpen && styles.active)}
             >
               {isOpen ? "HỦY" : "CHỌN"}
@@ -46,7 +45,7 @@ function VisaProduct({ product, color }) {
 
       <Collapse in={isOpen}>
         <div className="mt-2">
-          <VisaBooking color={color} product={product} />
+          <VisaBooking product={product} />
         </div>
       </Collapse>
 

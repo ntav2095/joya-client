@@ -37,7 +37,7 @@ function Visa() {
                   products.length > 0 &&
                   products.map((product) => (
                     <li key={product._id}>
-                      <VisaProduct product={product} color={color} />
+                      <VisaProduct product={product} />
                     </li>
                   ))}
               </ul>
