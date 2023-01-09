@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import axios from "../services/axios";
-import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { lazzyLoading } from "../store/lazyloading.slice";
 
 // inject i18n
 let i18n;
@@ -17,7 +18,10 @@ function useAxios(dataHandler = defaultDataHadnler) {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
   const abortController = useRef();
-
+  const dispatch=useDispatch()
+  if (!isLoading && data) {
+    dispatch(lazzyLoading())
+  }
   const sendRequest = useCallback(async (config) => {
     try {
       setIsLoading(true);

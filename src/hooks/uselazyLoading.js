@@ -1,20 +1,26 @@
 import { useEffect } from "react";
 import { useMemo } from "react";
-import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { lazzyNotLoading } from "../store/lazyloading.slice";
 
 export default function useLazyLoading() {
-  const location = useLocation();
+  const dispatch=useDispatch()
+  console.log("observerloading");
 
   const observer = useMemo(
     () =>
       new IntersectionObserver(
         (entry) =>
           entry.forEach((item) => {
+            console.log("observer");
             if (item.isIntersecting) {
-              const img = item.target;
-              console.log(img.getAttribute("lazy"));
-              img.setAttribute("src", img.getAttribute("lazy"));
-              observer.unobserve(img);
+              const loadingimage = (img) => {
+                const lazzy = img.getAttribute("lazy");
+                img.setAttribute("src", lazzy);
+                img.removeAttribute("lazy");
+              };
+              loadingimage(item.target);
+              observer.unobserve(item.target);
             }
           }),
         {
@@ -24,10 +30,20 @@ export default function useLazyLoading() {
     []
   );
 
-  useEffect(() => {
-    const images = document.querySelectorAll("img[lazy]");
-    images.forEach((item) => {
+  function lazzy() {
+    const image = document.querySelectorAll("img[lazy]");
+    dispatch(lazzyNotLoading())
+    console.log("image", image);
+    image.forEach((item) => {
       observer.observe(item);
     });
-  }, [location]);
+  }
+  // useEffect(() => {
+    // if (!loading && data) {
+      // setTimeout(() => {
+        
+  //     }, 500);
+    // }
+  // }, [data]);
+  return [lazzy];
 }

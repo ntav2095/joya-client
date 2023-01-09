@@ -6,7 +6,7 @@ import { liveChat } from "./containers/Livechat";
 import DefaultLayout from "./layout/DefaultLayout";
 import routes from "./routes";
 import useBanner from "./components/Banner/useBanner";
-import useLazyLoading from "./hooks/useLazyLoading";
+// import useLazyLoading from "./hooks/useLazyLoading";
 
 function App() {
   const location = useLocation();
@@ -17,7 +17,7 @@ function App() {
     }, 2000);
   }, []);
 
-  useLazyLoading();
+  // useLazyLoading();
   useBanner();
 
   useEffect(() => {

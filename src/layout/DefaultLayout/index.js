@@ -3,6 +3,7 @@ import Banner from "../../components/Banner";
 import styles from "./Layout.module.css";
 import Navbar from "../../containers/Navbar";
 import Footer from "../../containers/Footer";
+import Lazzy from "../../containers/lazzy";
 
 function DefaultLayout() {
   return (
@@ -12,6 +13,7 @@ function DefaultLayout() {
         <Outlet />
       </div>
       <Footer />
+      <Lazzy />
     </div>
   );
 }

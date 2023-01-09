@@ -8,14 +8,36 @@ import {
 import { tourApi, postsApi } from "../services/apis";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { lazzyHomeLoading, lazzyHomeNotLoading, lazzyLoading } from "../store/lazyloading.slice";
 
 function useFetchHomeData() {
   const homeData = useSelector((state) => state.home);
+  const lazzyHomeStatus = useSelector((state) => state.lazy.statusHome);
   const dispatch = useDispatch();
   const vnToursStatus = homeData.vnTours.status;
   const euToursStatus = homeData.euTours.status;
   const guidesStatus = homeData.guides.status;
   const lang = useTranslation().i18n.language;
+
+
+  useEffect(() => {
+    console.log("lazzy");
+    if (
+      guidesStatus === "idle" ||
+      euToursStatus === "idle" ||
+      vnToursStatus === "idle" ||
+      guidesStatus === "pending" ||
+      euToursStatus === "pending" ||
+      vnToursStatus === "pending"
+    ) {
+      return;
+    } else {
+      console.log("guidesStatus", guidesStatus);
+      console.log("euToursStatus", euToursStatus);
+      console.log("vnToursStatus", vnToursStatus);
+      if (!lazzyHomeStatus){dispatch(lazzyLoading())} 
+    }
+  }, [homeData]);
 
   useEffect(() => {
     if (euToursStatus !== "idle") return;

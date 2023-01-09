@@ -5,6 +5,7 @@ import layoutReducer from "./layout.slice";
 import bannerReducer from "./banner.slice";
 import visaReducer from "./visa.slice";
 import homeReducer from "./home.slice";
+import lazy from "./lazyloading.slice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     banner: bannerReducer,
     visa: visaReducer,
     home: homeReducer,
+    lazy:lazy,
   },
 });
 

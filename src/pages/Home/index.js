@@ -20,8 +20,9 @@ import usePageTitle from "../../hooks/usePageTitle";
 function Home() {
   const { euTours, vnTours, guides } = useSelector((state) => state.home);
   const { t } = useTranslation();
-
+console.log('home')
   useFetchHomeData();
+  
   usePageTitle(t("pageTitles.home"));
   return (
     <>

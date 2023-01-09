@@ -14,7 +14,7 @@ function TourCard({ tour }) {
     <div className={styles.card}>
       <Link to={to}>
         <div className={styles.img}>
-          <img src={thumb} alt={name} lazy={thumb} onError={errorHandler} />
+          <img src={lazyImg} alt={name} lazy={thumb} onError={errorHandler} />
         </div>
 
         <div className={styles.textBox}>
