@@ -21,6 +21,9 @@ import "slick-carousel/slick/slick-theme.css";
 import "./assets/css/variables.css";
 import "./assets/css/normalize.css";
 
+// test quill
+import configQuill from "./services/helpers/quill/configQuill";
+
 // injecting
 storeInjector(store);
 i18nInjector(i18n);
