@@ -1,14 +1,18 @@
+// main
 import React from "react";
-import usePageTitle from "../../hooks/usePageTitle";
-
-import VisaProduct from "./VisaProduct";
-import useAxios from "../../hooks/useAxios";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import styles from "./Visa.module.css";
 import { useTranslation } from "react-i18next";
+
+// components
+import VisaProduct from "./VisaProduct";
 import VisaSteps from "../Visa/VisaSteps";
-import { visaApi } from "../../services/apis";
+
+// other
+import usePageTitle from "../../hooks/usePageTitle";
+import { fetchVisaAccordingToCountry } from "../../services/apis";
+import useAxios from "../../hooks/useAxios";
+import styles from "./Visa.module.css";
 
 function Visa() {
   const [sendRequest, isLoading, data, error, resetStates] = useAxios();
@@ -16,9 +20,10 @@ function Visa() {
   const lang = useTranslation().i18n.language;
 
   useEffect(() => {
-    sendRequest(visaApi.getVisaProductsAccordingToCountry(visaCountry));
+    sendRequest(fetchVisaAccordingToCountry(visaCountry));
   }, [lang]);
-  usePageTitle(`Dịch vụ làm visa Ý || Joya`);
+
+  usePageTitle(`Dịch vụ làm visa Ý || Joya Travel`);
 
   const products = data ? data.data : null;
   return (

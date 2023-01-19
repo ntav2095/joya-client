@@ -12,6 +12,7 @@ const trans = {
 
 function DatePickerModal({ setSelectedDate, setModalShow, tour, ...props }) {
   const lang = useTranslation().i18n.language;
+  console.log(tour);
   return (
     <Modal
       {...props}
@@ -25,7 +26,7 @@ function DatePickerModal({ setSelectedDate, setModalShow, tour, ...props }) {
         </button>
         <h6 className="text-center pt-1">{trans.pick_date[lang]}</h6>
         <Calendar
-          availableDates={tour.departureDates.map((item) => new Date(item))}
+          availableDates={tour.departure_dates.map((item) => new Date(item))}
           onSelect={(d) => {
             setSelectedDate(d);
             setModalShow("book");

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Slider from "react-slick";
 import { useSelector } from "react-redux";
 
@@ -117,6 +117,7 @@ export {
   BannerContainer,
   React,
   Link,
+  useLocation,
   Slider,
   useSelector,
   SlickArrowLeft,

@@ -1,14 +1,18 @@
+// main
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useState } from "react";
-import styles from "./ContactModal.module.css";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
+
+// components
 import NotifyModal from "../../../../components/NotifyModal";
-import { useParams } from "react-router-dom";
-import { tourApi } from "../../../../services/apis";
+
+// other
+import { callMe } from "../../../../services/apis";
+import styles from "./ContactModal.module.css";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -25,7 +29,6 @@ function ContactModal({ success, onHide, ...props }) {
   const [error, setError] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const { t } = useTranslation();
-  const lang = useTranslation().i18n.language;
   const tourId = useParams().tourId;
 
   const submitHandler = async (values) => {
@@ -34,7 +37,7 @@ function ContactModal({ success, onHide, ...props }) {
       setError(null);
       setIsSuccess(false);
       await axios(
-        tourApi.callMe({
+        callMe({
           firstname: values.firstname,
           surname: values.surname,
           phone: values.phone,

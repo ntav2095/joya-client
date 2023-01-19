@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import Search from "../Search";
 import "./NavTopBar.css";
 import { useDispatch } from "react-redux";
-import { resetHomeData } from "../../../store/home.slice";
 
 const trans = {
   language: {
@@ -20,7 +19,6 @@ function NavTopBar() {
   const langChangeHandler = (e) => {
     i18next.changeLanguage(e.target.value);
     localStorage.setItem("language", e.target.value);
-    dispatch(resetHomeData());
   };
   return (
     <div className="container-fluid travel__topbar d-flex align-items-center justify-content-lg-between">

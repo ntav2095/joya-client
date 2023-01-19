@@ -106,7 +106,7 @@ function About() {
         <div className="mb-4">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m26!1m12!1m3!1d31335.72157691286!2d106.87052302028592!3d10.965999550346657!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m11!3e6!4m3!3m2!1d10.964541299999999!2d106.8768418!4m5!1s0x3174ddcfd234814f%3A0xd229538b1e185dcf!2zRlBUIFNob3AsIDExNi80IEtodSBwaOG7kSAxMCwgVMOibiBCacOqbiwgVGjDoG5oIHBo4buRIEJpw6puIEjDsmEsIMSQ4buTbmcgTmFp!3m2!1d10.968259399999999!2d106.8998857!5e0!3m2!1sen!2s!4v1672159189406!5m2!1sen!2s"
-            allowfullscreen=""
+            allowFullScreen=""
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
           />

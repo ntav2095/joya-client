@@ -1,15 +1,19 @@
 // main
 import { Route, Routes, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import React, { useEffect } from "react";
 import GoToTop from "./components/GoToTop";
 import { liveChat } from "./containers/Livechat";
 import DefaultLayout from "./layout/DefaultLayout";
 import routes from "./routes";
-import useBanner from "./components/Banner/useBanner";
 // import useLazyLoading from "./hooks/useLazyLoading";
+import { fetchTours } from "./store/tours.slice";
+import { fetchGuides } from "./store/guides.slice";
+import { useTranslation } from "react-i18next";
 
 function App() {
-  const location = useLocation();
+  const dispatch = useDispatch();
+  const lang = useTranslation().i18n.language;
 
   useEffect(() => {
     setTimeout(() => {
@@ -18,14 +22,18 @@ function App() {
   }, []);
 
   // useLazyLoading();
-  useBanner();
+
+  // useEffect(() => {
+  //   window.scroll({
+  //     top: 0,
+  //     // behavior: "smooth",
+  //   });
+  // }, [location]);
 
   useEffect(() => {
-    window.scroll({
-      top: 0,
-      // behavior: "smooth",
-    });
-  }, [location]);
+    dispatch(fetchTours());
+    dispatch(fetchGuides());
+  }, [lang]);
 
   return (
     <>

@@ -6,10 +6,11 @@ import { useTranslation } from "react-i18next";
 function ProductsListLayout({
   pagination,
   title,
-  onFilter,
+  onSort,
   products,
   placeholder,
-  isLoading,
+  status,
+  sort,
 }) {
   const { pageCount, currentPage, changePageHandler } = pagination;
   const { t } = useTranslation();
@@ -17,7 +18,7 @@ function ProductsListLayout({
   const FILTER_LIST = [
     {
       label: t("tourPages.filter.newest"),
-      value: "time-desc",
+      value: "",
     },
     {
       label: t("tourPages.filter.priceAscending"),
@@ -41,9 +42,9 @@ function ProductsListLayout({
       <div className={styles.header}>
         <h1>{title}</h1>
 
-        {onFilter && (
+        {onSort && (
           <div className={styles.filter}>
-            <select onChange={onFilter}>
+            <select onChange={onSort} value={sort}>
               {FILTER_LIST.map((item) => (
                 <option key={item.value} value={item.value}>
                   {item.label}
@@ -55,8 +56,7 @@ function ProductsListLayout({
       </div>
 
       <div className="row">
-        {products &&
-          !isLoading &&
+        {status === "succeed" &&
           products.length > 0 &&
           products.map(({ component, id }) => (
             <div
@@ -69,15 +69,19 @@ function ProductsListLayout({
             </div>
           ))}
 
-        {(!products || isLoading) &&
-          new Array(18).fill(1).map((item, index) => (
+        {status === "succeed" && products.length === 0 && (
+          <h2 className="fs-5">Không có tour nào</h2>
+        )}
+
+        {(status === "idle" || status === "pending") &&
+          new Array(12).fill(1).map((item, index) => (
             <div key={index} className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
               {placeholder}
             </div>
           ))}
       </div>
 
-      {products && (
+      {status === "succeed" && products.length > 0 && (
         <CustomPagination
           total={pageCount}
           pagenumber={currentPage}

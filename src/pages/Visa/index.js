@@ -15,7 +15,7 @@ import usePageTitle from "../../hooks/usePageTitle";
 import { countriesImages } from "./mockImages";
 import settings from "./responsiveCarousel";
 import useAxios from "../../hooks/useAxios";
-import { visaApi } from "../../services/apis";
+import { fetchVisaCountries } from "../../services/apis";
 import { setVisaTypes } from "../../store/visa.slice";
 
 // css
@@ -26,7 +26,7 @@ function VisaService() {
   const [sendRequest, isLoading, data, error, resetStates] = useAxios();
   // ******************** init visa *********************************
   useEffect(() => {
-    sendRequest(visaApi.getVisasCountries());
+    sendRequest(fetchVisaCountries());
   }, []);
 
   useEffect(() => {

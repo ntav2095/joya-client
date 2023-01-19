@@ -1,44 +1,34 @@
 // main
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { format } from "date-fns";
 
 // components
 import ErrorPage from "../../containers/ErrorPage";
-import CardPlaceholder from "../../components/placeholders/CardPlaceholder";
-import ArticleCard from "../../containers/ArticleCard";
 import ArticleContentPlaceholder from "./ArticleContentPlaceholder";
-import ErrorBoundary from "../../components/ErrorBoundary";
 
 // other
 import usePageTitle from "../../hooks/usePageTitle";
-import { postsApi } from "../../services/apis";
+import { fetchSingleArtile } from "../../services/apis";
 import useAxios from "../../hooks/useAxios";
-import { brokenImage } from "../../assets/images";
 import QuillReader from "../../components/QuillReader";
 
 // css
 import styles from "./Article.module.css";
 
 function Article() {
-  const { i18n } = useTranslation();
   const [sendRequest, isLoading, data, error] = useAxios();
+  const { i18n, t } = useTranslation();
   const { articleId } = useParams();
-  const { t } = useTranslation();
 
   useEffect(() => {
-    window.scroll({
-      top: 0,
-      behavior: "smooth",
-    });
-    sendRequest(postsApi.getSingleArticle(articleId));
+    sendRequest(fetchSingleArtile(articleId));
   }, [i18n.language, articleId]);
 
-  usePageTitle(`${data?.data.item.title} || Cẩm nang du lịch || Joya Travel`);
+  usePageTitle(`${data?.data.title} || Joya Travel`);
 
-  let article = data ? data.data.item : null;
-  const relatedArtilces = data ? data.data.relatedItems : null;
+  let article = data ? data.data : null;
 
   let categoryLabel = "";
   if (article) {

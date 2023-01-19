@@ -161,6 +161,9 @@
         "rating": {
           "fromOurCurrentCustomers": "Từ các khách hàng đáng quý của chúng tôi"
         }
+      },
+      "errors": {
+        "notFound": "Tour không tồn tại"
       }
     },
     "components": {

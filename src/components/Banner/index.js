@@ -1,9 +1,26 @@
 import {
+  selectEuSliderTours,
+  selectHomeSliderTours,
+  selectToursStatus,
+  selectToursError,
+  selectVnSliderTours,
+} from "../../store/tours.slice";
+import {
+  selectGuidesSliders,
+  selectHandbookSliders,
+  selectExperienceSliders,
+  selectDiarySliders,
+  selectNicePlaceSliders,
+  selectGuidesStatus,
+  selectGuidesError,
+} from "../../store/guides.slice";
+import {
   Image,
   Failure,
   Pending,
   BannerContainer,
   React,
+  useLocation,
   Slider,
   useSelector,
   getPath,
@@ -15,20 +32,28 @@ import {
 
 import "./Banner.override.css";
 
-// storedBanner: key, productType, type
-// là banner lấy trong store
-// type: slider | image
-// key: key của state trong banner slice: homeSliders vnTours euTours guides experience destination diary handbook visa tourDetail articleDetail visaCountry
-// productType: tour | article
-
 // banner: {image, isLoading, error}
 // banner nhập từ ngoài vào: cái bài chi tiết tour / bài viết
-function Banner({ storedBanner, banner }) {
+function Banner({ banner }) {
+  // ************* DECLARATIONS ***********
   let content;
 
-  const banners = useSelector((state) => state.banner);
+  const homeSliderTours = useSelector(selectHomeSliderTours);
+  const euSliderTours = useSelector(selectEuSliderTours);
+  const vnSliderTours = useSelector(selectVnSliderTours);
+  const status = useSelector(selectToursStatus);
+  const error = useSelector(selectToursError);
+  const location = useLocation();
 
-  // not store banner
+  const sliderGuides = useSelector(selectGuidesSliders);
+  const sliderHandbooks = useSelector(selectHandbookSliders);
+  const sliderExperiences = useSelector(selectExperienceSliders);
+  const sliderDiaries = useSelector(selectDiarySliders);
+  const sliderNicePlaces = useSelector(selectNicePlaceSliders);
+  const guidesStatus = useSelector(selectGuidesStatus);
+  const guidesError = useSelector(selectGuidesError);
+
+  // ************* BANNER LÀ HÌNH TRUYỀN TỪ NGOÀI VÀO (KHÔNG PHẢI SLIDER) ***********
   if (banner) {
     const { isLoading, error, image } = banner;
     content = <Pending />;
@@ -42,38 +67,77 @@ function Banner({ storedBanner, banner }) {
     }
   }
 
-  // store banner
-  if (storedBanner) {
-    const { type, productType, key } = storedBanner;
-    const { status, error } = banners;
+  if (content) return <BannerContainer>{content}</BannerContainer>;
+  // ************* END ***********
 
-    if (status === "pending") {
-      content = <Pending />;
+  // ************* SLIDER ***********
+
+  if (status === "pending" || status === "idle") {
+    content = <Pending />;
+  }
+
+  if (status === "failed") {
+    content = <Failure msg={createMsg(error.httpCode, error.message)} />;
+  }
+
+  if (status === "succeed") {
+    let products = [];
+    const pathname = location.pathname;
+
+    // home
+    if (pathname === "/") {
+      products = homeSliderTours;
     }
 
-    if (status === "failed") {
-      content = <Failure msg={createMsg(error.httpCode, error.message)} />;
+    // tours
+    if (pathname.toLowerCase().startsWith("/du-lich-trong-nuoc")) {
+      products = euSliderTours;
     }
 
-    if (status !== "pending" && status !== "failed" && type === "image") {
-      content = <Image src={banners[key].banner} />;
+    if (pathname.toLowerCase().startsWith("/du-lich-chau-au")) {
+      products = vnSliderTours;
     }
 
-    if (status !== "pending" && status !== "failed" && type === "slider") {
-      const prods = banners[key];
-      content = (
-        <Slider {...settings}>
-          {prods.map((item) => (
-            <SliderItem
-              key={item._id}
-              to={`${getPath(productType, item)}/${item._id}`}
-              image={item.banner}
-              alt={item.name || item.title}
-            />
-          ))}
-        </Slider>
-      );
+    // guides
+    if (pathname.toLowerCase().startsWith("/guides")) {
+      products = sliderGuides;
     }
+
+    if (pathname.toLowerCase().startsWith("/guides/trai-nghiem-kham-pha")) {
+      products = sliderExperiences;
+    }
+
+    if (pathname.toLowerCase().startsWith("/guides/diem-den-hap-dan")) {
+      products = sliderNicePlaces;
+    }
+
+    if (pathname.toLowerCase().startsWith("/guides/cam-nang-du-lich")) {
+      products = sliderHandbooks;
+    }
+
+    if (pathname.toLowerCase().startsWith("/guides/nhat-ky-hanh-trinh")) {
+      products = sliderDiaries;
+    }
+
+    let basePath = "/du-lich";
+    if (pathname.toLowerCase().startsWith("/guides")) {
+      basePath = "/bai-viet";
+    }
+
+    console.log(products);
+
+    content = (
+      <Slider {...settings}>
+        {products.map((item) => (
+          <SliderItem
+            key={item._id}
+            to={`${basePath}/${item.url_endpoint}`}
+            image={item.banner}
+            alt={item.name || item.title}
+          />
+        ))}
+      </Slider>
+    );
   }
 
   return <BannerContainer>{content}</BannerContainer>;

@@ -5,7 +5,7 @@ import QuillReader from "../../components/QuillReader";
 import ErrorPage from "../../containers/ErrorPage";
 import Placeholder from "../../components/placeholders/Placeholder";
 import useAxios from "../../hooks/useAxios";
-import { termApi } from "../../services/apis";
+import { fetchSingleTerm } from "../../services/apis";
 import styles from "./Term.module.css";
 
 const TERM_ITEMS = new Map([
@@ -77,7 +77,7 @@ function Term() {
 
   useEffect(() => {
     if (isCorrectCode) {
-      sendRequest(termApi.getSingle(termItem.code));
+      sendRequest(fetchSingleTerm(termItem.code));
     }
   }, [typeOfTerm, lang, isCorrectCode]);
 

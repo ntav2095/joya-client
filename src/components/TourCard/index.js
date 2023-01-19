@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { altThumbnail, lazyImg } from "../../assets/images";
+import placesMap from "../../services/constants/placesMap";
 import styles from "./TourCard.module.css";
 
 function TourCard({ tour }) {
@@ -10,16 +11,31 @@ function TourCard({ tour }) {
   const errorHandler = (e) => {
     e.target.src = altThumbnail;
   };
+
+  let destination = "";
+
+  if (tour.is_eu_tour) {
+    destination = tour.destinations
+      .map((dest) => placesMap.get(dest.country))
+      .join(", ");
+  }
+
+  if (tour.is_vn_tour) {
+    destination = tour.destinations
+      .map((dest) => placesMap.get(dest.province))
+      .join(", ");
+  }
+
   return (
     <div className={styles.card}>
       <Link to={to}>
         <div className={styles.img}>
-          <img src={lazyImg} alt={name} lazy={thumb} onError={errorHandler} />
+          <img src={thumb} alt={name} onError={errorHandler} />
         </div>
 
         <div className={styles.textBox}>
           <h5 className="text-uppercase">{name}</h5>
-          <p>{countries || journey}</p>
+          <p>{destination}</p>
           <p>
             {duration.days}{" "}
             {duration.days > 1 ? t("general.days") : t("general.day")}{" "}

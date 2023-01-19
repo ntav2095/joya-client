@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { format } from "date-fns";
 import NotifyModal from "../../../../components/NotifyModal";
 import * as Yup from "yup";
-import { tourApi } from "../../../../services/apis";
+import { bookTour } from "../../../../services/apis";
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -46,7 +46,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
       setIsSuccess(false);
       setIsLoading(true);
       await axios(
-        tourApi.book({
+        bookTour({
           tourId: tour._id,
           firstname: values.firstname,
           surname: values.surname,

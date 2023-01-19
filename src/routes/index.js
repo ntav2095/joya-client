@@ -17,18 +17,14 @@ export default [
   },
   {
     path: "/du-lich-chau-au",
-    element: <TourList cat_params={{ cat_not: "vi" }} />,
+    element: <TourList />,
   },
   {
     path: "/du-lich-trong-nuoc",
-    element: <TourList cat_params={{ cat: "vi" }} />,
+    element: <TourList />,
   },
   {
-    path: "/du-lich-chau-au/:tourId",
-    element: <TourDetail />,
-  },
-  {
-    path: "/du-lich-trong-nuoc/:tourId",
+    path: "/du-lich/:urlEndpoint",
     element: <TourDetail />,
   },
   {
@@ -48,7 +44,7 @@ export default [
     element: <GuidesCategory />,
   },
   {
-    path: "/guides/:categoryPath/:articleId",
+    path: "/guides/bai-viet/:articleId",
     element: <Article />,
   },
   {

@@ -33,9 +33,7 @@ function ErrorPage({ code, message }) {
         {code === 404 && (
           <div>
             <h2>404</h2>
-            <h3 className="mb-2">Not Found</h3>
-
-            {/* <p>{trans.pageNotFound[lang]}</p> */}
+            <h3 className="mb-2">{message || "Not Found"}</h3>
 
             <button onClick={() => navigate("/")}>{trans.goHome[lang]}</button>
             <button onClick={() => navigate(-1)}>{trans.goBack[lang]}</button>

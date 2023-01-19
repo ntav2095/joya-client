@@ -1,51 +1,53 @@
 import { useTranslation } from "react-i18next";
 import SliderPortion from "../../../components/SliderPortion";
-import { GUIDES_MAP } from "../../../services/constants/productsMap";
 import CardPlaceholder from "../../../components/placeholders/CardPlaceholder";
 import ArticleCard from "../../../containers/ArticleCard";
 import TourCard from "../../../components/TourCard";
+import { GUIDES_MAP } from "../../../services/constants/productsMap";
 
-function HomeRow({ title, to, rowData, type }) {
+function HomeRow({ title, rowData, type, to }) {
   const lang = useTranslation().i18n.language;
-
-  // placeholder
-  const placeholders = new Array(6).fill(1).map((_, index) => ({
-    card: <CardPlaceholder type={type} />,
-    id: index,
-  }));
-
-  // data
   const { status, data, error } = rowData;
-  let products;
-  if (type === "article") {
-    products = data?.map((product) => ({
-      card: (
-        <ArticleCard
-          title={product.title}
-          thumb={product.thumb}
-          to={`${to}/${
-            GUIDES_MAP.find((item) => product.category.includes(item.category))
-              .path
-          }/${product._id}`}
-          category={
-            GUIDES_MAP.find((item) => product.category.includes(item.category))
-              .label[lang]
-          }
-        />
-      ),
-      id: product._id,
-    }));
-  } else {
-    products = data?.map((product) => ({
-      card: <TourCard tour={{ ...product, to: `${to}/${product._id}` }} />,
-      id: product._id,
+
+  // *************************** handle products ********************************************
+  let products = []; // [ { card: <TourCard /> | <ArticleCard />, id: uid } ]
+  if (status === "idle" || status === "pending") {
+    products = new Array(6).fill(1).map((_, index) => ({
+      card: <CardPlaceholder type={type} />,
+      id: index,
     }));
   }
 
-  const cards =
-    status === "idle" || status === "pending" ? placeholders : products;
+  if (status === "succeed") {
+    if (type === "article") {
+      products = data?.map((article) => ({
+        card: (
+          <ArticleCard
+            title={article.title}
+            thumb={article.thumb}
+            to={`/guides/bai-viet/${article._id}`}
+            category={
+              GUIDES_MAP.find((item) =>
+                article.category.includes(item.category)
+              ).label[lang]
+            }
+          />
+        ),
+        id: article._id,
+      }));
+    }
 
-  // error
+    if (type === "tour") {
+      products = data?.map((tour) => ({
+        card: (
+          <TourCard tour={{ ...tour, to: `/du-lich/${tour.url_endpoint}` }} />
+        ),
+        id: tour._id,
+      }));
+    }
+  }
+
+  // ******************************* handle error ****************************************
   let errorMessage = "";
   if (error) {
     errorMessage = error.httpCode
@@ -58,7 +60,7 @@ function HomeRow({ title, to, rowData, type }) {
       title={title}
       to={!error && to}
       error={errorMessage}
-      cards={cards}
+      cards={products}
     />
   );
 }

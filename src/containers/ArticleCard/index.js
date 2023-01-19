@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
+import { altThumbnail } from "../../assets/images";
 import styles from "./ArticleCard.module.css";
-import { altThumbnail, lazyImg } from "../../assets/images";
 
 function ArticleCard({ thumb, title, to, category }) {
   return (
@@ -8,8 +8,7 @@ function ArticleCard({ thumb, title, to, category }) {
       <div className={styles.image}>
         <div className={styles.imageInner}>
           <img
-            src={lazyImg}
-            lazy={thumb}
+            src={thumb}
             alt={title}
             onError={(e) => (e.target.src = altThumbnail)}
           />

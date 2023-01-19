@@ -161,6 +161,9 @@
         "rating": {
           "fromOurCurrentCustomers": "From our current customers"
         }
+      },
+      "errors": {
+        "notFound": "Tour Not Found"
       }
     },
     "components": {

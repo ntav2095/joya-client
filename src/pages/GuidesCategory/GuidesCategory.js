@@ -11,21 +11,25 @@ import ProductsListLayout from "../../layout/ProductsListLayout";
 import ErrorPage from "../../containers/ErrorPage";
 
 // other
-import { postsApi } from "../../services/apis";
 import usePageTitle from "../../hooks/usePageTitle";
-import useAxios from "../../hooks/useAxios";
+import { useSelector } from "react-redux";
+import {
+  selectGuidesError,
+  selectGuidesStatus,
+} from "../../store/guides.slice";
 
 function GuidesCategory({
-  category,
   categoryPath,
   label,
   bannerKey,
   pageTitle,
+  articles,
 }) {
-  const [sendRequest, isLoading, data, error] = useAxios();
   const { i18n, t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+  const status = useSelector(selectGuidesStatus);
+  const error = useSelector(selectGuidesError);
 
   let page = new URLSearchParams(location.search).get("page");
   if (!page || isNaN(Number(page))) {
@@ -44,21 +48,14 @@ function GuidesCategory({
     return "";
   };
 
-  usePageTitle(`Guides || Go Travel`);
-  useEffect(() => {
-    sendRequest(postsApi.get({ page: page, page_size: 12, cat: category }));
-  }, [i18n.language, location.search, category]);
-
   const products =
-    data &&
-    !isLoading &&
-    data.data.length > 0 &&
-    data.data.map((article) => ({
+    articles.length > 0 &&
+    articles.map((article) => ({
       component: (
         <ArticleCard
           thumb={article.thumb}
           title={article.title}
-          to={`/guides/${categoryPath}/${article._id}`}
+          to={`/guides/bai-viet/${article._id}`}
           category={getCategoryLabel(article.category)}
         />
       ),
@@ -80,13 +77,13 @@ function GuidesCategory({
         <ProductsListLayout
           title={label}
           pagination={{
-            pageCount: data?.metadata.page_count,
+            pageCount: articles.length,
             currentPage: Number(page),
             changePageHandler: changePageHandler,
           }}
           products={products}
           placeholder={<CardPlaceholder type="article" />}
-          isLoading={isLoading}
+          isLoading={status === "idle" || status === "pending"}
         />
       )}
 

@@ -1,6 +1,6 @@
 // main
-import { useSelector } from "react-redux";
 import React from "react";
+import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 // components
@@ -11,18 +11,36 @@ import HomeRow from "./HomeRow";
 import ErrorBoundary from "../../components/ErrorBoundary";
 
 // other
-import useFetchHomeData from "../../hooks/useFetchHomeData";
+import usePageTitle from "../../hooks/usePageTitle";
+import {
+  selectHotEuTours,
+  selectHotVnTours,
+  selectToursStatus,
+  selectToursError,
+} from "../../store/tours.slice";
+import {
+  selectGuidesError,
+  selectGuidesStatus,
+  selectHotGuides,
+} from "../../store/guides.slice";
 
 // css
 import styles from "./Home.module.css";
-import usePageTitle from "../../hooks/usePageTitle";
 
 function Home() {
-  const { euTours, vnTours, guides } = useSelector((state) => state.home);
   const { t } = useTranslation();
-console.log('home')
-  useFetchHomeData();
-  
+
+  // tours
+  const hotEuTours = useSelector(selectHotEuTours);
+  const hotVnTours = useSelector(selectHotVnTours);
+  const status = useSelector(selectToursStatus);
+  const error = useSelector(selectToursError);
+
+  // guides
+  const hotGuides = useSelector(selectHotGuides);
+  const guidesStatus = useSelector(selectGuidesStatus);
+  const guidesError = useSelector(selectGuidesError);
+
   usePageTitle(t("pageTitles.home"));
   return (
     <>
@@ -46,27 +64,39 @@ console.log('home')
         <ErrorBoundary>
           <HomeRow
             title={t("homePage.products.euTours")}
-            rowData={euTours}
-            to="/du-lich-chau-au"
+            rowData={{
+              data: hotEuTours,
+              status,
+              error,
+            }}
             type="tour"
+            to="/du-lich-chau-au"
           />
         </ErrorBoundary>
 
         <ErrorBoundary>
           <HomeRow
             title={t("homePage.products.vnTours")}
-            rowData={vnTours}
-            to="/du-lich-trong-nuoc"
+            rowData={{
+              data: hotVnTours,
+              status,
+              error,
+            }}
             type="tour"
+            to="/du-lich-trong-nuoc"
           />
         </ErrorBoundary>
 
         <ErrorBoundary>
           <HomeRow
             title={t("homePage.products.guides")}
-            rowData={guides}
-            to="/guides"
+            rowData={{
+              data: hotGuides,
+              status: guidesStatus,
+              error: guidesError,
+            }}
             type="article"
+            to="/guides"
           />
         </ErrorBoundary>
       </Container>

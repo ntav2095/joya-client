@@ -1,8 +1,7 @@
 // main
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import useAxios from "../../hooks/useAxios";
 import usePageTitle from "../../hooks/usePageTitle";
 
 // components
@@ -14,44 +13,104 @@ import ProductsListLayout from "../../layout/ProductsListLayout";
 import ErrorBoundary from "../../components/ErrorBoundary";
 
 // apis
-import { tourApi } from "../../services/apis";
+import { useSelector } from "react-redux";
+import {
+  selectEuTours,
+  selectToursStatus,
+  selectVnTours,
+  selectToursError,
+} from "../../store/tours.slice";
 
-function TourList({ cat_params }) {
-  const [sendRequest, isLoading, data, error] = useAxios();
-  const [search, setSearch] = useState({
-    sort: "time-asc",
-  });
-  const location = useLocation();
+const PAGE_SIZE = 4;
+
+function TourList() {
   const navigate = useNavigate();
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
+  const location = useLocation();
+  const params = new URL(document.location).searchParams;
 
-  let page = new URLSearchParams(location.search).get("page");
-  if (!page || isNaN(Number(page))) {
-    page = 1;
-  }
+  const page = params.get("page") || 1;
+  const sort = params.get("sort") || "";
+  const category = location.pathname
+    .toLowerCase()
+    .startsWith("/du-lich-trong-nuoc")
+    ? "vietnam"
+    : "europe";
 
-  const filterHandler = (e) => {
-    setSearch({ sort: e.target.value });
+  const euTours = useSelector(selectEuTours);
+  const vnTours = useSelector(selectVnTours);
+  const status = useSelector(selectToursStatus);
+  const error = useSelector(selectToursError);
+
+  console.log(euTours);
+  console.log(vnTours);
+
+  const sortHandler = (e) => {
+    let path = location.pathname;
+    path += `?page=${page}`;
+    if (e.target.value) {
+      path += `&sort=${e.target.value}`;
+    }
+    navigate(path);
   };
 
   const changePageHandler = (num) => {
-    if (cat_params.cat !== "vi") {
-      navigate(`/du-lich-chau-au/?page=${num}`);
-    } else {
-      navigate(`/du-lich-trong-nuoc/?page=${num}`);
-    }
+    navigate(`${location.pathname}?page=${num}`);
   };
 
-  useEffect(() => {
-    if (page > 1) {
-      window.scroll({
-        top: 500,
-        left: 0,
-        behavior: "smooth",
-      });
-    }
+  let total_tours = category === "europe" ? euTours : vnTours;
+  let tours = total_tours.slice(
+    (page - 1) * PAGE_SIZE,
+    (page - 1) * PAGE_SIZE + PAGE_SIZE
+  );
 
-    if (new URLSearchParams(location.search).get("page") == 1) {
+  if (sort === "") {
+    tours = tours.sort(
+      (a, b) =>
+        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+    );
+  }
+
+  if (sort === "price-asc") {
+    tours = tours.sort((a, b) => b.price - a.price);
+  }
+
+  if (sort === "price-desc") {
+    tours = tours.sort((a, b) => a.price - b.price);
+  }
+
+  if (sort === "duration-asc") {
+    tours = tours.sort((a, b) => b.duration.days - a.duration.days);
+  }
+
+  if (sort === "duration-asc") {
+    tours = tours.sort((a, b) => a.duration.days - b.duration.days);
+  }
+
+  const products =
+    status === "succeed" &&
+    tours.map((tour) => ({
+      component: (
+        <TourCard
+          tour={{
+            ...tour,
+            to: `/du-lich/${tour.url_endpoint}`,
+          }}
+        />
+      ),
+      id: tour._id,
+    }));
+
+  const page_count = Math.ceil(total_tours.length / PAGE_SIZE);
+
+  // ********** side effects *************
+  const title =
+    category === "europe"
+      ? t("tourPages.euTours.title")
+      : t("tourPages.vnTours.title");
+
+  useEffect(() => {
+    if (page >= 1) {
       window.scroll({
         top: 500,
         left: 0,
@@ -60,57 +119,15 @@ function TourList({ cat_params }) {
     }
   }, [page]);
 
-  useEffect(() => {
-    sendRequest(
-      tourApi.get({
-        sort: search.sort,
-        page: page,
-        page_size: 12,
-        ...cat_params,
-      })
-    );
-  }, [i18n.language, location.search, cat_params, search]);
-
-  const title =
-    cat_params.cat !== "vi"
-      ? t("tourPages.euTours.title")
-      : t("tourPages.vnTours.title");
-
   usePageTitle(
-    cat_params.cat !== "vi"
+    category === "europe"
       ? t("pageTitles.tours.euTours")
       : t("pageTitles.tours.vnTours")
   );
-
-  const products =
-    (data &&
-      !isLoading &&
-      data.data.length > 0 &&
-      data.data.map((tour) => ({
-        component: (
-          <TourCard
-            tour={{
-              ...tour,
-              to: tour.category.includes("europe")
-                ? `/du-lich-chau-au/${tour._id}`
-                : `/du-lich-trong-nuoc/${tour._id}`,
-            }}
-          />
-        ),
-        id: tour._id,
-      }))) ||
-    null;
-
   return (
     <>
       <ErrorBoundary>
-        <Banner
-          storedBanner={{
-            key: cat_params.cat !== "vi" ? "euTours" : "vnTours",
-            type: "slider",
-            productType: "tour",
-          }}
-        />
+        <Banner />
       </ErrorBoundary>
 
       {!error && (
@@ -118,14 +135,15 @@ function TourList({ cat_params }) {
           <ProductsListLayout
             title={title}
             pagination={{
-              pageCount: data?.metadata.page_count,
+              pageCount: page_count,
               currentPage: Number(page),
               changePageHandler: changePageHandler,
             }}
             products={products}
-            onFilter={filterHandler}
+            onSort={sortHandler}
             placeholder={<CardPlaceholder />}
-            isLoading={isLoading}
+            status={status}
+            sort={sort}
           />
         </ErrorBoundary>
       )}
