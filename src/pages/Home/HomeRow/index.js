@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import SliderPortion from "../../../components/SliderPortion";
-import CardPlaceholder from "../../../components/placeholders/CardPlaceholder";
+import PlaceholderCard from "../../../components/placeholders/CardPlaceholder";
 import ArticleCard from "../../../containers/ArticleCard";
 import TourCard from "../../../components/TourCard";
 import { GUIDES_MAP } from "../../../services/constants/productsMap";
@@ -10,14 +10,17 @@ function HomeRow({ title, rowData, type, to }) {
   const { status, data, error } = rowData;
 
   // *************************** handle products ********************************************
-  let products = []; // [ { card: <TourCard /> | <ArticleCard />, id: uid } ]
+  let products = []; // [ { card: <TourCard /> | <ArticleCard /> | <PlaceholderCard />, id: uid } ]
+
+  // loading => products = placeholder Cards
   if (status === "idle" || status === "pending") {
     products = new Array(6).fill(1).map((_, index) => ({
-      card: <CardPlaceholder type={type} />,
+      card: <PlaceholderCard type={type} />,
       id: index,
     }));
   }
 
+  // fetched => products = Tour Cards hoặc Article Cards
   if (status === "succeed") {
     if (type === "article") {
       products = data?.map((article) => ({
@@ -58,7 +61,7 @@ function HomeRow({ title, rowData, type, to }) {
   return (
     <SliderPortion
       title={title}
-      to={!error && to}
+      to={!error && to} // link cho nút "xem tất cả"
       error={errorMessage}
       cards={products}
     />

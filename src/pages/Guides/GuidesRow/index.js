@@ -28,10 +28,10 @@ function GuidesRow({ category }) {
   const lang = useTranslation().i18n.language;
   const { t } = useTranslation();
 
-  const handbooks = useSelector(selectGuidesHandbooks);
-  const experiences = useSelector(selectGuidesExperiences);
-  const nicePlaces = useSelector(selectGuidesNicePlaces);
-  const diaries = useSelector(selectGuidesDiaries);
+  const handbooks = useSelector(selectGuidesHandbooks).slice(0, 6);
+  const experiences = useSelector(selectGuidesExperiences).slice(0, 6);
+  const nicePlaces = useSelector(selectGuidesNicePlaces).slice(0, 6);
+  const diaries = useSelector(selectGuidesDiaries).slice(0, 6);
   const status = useSelector(selectGuidesStatus);
   const error = useSelector(selectGuidesError);
 

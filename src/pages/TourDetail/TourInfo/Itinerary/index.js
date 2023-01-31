@@ -1,6 +1,5 @@
 import styles from "./Itinerary.module.css";
 import { useState } from "react";
-import { useEffect } from "react";
 import { chevronDown } from "../../../../assets/svgs";
 import QuillReader from "../QuillReader";
 import TourCarousel from "../../TourCarousel";
@@ -36,12 +35,12 @@ function Itinerary({ data }) {
 
           <div className={styles.body}>
             <div className="content ">
-              {item.images && item.images.length > 0 && (
+              {item.images.length > 0 && (
                 <div className={styles.slider}>
                   <TourCarousel
                     height={"250px"}
                     isLoading={false}
-                    tour={{ slider: item.images }}
+                    slider={item.images}
                     size="sm"
                     centerPadding="40px"
                   />

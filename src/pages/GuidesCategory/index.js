@@ -53,7 +53,6 @@ function GuidesCategoryProxy() {
   ];
 
   const guideItem = MAP.find((item) => item.categoryPath === categoryPath);
-
   if (!guideItem) return <NotFound />;
 
   return <GuidesCategory {...guideItem} />;

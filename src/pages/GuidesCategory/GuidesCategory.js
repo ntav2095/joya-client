@@ -25,7 +25,7 @@ function GuidesCategory({
   pageTitle,
   articles,
 }) {
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const status = useSelector(selectGuidesStatus);
@@ -49,19 +49,24 @@ function GuidesCategory({
   };
 
   const products =
-    articles.length > 0 &&
-    articles.map((article) => ({
-      component: (
-        <ArticleCard
-          thumb={article.thumb}
-          title={article.title}
-          to={`/guides/bai-viet/${article._id}`}
-          category={getCategoryLabel(article.category)}
-        />
-      ),
-      id: article._id,
-    }));
+    (articles.length > 0 &&
+      articles.map((article) => ({
+        component: (
+          <ArticleCard
+            thumb={article.thumb}
+            title={article.title}
+            to={`/guides/bai-viet/${article._id}`}
+            category={getCategoryLabel(article.category)}
+          />
+        ),
+        id: article._id,
+      }))) ||
+    [];
 
+  const filteredProducts = products.slice(
+    (page - 1) * 12,
+    (page - 1) * 12 + 12
+  );
   usePageTitle(pageTitle);
   return (
     <>
@@ -81,9 +86,10 @@ function GuidesCategory({
             currentPage: Number(page),
             changePageHandler: changePageHandler,
           }}
-          products={products}
+          products={filteredProducts}
           placeholder={<CardPlaceholder type="article" />}
           isLoading={status === "idle" || status === "pending"}
+          status={status}
         />
       )}
 

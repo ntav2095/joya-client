@@ -91,11 +91,11 @@ function Banner({ banner }) {
 
     // tours
     if (pathname.toLowerCase().startsWith("/du-lich-trong-nuoc")) {
-      products = euSliderTours;
+      products = vnSliderTours;
     }
 
     if (pathname.toLowerCase().startsWith("/du-lich-chau-au")) {
-      products = vnSliderTours;
+      products = euSliderTours;
     }
 
     // guides
@@ -121,17 +121,15 @@ function Banner({ banner }) {
 
     let basePath = "/du-lich";
     if (pathname.toLowerCase().startsWith("/guides")) {
-      basePath = "/bai-viet";
+      basePath = "/guides/bai-viet";
     }
-
-    console.log(products);
 
     content = (
       <Slider {...settings}>
         {products.map((item) => (
           <SliderItem
             key={item._id}
-            to={`${basePath}/${item.url_endpoint}`}
+            to={`${basePath}/${item.url_endpoint || item._id}`}
             image={item.banner}
             alt={item.name || item.title}
           />

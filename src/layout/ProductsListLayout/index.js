@@ -37,6 +37,7 @@ function ProductsListLayout({
       value: "duration-desc",
     },
   ];
+
   return (
     <Container>
       <div className={styles.header}>

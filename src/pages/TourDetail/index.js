@@ -51,6 +51,21 @@ function TourDetail() {
     );
   }
 
+  // handle slider data
+  // handle data
+  let slider = [];
+  if (tour) {
+    const images = tour.itinerary.reduce(
+      (acc, cur) => [...acc, ...cur.images],
+      []
+    );
+    if (images.every((item) => !item.isSlider)) {
+      slider = images;
+    } else {
+      slider = images.filter((item) => item.isSlider);
+    }
+  }
+
   return (
     <>
       <ErrorBoundary>
@@ -74,7 +89,7 @@ function TourDetail() {
             <div className="row ">
               <div className="col-12 col-lg-8 mb-4 px-0 px-md-1">
                 <ErrorBoundary>
-                  <TourCarousel tour={tour} isLoading={isLoading} />
+                  <TourCarousel slider={slider} isLoading={isLoading} />
                 </ErrorBoundary>
 
                 <div className="pt-5 ">

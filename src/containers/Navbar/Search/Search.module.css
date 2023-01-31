@@ -39,7 +39,6 @@
   background: white;
   box-shadow: var(--box-shadow);
   border-radius: 3.8px;
-  padding: 6px;
   border: 1px solid #ccc;
   max-height: calc(100vh - 100px);
   overflow: auto;
@@ -127,7 +126,6 @@
     background: white;
     box-shadow: var(--box-shadow);
     border-radius: 3.8px;
-    padding: 6px;
     border: 1px solid #ccc;
     max-height: calc(100vh - 150px);
     overflow: auto;
@@ -159,7 +157,6 @@
     background: white;
     box-shadow: var(--box-shadow);
     border-radius: 3.8px;
-    padding: 6px;
     border: 1px solid #ccc;
     max-height: calc(100vh - 150px);
     overflow: auto;

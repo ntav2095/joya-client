@@ -17,10 +17,11 @@ import {
   SlickArrowRight,
 } from "../../../components/slickArrows";
 
-function TourCarousel({ tour, isLoading, height, size = "md" }) {
+function TourCarousel({ slider, isLoading, size = "md" }) {
   const [index, setIndex] = useState(0);
   const [isShowModal, setIsShowModal] = useState(false);
 
+  // carousel setting
   const settings = {
     className: "center",
     centerMode: true,
@@ -31,10 +32,11 @@ function TourCarousel({ tour, isLoading, height, size = "md" }) {
     nextArrow: <SlickArrowRight slidesToShow={1} slidesToScroll={1} />,
   };
 
+  // handler functions
   const handleSelect = (selectedIndex) => {
     if (selectedIndex === -1) {
-      setIndex(tour?.slider.length - 1);
-    } else if (selectedIndex === tour?.slider.length) {
+      setIndex(slider.length - 1);
+    } else if (selectedIndex === slider.length) {
       setIndex(0);
     } else {
       setIndex(selectedIndex);
@@ -49,15 +51,18 @@ function TourCarousel({ tour, isLoading, height, size = "md" }) {
     setIsShowModal(false);
   };
 
+  // handle class
   let classes = styles.container + " tourCarousel__container ";
   if (size === "sm") {
     classes += "sm";
   }
 
+  const hasSlider = slider.length > 0;
+
   return (
     <>
       <div className={classes}>
-        {tour && !isLoading && (
+        {hasSlider && !isLoading && (
           <Slider
             {...settings}
             afterChange={(x) => {
@@ -65,14 +70,18 @@ function TourCarousel({ tour, isLoading, height, size = "md" }) {
             }}
           >
             {!isLoading &&
-              tour &&
-              tour.slider.map((img, id) => (
+              hasSlider &&
+              slider.map((item) => (
                 <div
-                  key={id}
+                  key={item._id}
                   className={styles.image}
                   onClick={() => setIsShowModal(true)}
                 >
-                  <img src={img} alt={tour.name} onError={handlerBrokenImg} />
+                  <img
+                    src={item.image}
+                    alt={item.caption}
+                    onError={handlerBrokenImg}
+                  />
                 </div>
               ))}
           </Slider>
@@ -85,7 +94,7 @@ function TourCarousel({ tour, isLoading, height, size = "md" }) {
               setIndex(x);
             }}
           >
-            {new Array(3).fill(1).map((item, index) => (
+            {new Array(3).fill(1).map((_, index) => (
               <div
                 key={index}
                 className={styles.image}
@@ -115,11 +124,18 @@ function TourCarousel({ tour, isLoading, height, size = "md" }) {
           </button>
           <Carousel activeIndex={index} onSelect={handleSelect}>
             {!isLoading &&
-              tour &&
-              tour.slider.map((img, id) => (
-                <Carousel.Item key={id} className={styles.carouselItemModal}>
+              hasSlider &&
+              slider.map((item) => (
+                <Carousel.Item
+                  key={item._id}
+                  className={styles.carouselItemModal}
+                >
                   <div className={styles.imageModal}>
-                    <img src={img} alt={tour.name} onError={handlerBrokenImg} />
+                    <img
+                      src={item.image}
+                      alt={item.caption}
+                      onError={handlerBrokenImg}
+                    />
                   </div>
                 </Carousel.Item>
               ))}

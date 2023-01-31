@@ -21,7 +21,7 @@ import {
   selectToursError,
 } from "../../store/tours.slice";
 
-const PAGE_SIZE = 4;
+const PAGE_SIZE = 8;
 
 function TourList() {
   const navigate = useNavigate();
@@ -41,9 +41,6 @@ function TourList() {
   const vnTours = useSelector(selectVnTours);
   const status = useSelector(selectToursStatus);
   const error = useSelector(selectToursError);
-
-  console.log(euTours);
-  console.log(vnTours);
 
   const sortHandler = (e) => {
     let path = location.pathname;

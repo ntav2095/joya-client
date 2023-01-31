@@ -22,6 +22,7 @@ import {
   selectGuidesError,
   selectGuidesStatus,
   selectHotGuides,
+  selectGuides,
 } from "../../store/guides.slice";
 
 // css
@@ -37,7 +38,7 @@ function Home() {
   const error = useSelector(selectToursError);
 
   // guides
-  const hotGuides = useSelector(selectHotGuides);
+  const hotGuides = useSelector(selectGuides).slice(0, 6);
   const guidesStatus = useSelector(selectGuidesStatus);
   const guidesError = useSelector(selectGuidesError);
 
@@ -45,13 +46,7 @@ function Home() {
   return (
     <>
       <ErrorBoundary>
-        <Banner
-          storedBanner={{
-            key: "homeSliders",
-            type: "slider", // slider | image
-            productType: "tour", // tour | article
-          }}
-        />
+        <Banner />
       </ErrorBoundary>
 
       <Container>
