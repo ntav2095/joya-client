@@ -1,6 +1,5 @@
 // main
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // components
@@ -17,6 +16,8 @@ import {
   selectGuidesError,
   selectGuidesStatus,
 } from "../../store/guides.slice";
+
+const PAGE_SIZE = 12;
 
 function GuidesCategory({
   categoryPath,
@@ -64,8 +65,8 @@ function GuidesCategory({
     [];
 
   const filteredProducts = products.slice(
-    (page - 1) * 12,
-    (page - 1) * 12 + 12
+    (page - 1) * PAGE_SIZE,
+    (page - 1) * PAGE_SIZE + PAGE_SIZE
   );
   usePageTitle(pageTitle);
   return (
@@ -82,7 +83,7 @@ function GuidesCategory({
         <ProductsListLayout
           title={label}
           pagination={{
-            pageCount: articles.length,
+            pageCount: Math.ceil(articles.length / PAGE_SIZE),
             currentPage: Number(page),
             changePageHandler: changePageHandler,
           }}
