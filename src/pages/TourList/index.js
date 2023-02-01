@@ -91,7 +91,7 @@ function TourList() {
         <TourCard
           tour={{
             ...tour,
-            to: `/du-lich/${tour.url_endpoint}`,
+            to: `/du-lich/${tour.slug}`,
           }}
         />
       ),

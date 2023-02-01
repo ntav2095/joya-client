@@ -16,17 +16,18 @@ import QuillReader from "../../components/QuillReader";
 
 // css
 import styles from "./Article.module.css";
+import { useSelector } from "react-redux";
+import { selectGuides } from "../../store/guides.slice";
 
 function Article() {
   const [sendRequest, isLoading, data, error] = useAxios();
   const { i18n, t } = useTranslation();
-  const { articleId } = useParams();
+  const { slug } = useParams();
 
-  useEffect(() => {
-    sendRequest(fetchSingleArtile(articleId));
-  }, [i18n.language, articleId]);
+  const guides = useSelector(selectGuides);
+  const foundArticle = guides.find((item) => item.slug === slug);
 
-  usePageTitle(`${data?.data.title} || Joya Travel`);
+  const articleId = foundArticle?._id;
 
   let article = data ? data.data : null;
 
@@ -46,9 +47,18 @@ function Article() {
     }
   }
 
+  useEffect(() => {
+    if (articleId) {
+      sendRequest(fetchSingleArtile(articleId));
+    }
+  }, [i18n.language, articleId]);
+
+  usePageTitle(`${data?.data.title} || Joya Travel`);
+
   return (
     <>
-      {!error && (
+      {!foundArticle && <h1>404 ne</h1>}
+      {!error && foundArticle && (
         <div className="container-md mx-auto py-5">
           <div className="row">
             <div className="col-12 col-lg-10 mx-auto">
@@ -162,7 +172,9 @@ function Article() {
         </div>
       )}
 
-      {error && <ErrorPage code={error.httpCode} message={error.message} />}
+      {error && foundArticle && (
+        <ErrorPage code={error.httpCode} message={error.message} />
+      )}
     </>
   );
 }

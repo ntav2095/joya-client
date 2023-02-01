@@ -31,7 +31,7 @@ function TourDetail() {
   const { urlEndpoint } = useParams();
   const { i18n, t } = useTranslation();
   const tours = useSelector(selectTours);
-  const tourId = tours.find((item) => item.url_endpoint === urlEndpoint)?._id;
+  const tourId = tours.find((item) => item.slug === urlEndpoint)?._id;
 
   const tour = data?.data || null;
   const tourName = tour?.name || "Tour du lịch";

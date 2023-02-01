@@ -78,7 +78,7 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
         <ul className="list-group">
           {results.map((tour) => (
             <li key={tour.code} className="mb-2 " onClick={onHide}>
-              <Link to={`/du-lich/${tour.url_endpoint}`} onClick={onHide}>
+              <Link to={`/du-lich/${tour.slug}`} onClick={onHide}>
                 <div className="row">
                   <div className="col-2">
                     <div>

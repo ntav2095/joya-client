@@ -129,7 +129,7 @@ function Banner({ banner }) {
         {products.map((item) => (
           <SliderItem
             key={item._id}
-            to={`${basePath}/${item.url_endpoint || item._id}`}
+            to={`${basePath}/${item.slug || item._id}`}
             image={item.banner}
             alt={item.name || item.title}
           />

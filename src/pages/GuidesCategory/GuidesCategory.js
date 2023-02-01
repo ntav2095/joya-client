@@ -55,7 +55,7 @@ function GuidesCategory({
           <ArticleCard
             thumb={article.thumb}
             title={article.title}
-            to={`/guides/bai-viet/${article._id}`}
+            to={`/guides/bai-viet/${article.slug}`}
             category={getCategoryLabel(article.category)}
           />
         ),

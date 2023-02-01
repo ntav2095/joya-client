@@ -28,7 +28,7 @@ function HomeRow({ title, rowData, type, to }) {
           <ArticleCard
             title={article.title}
             thumb={article.thumb}
-            to={`/guides/bai-viet/${article._id}`}
+            to={`/guides/bai-viet/${article.slug}`}
             category={
               GUIDES_MAP.find((item) =>
                 article.category.includes(item.category)
@@ -42,9 +42,7 @@ function HomeRow({ title, rowData, type, to }) {
 
     if (type === "tour") {
       products = data?.map((tour) => ({
-        card: (
-          <TourCard tour={{ ...tour, to: `/du-lich/${tour.url_endpoint}` }} />
-        ),
+        card: <TourCard tour={{ ...tour, to: `/du-lich/${tour.slug}` }} />,
         id: tour._id,
       }));
     }

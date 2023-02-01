@@ -84,7 +84,7 @@ function GuidesRow({ category }) {
         <ArticleCard
           title={article.title}
           thumb={article.thumb}
-          to={`/guides/bai-viet/${article._id}`}
+          to={`/guides/bai-viet/${article.slug}`}
           category={GUIDE_ITEM.title}
         />
       ),

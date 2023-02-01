@@ -44,7 +44,7 @@ export default [
     element: <GuidesCategory />,
   },
   {
-    path: "/guides/bai-viet/:articleId",
+    path: "/guides/bai-viet/:slug",
     element: <Article />,
   },
   {
