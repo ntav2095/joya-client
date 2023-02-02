@@ -35,7 +35,11 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
     >
       {hasText && results.length > 0 && (
         <div>
-          <p className="text-secondary mb-2">{results.length} kết quả</p>
+          <Link to={`/du-lich/tim-kiem/?search=${searchTerm}`} onClick={onHide}>
+            <p className="text-secondary mb-2 text-underline">
+              <u>Xem tất cả {results.length} kết quả</u>
+            </p>
+          </Link>
           <ul className="list-group">
             {results.map((tour) => (
               <li key={tour.code} className="mb-2 ">
@@ -51,7 +55,9 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
                       </div>
                     </div>
                     <div className="col-10">
-                      <p className="text-dark m-0">{tour.name}</p>
+                      <p className="text-dark m-0">
+                        <strong>{tour.name}</strong>
+                      </p>
                       <p className="text-secondary m-0">
                         {tour.destinations
                           .map((item) => {
@@ -94,7 +100,8 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
                     onClick={onHide}
                   >
                     <strong>{placesMap.get(country.place)}</strong> (
-                    {country.toursCount} tours)
+                    {country.toursCount}{" "}
+                    {country.toursCount > 1 ? "tours" : "tour"})
                   </Link>
                 </li>
               ))}
@@ -117,7 +124,8 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
                     onClick={onHide}
                   >
                     <strong>{placesMap.get(province.place)}</strong> (
-                    {province.toursCount} tours)
+                    {province.toursCount}{" "}
+                    {province.toursCount > 1 ? "tours" : "tour"})
                   </Link>
                 </li>
               ))}

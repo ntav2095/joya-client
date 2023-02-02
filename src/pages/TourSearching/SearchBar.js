@@ -25,7 +25,10 @@ function SearchBar() {
       {isSearching && (
         <div className={styles.resultsContainer}>
           <SearchResults
-            onHide={() => setIsSearching(false)}
+            onHide={() => {
+              setIsSearching(false);
+              setSearchTerm("");
+            }}
             inputRef={inputRef}
             searchTerm={searchTerm}
           />

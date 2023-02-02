@@ -11,6 +11,7 @@ import ErrorPage from "../../containers/ErrorPage";
 import ProductsListLayout from "../../layout/ProductsListLayout";
 import ErrorBoundary from "../../components/ErrorBoundary";
 import Search from "../../containers/Navbar/Search";
+import useSearchTour from "../../hooks/useSearchTour";
 
 // apis
 import { useSelector } from "react-redux";
@@ -32,10 +33,12 @@ function TourSearching() {
 
   const page = params.get("page") || 1;
   const sort = params.get("sort") || "";
+  const searchTerm = params.get("search") || "";
   const province = params.get("province");
   const country = params.get("country");
 
-  let total_tours = useSelector(selectTours);
+  let total_tours = useSearchTour(searchTerm);
+
   const status = useSelector(selectToursStatus);
   const error = useSelector(selectToursError);
 

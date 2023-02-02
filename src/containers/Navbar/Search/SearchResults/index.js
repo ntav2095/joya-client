@@ -30,9 +30,9 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
       }
     };
 
-    window.addEventListener("click", handler);
+    window.addEventListener("mousedown", handler);
 
-    return () => window.removeEventListener("click", handler);
+    return () => window.removeEventListener("mousedown", handler);
   }, []);
 
   // *********** HANDLE SEARCH ************
@@ -97,7 +97,8 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
                     className="text-dark"
                   >
                     <strong>{placesMap.get(country.place)}</strong> (
-                    {country.toursCount} tours)
+                    {country.toursCount}{" "}
+                    {country.toursCount > 1 ? "tours" : "tour"})
                   </Link>
                 </li>
               ))}
@@ -118,7 +119,8 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
                     className="text-dark"
                   >
                     <strong>{placesMap.get(province.place)}</strong> (
-                    {province.toursCount} tours)
+                    {province.toursCount}{" "}
+                    {province.toursCount > 1 ? "tours" : "tour"})
                   </Link>
                 </li>
               ))}
