@@ -2,13 +2,8 @@ import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import styles from "./SearchResults.module.css";
-import SearchItem from "./SearchItem";
 import useSearchTour from "../../../../hooks/useSearchTour";
-import {
-  selectEuTours,
-  selectToursStatistic,
-  selectVnTours,
-} from "../../../../store/tours.slice";
+import { selectToursStatistic } from "../../../../store/tours.slice";
 import { Link } from "react-router-dom";
 import placesMap from "../../../../services/constants/placesMap";
 
@@ -65,8 +60,8 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
                       {tour.destinations
                         .map((item) => {
                           if (tour.is_eu_tour)
-                            return placesMap.get(item.country);
-                          return placesMap.get(item.province);
+                            return placesMap.get(item.country)[lang];
+                          return placesMap.get(item.province)[lang];
                         })
                         .join(", ")}
                     </p>
@@ -86,7 +81,10 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
         <div>
           <div className="border-bottom">
             <h6>
-              <strong>Du lịch châu Âu ({statistic.eu.totalCount} tours)</strong>
+              <strong>
+                {lang === "vi" ? "Du lịch châu Âu" : "Europe Travel"} (
+                {statistic.eu.totalCount} tours)
+              </strong>
             </h6>
 
             <ul className="row">
@@ -96,7 +94,7 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
                     to={`/du-lich/tim-kiem/?country=${country.place}`}
                     className="text-dark"
                   >
-                    <strong>{placesMap.get(country.place)}</strong> (
+                    <strong>{placesMap.get(country.place)[lang]}</strong> (
                     {country.toursCount}{" "}
                     {country.toursCount > 1 ? "tours" : "tour"})
                   </Link>
@@ -108,7 +106,8 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
           <div className="pt-3">
             <h6>
               <strong>
-                Du lịch trong nước ({statistic.vn.totalCount.length} tours)
+                {lang === "vi" ? "Du lịch trong nước" : "Domestic Travel"} (
+                {statistic.vn.totalCount} tours)
               </strong>
             </h6>
             <ul className="row">
@@ -118,7 +117,7 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
                     to={`/du-lich/tim-kiem/?province=${province.place}`}
                     className="text-dark"
                   >
-                    <strong>{placesMap.get(province.place)}</strong> (
+                    <strong>{placesMap.get(province.place)[lang]}</strong> (
                     {province.toursCount}{" "}
                     {province.toursCount > 1 ? "tours" : "tour"})
                   </Link>

@@ -69,6 +69,8 @@ function Header() {
   }, [location]);
 
   const LogoComponent = location.pathname === "/" ? "a" : Link;
+  console.log(location.pathname);
+  console.log(location.pathname.startsWith("/du-lich/tim-kiem"));
   return (
     <>
       <div className="travel__navbar">
@@ -111,17 +113,21 @@ function Header() {
                       </NavLink>
                     ))}
                   </Nav>
-                  <div className="d-lg-flex align-items-center d-none">
-                    <Search />
-                  </div>
+                  {!location.pathname.startsWith("/du-lich/tim-kiem") && (
+                    <div className="d-lg-flex align-items-center d-none">
+                      <Search />
+                    </div>
+                  )}
                 </Offcanvas.Body>
               </Navbar.Offcanvas>
             </Container>
           </Navbar>
 
-          <div className="container-fluid pb-3 d-block d-sm-none">
-            <Search />
-          </div>
+          {!location.pathname.startsWith("/du-lich/tim-kiem") && (
+            <div className="container-fluid pb-3 d-block d-sm-none">
+              <Search />
+            </div>
+          )}
         </div>
       </div>
     </>

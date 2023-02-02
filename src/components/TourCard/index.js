@@ -6,7 +6,8 @@ import styles from "./TourCard.module.css";
 
 function TourCard({ tour }) {
   const { to, thumb, name, price, countries, journey, duration } = tour;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
 
   const errorHandler = (e) => {
     e.target.src = altThumbnail;
@@ -16,13 +17,13 @@ function TourCard({ tour }) {
 
   if (tour.is_eu_tour) {
     destination = tour.destinations
-      .map((dest) => placesMap.get(dest.country))
+      .map((dest) => placesMap.get(dest.country)[lang])
       .join(", ");
   }
 
   if (tour.is_vn_tour) {
     destination = tour.destinations
-      .map((dest) => placesMap.get(dest.province))
+      .map((dest) => placesMap.get(dest.province)[lang])
       .join(", ");
   }
 

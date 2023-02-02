@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import Search from "../Search";
 import "./NavTopBar.css";
 import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 const trans = {
   language: {
@@ -14,12 +15,14 @@ const trans = {
 
 function NavTopBar() {
   const lang = useTranslation().i18n.language;
-  const dispatch = useDispatch();
+  const location = useLocation();
 
   const langChangeHandler = (e) => {
     i18next.changeLanguage(e.target.value);
     localStorage.setItem("language", e.target.value);
   };
+
+  console.log(location.pathname.startsWith("/du-lich/tim-kiem"));
   return (
     <div className="container-fluid travel__topbar d-flex align-items-center justify-content-lg-between">
       <div className="travel__topbar__contact  pe-2">
@@ -41,9 +44,11 @@ function NavTopBar() {
         </label>
       </div>
 
-      <div className="d-none d-sm-flex d-lg-none justify-content-end  w-100">
-        <Search />
-      </div>
+      {!location.pathname.startsWith("/du-lich/tim-kiem") && (
+        <div className="d-none d-sm-flex d-lg-none justify-content-end  w-100">
+          <Search />
+        </div>
+      )}
     </div>
   );
 }

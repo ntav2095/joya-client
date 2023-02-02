@@ -27,7 +27,8 @@ const PAGE_SIZE = 8;
 
 function TourSearching() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
   const location = useLocation();
   const params = new URL(document.location).searchParams;
 
@@ -118,9 +119,9 @@ function TourSearching() {
   const page_count = Math.ceil(total_tours.length / PAGE_SIZE);
 
   // ********** side effects *************
-  const title = "Tìm kiếm tour";
+  const title = lang === "vi" ? "Tìm kiếm tour" : "Search for tours";
 
-  usePageTitle("Tìm kiếm tour");
+  usePageTitle(title + " | Joya Travel");
   return (
     <>
       <div className="mt-4">
