@@ -8,22 +8,23 @@ import usePageTitle from "../../hooks/usePageTitle";
 import TourCard from "../../components/TourCard";
 import CardPlaceholder from "../../components/placeholders/CardPlaceholder";
 import ErrorPage from "../../containers/ErrorPage";
-import Banner from "../../components/Banner";
 import ProductsListLayout from "../../layout/ProductsListLayout";
 import ErrorBoundary from "../../components/ErrorBoundary";
+import Search from "../../containers/Navbar/Search";
 
 // apis
 import { useSelector } from "react-redux";
 import {
-  selectEuTours,
   selectToursStatus,
-  selectVnTours,
   selectToursError,
+  selectTours,
 } from "../../store/tours.slice";
+
+import SearchBar from "./SearchBar";
 
 const PAGE_SIZE = 8;
 
-function TourList() {
+function TourSearching() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const location = useLocation();
@@ -31,22 +32,36 @@ function TourList() {
 
   const page = params.get("page") || 1;
   const sort = params.get("sort") || "";
-  const category = location.pathname
-    .toLowerCase()
-    .startsWith("/du-lich-trong-nuoc")
-    ? "vietnam"
-    : "europe";
+  const province = params.get("province");
+  const country = params.get("country");
 
-  const euTours = useSelector(selectEuTours);
-  const vnTours = useSelector(selectVnTours);
+  let total_tours = useSelector(selectTours);
   const status = useSelector(selectToursStatus);
   const error = useSelector(selectToursError);
+
+  if (province) {
+    total_tours = total_tours.filter((item) =>
+      item.destinations.some((dest) => dest.province === province)
+    );
+  }
+
+  if (country) {
+    total_tours = total_tours.filter((item) =>
+      item.destinations.some((dest) => dest.country === country)
+    );
+  }
 
   const sortHandler = (e) => {
     let path = location.pathname;
     path += `?page=${page}`;
     if (e.target.value) {
       path += `&sort=${e.target.value}`;
+    }
+    if (province) {
+      path += `&province=${province}`;
+    }
+    if (country) {
+      path += `&country=${country}`;
     }
     navigate(path);
   };
@@ -55,7 +70,6 @@ function TourList() {
     navigate(`${location.pathname}?page=${num}`);
   };
 
-  let total_tours = category === "europe" ? euTours : vnTours;
   let tours = total_tours.slice(
     (page - 1) * PAGE_SIZE,
     (page - 1) * PAGE_SIZE + PAGE_SIZE
@@ -101,31 +115,14 @@ function TourList() {
   const page_count = Math.ceil(total_tours.length / PAGE_SIZE);
 
   // ********** side effects *************
-  const title =
-    category === "europe"
-      ? t("tourPages.euTours.title")
-      : t("tourPages.vnTours.title");
+  const title = "Tìm kiếm tour";
 
-  useEffect(() => {
-    if (page >= 1) {
-      window.scroll({
-        top: 500,
-        left: 0,
-        behavior: "smooth",
-      });
-    }
-  }, [page]);
-
-  usePageTitle(
-    category === "europe"
-      ? t("pageTitles.tours.euTours")
-      : t("pageTitles.tours.vnTours")
-  );
+  usePageTitle("Tìm kiếm tour");
   return (
     <>
-      <ErrorBoundary>
-        <Banner />
-      </ErrorBoundary>
+      <div className="mt-4">
+        <SearchBar />
+      </div>
 
       {!error && (
         <ErrorBoundary>
@@ -150,4 +147,4 @@ function TourList() {
   );
 }
 
-export default TourList;
+export default TourSearching;

@@ -73,4 +73,57 @@ export const selectEuSliderTours = (state) =>
 export const selectVnSliderTours = (state) =>
   state.tours.tours.filter((tour) => tour.layout.includes("vn-tours"));
 
+export const selectToursStatistic = (state) => {
+  const euTours = state.tours.tours.filter((tour) =>
+    isEuTour(tour.destinations)
+  );
+
+  const vnTours = state.tours.tours.filter((tour) =>
+    isVnTour(tour.destinations)
+  );
+
+  const euCountries = Array.from(
+    new Set(
+      euTours
+        .reduce((prev, cur) => [...prev, ...cur.destinations], [])
+        .map((dest) => dest.country)
+    )
+  );
+
+  const vnProvinces = Array.from(
+    new Set(
+      vnTours
+        .reduce((prev, cur) => [...prev, ...cur.destinations], [])
+        .map((dest) => dest.province)
+    )
+  );
+
+  const euToursCatalogue = euCountries.map((country) => {
+    const toursCount = euTours.filter((tour) =>
+      tour.destinations.some((dest) => dest.country === country)
+    ).length;
+
+    return { place: country, toursCount };
+  });
+
+  const vnToursCatalogue = vnProvinces.map((province) => {
+    const toursCount = vnTours.filter((tour) =>
+      tour.destinations.some((dest) => dest.province === province)
+    ).length;
+
+    return { place: province, toursCount };
+  });
+
+  return {
+    eu: {
+      totalCount: euTours.length,
+      countByPlace: euToursCatalogue,
+    },
+    vn: {
+      totalCount: vnTours.length,
+      countByPlace: vnToursCatalogue,
+    },
+  };
+};
+
 export default toursSlice.reducer;

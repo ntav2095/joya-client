@@ -1,13 +1,26 @@
 import Home from "../pages/Home";
+
+// tour
 import TourList from "../pages/TourList";
 import TourDetail from "../pages/TourDetail";
+import TourSearching from "../pages/TourSearching";
+
+// about
 import About from "../pages/About";
+
+// visa
 import Visa from "../pages/Visa";
 import VisaProducts from "../pages/VisaProducts";
+
+// guides
 import Guides from "../pages/Guides";
 import GuidesCategory from "../pages/GuidesCategory";
 import Article from "../pages/Article";
+
+// term
 import Term from "../pages/Term";
+
+// not found
 import NotFound from "../pages/NotFound";
 
 export default [
@@ -22,6 +35,10 @@ export default [
   {
     path: "/du-lich-trong-nuoc",
     element: <TourList />,
+  },
+  {
+    path: "/du-lich/tim-kiem",
+    element: <TourSearching />,
   },
   {
     path: "/du-lich/:urlEndpoint",
