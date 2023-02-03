@@ -22,7 +22,6 @@ function NavTopBar() {
     localStorage.setItem("language", e.target.value);
   };
 
-  console.log(location.pathname.startsWith("/du-lich/tim-kiem"));
   return (
     <div className="container-fluid travel__topbar d-flex align-items-center justify-content-lg-between">
       <div className="travel__topbar__contact  pe-2">

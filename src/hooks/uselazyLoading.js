@@ -7,7 +7,6 @@ export default function useLazyLoading(dependencies = []) {
         (entry) =>
           entry.forEach((item) => {
             if (item.isIntersecting) {
-              console.log("intersecting");
               const img = item.target;
               const lazzy = img.getAttribute("lazy");
               img.setAttribute("src", lazzy);

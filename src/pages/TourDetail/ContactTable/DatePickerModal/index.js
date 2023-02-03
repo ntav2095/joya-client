@@ -12,7 +12,6 @@ const trans = {
 
 function DatePickerModal({ setSelectedDate, setModalShow, tour, ...props }) {
   const lang = useTranslation().i18n.language;
-  console.log(tour);
   return (
     <Modal
       {...props}

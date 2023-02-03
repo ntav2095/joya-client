@@ -16,6 +16,7 @@ import {
   selectGuidesError,
   selectGuidesStatus,
 } from "../../store/guides.slice";
+import useScroll from "../../hooks/useScroll";
 
 const PAGE_SIZE = 12;
 
@@ -68,6 +69,11 @@ function GuidesCategory({
     (page - 1) * PAGE_SIZE + PAGE_SIZE
   );
   usePageTitle(pageTitle);
+  useScroll({
+    reScroll: { top: 500 },
+    dependencies: [page],
+  });
+
   return (
     <>
       <Banner

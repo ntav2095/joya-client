@@ -102,7 +102,7 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
 
             <ul className="row">
               {statistic.eu.countByPlace.map((country) => (
-                <li key={country.name} className="col-4 mb-1">
+                <li key={country.place} className="col-4 mb-1">
                   <Link
                     to={`/du-lich/tim-kiem/${country.place}`}
                     className="text-dark"

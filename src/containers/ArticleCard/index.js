@@ -3,7 +3,6 @@ import { altThumbnail } from "../../assets/images";
 import styles from "./ArticleCard.module.css";
 
 function ArticleCard({ thumb, title, to, category }) {
-  console.log(title);
   return (
     <Link className={styles.cartItem} to={to}>
       <div className={styles.image}>

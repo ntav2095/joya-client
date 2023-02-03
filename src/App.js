@@ -23,13 +23,6 @@ function App() {
 
   // useLazyLoading();
 
-  // useEffect(() => {
-  //   window.scroll({
-  //     top: 0,
-  //     // behavior: "smooth",
-  //   });
-  // }, [location]);
-
   useEffect(() => {
     dispatch(fetchTours());
     dispatch(fetchGuides());

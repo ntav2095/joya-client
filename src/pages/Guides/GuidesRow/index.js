@@ -66,11 +66,11 @@ function GuidesRow({ category }) {
   const title = GUIDE_ITEM.title;
 
   useEffect(() => {
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
+    // window.scroll({
+    //   top: 0,
+    //   left: 0,
+    //   // behavior: "smooth",
+    // });
   }, [lang, location.search]);
 
   const placeholders = new Array(6).fill(1).map((_, index) => ({

@@ -12,6 +12,7 @@ import ErrorBoundary from "../../components/ErrorBoundary";
 
 // other
 import usePageTitle from "../../hooks/usePageTitle";
+import useScroll from "../../hooks/useScroll";
 import {
   selectHotEuTours,
   selectHotVnTours,
@@ -21,7 +22,6 @@ import {
 import {
   selectGuidesError,
   selectGuidesStatus,
-  selectHotGuides,
   selectGuides,
 } from "../../store/guides.slice";
 
@@ -43,6 +43,10 @@ function Home() {
   const guidesError = useSelector(selectGuidesError);
 
   usePageTitle(t("pageTitles.home"));
+  useScroll({
+    reScroll: { top: 0 },
+    dependencies: [],
+  });
   return (
     <>
       <ErrorBoundary>

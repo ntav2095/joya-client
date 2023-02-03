@@ -1,5 +1,5 @@
+import { useEffect, useRef } from "react";
 // main
-import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import usePageTitle from "../../hooks/usePageTitle";
@@ -14,6 +14,7 @@ import ErrorBoundary from "../../components/ErrorBoundary";
 
 // apis
 import { useSelector } from "react-redux";
+import useScroll from "../../hooks/useScroll";
 import {
   selectEuTours,
   selectToursStatus,
@@ -31,6 +32,8 @@ function TourList() {
   if (!page || isNaN(Number(page))) {
     page = 1;
   }
+
+  const prevCategory = useRef();
 
   const params = new URL(document.location).searchParams;
 
@@ -121,21 +124,30 @@ function TourList() {
       ? t("tourPages.euTours.title")
       : t("tourPages.vnTours.title");
 
-  useEffect(() => {
-    if (page >= 1) {
-      window.scroll({
-        top: 500,
-        left: 0,
-        behavior: "smooth",
-      });
-    }
-  }, [page]);
-
   usePageTitle(
     category === "europe"
       ? t("pageTitles.tours.euTours")
       : t("pageTitles.tours.vnTours")
   );
+
+  useEffect(() => {
+    if (prevCategory.current !== category) {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "auto",
+      });
+
+      prevCategory.current = category;
+    } else {
+      window.scroll({
+        top: 500,
+        left: 0,
+        behavior: "auto",
+      });
+    }
+  }, [category, page]);
+
   return (
     <>
       <ErrorBoundary>

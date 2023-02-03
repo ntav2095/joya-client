@@ -21,6 +21,7 @@ import {
 
 import SearchBar from "./SearchBar";
 import placesMap from "../../services/constants/placesMap";
+import { useRef, useEffect } from "react";
 
 const PAGE_SIZE = 8;
 
@@ -150,6 +151,16 @@ function TourSearching() {
   }
 
   usePageTitle(title + " | Joya Travel");
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
+  }, [location]);
+
+  console.log(page_count);
+  console.log(page);
   return (
     <>
       <div className="mt-4">

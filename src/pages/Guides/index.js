@@ -8,8 +8,10 @@ import GuidesRow from "./GuidesRow";
 
 // other
 import usePageTitle from "../../hooks/usePageTitle";
+import useScroll from "../../hooks/useScroll";
 
 function Guides() {
+  useScroll();
   const { t } = useTranslation();
 
   usePageTitle(t("pageTitles.guides.guides"));

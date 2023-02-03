@@ -69,8 +69,6 @@ function Header() {
   }, [location]);
 
   const LogoComponent = location.pathname === "/" ? "a" : Link;
-  console.log(location.pathname);
-  console.log(location.pathname.startsWith("/du-lich/tim-kiem"));
   return (
     <>
       <div className="travel__navbar">

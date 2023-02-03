@@ -6,6 +6,7 @@ import { format } from "date-fns";
 
 // components
 import ErrorPage from "../../containers/ErrorPage";
+
 import ArticleContentPlaceholder from "./ArticleContentPlaceholder";
 
 // other
@@ -18,12 +19,22 @@ import QuillReader from "../../components/QuillReader";
 import styles from "./Article.module.css";
 import { useSelector } from "react-redux";
 import { selectGuides, selectGuidesStatus } from "../../store/guides.slice";
+import useScroll from "../../hooks/useScroll";
 
 function Article() {
   const [sendRequest, isLoading, data, error] = useAxios();
   const { i18n, t } = useTranslation();
   const { slug } = useParams();
 
+  useScroll();
+
+  if (!data) {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
+  }
   const guides = useSelector(selectGuides);
   const status = useSelector(selectGuidesStatus);
   const foundArticle = guides.find((item) => item.slug === slug);
@@ -59,9 +70,21 @@ function Article() {
 
   const loading = isLoading || status === "idle" || status === "pending";
 
+  useEffect(() => {
+    if (data) {
+      // window.scroll({
+      //   top: 0,
+      //   left: 0,
+      //   behavior: "auto",
+      // });
+    }
+  }, [data]);
   return (
     <>
-      {!foundArticle && status === "succeed" && <h1>404 ne</h1>}
+      {!foundArticle && status === "succeed" && (
+        <ErrorPage code="404" message="Bài viết không tồn tại" />
+      )}
+
       {!error && foundArticle && (
         <div className="container-md mx-auto py-5">
           <div className="row">

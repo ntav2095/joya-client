@@ -21,25 +21,6 @@ export default function CustomPagination({ total, pagenumber, callback }) {
   }, [state]);
 
   useEffect(() => {
-    const left = document.getElementById("chevronLeft");
-    const right = document.getElementById("chevronRight");
-
-    if (pagenumber == 1) {
-      left.classList.add("color__button__disable");
-    }
-
-    if (pagenumber > 1) {
-      left.classList.remove("color__button__disable");
-    }
-
-    if (pagenumber < total) {
-      right.classList.remove("color__button__disable");
-    }
-
-    if (pagenumber == total) {
-      right.classList.add("color__button__disable");
-    }
-
     setState(pagenumber);
   }, [pagenumber]);
 
@@ -69,6 +50,17 @@ export default function CustomPagination({ total, pagenumber, callback }) {
 
     setPageInput(val);
   };
+
+  // buttons classes
+  let leftClasses = "";
+  if (pagenumber == 1) {
+    leftClasses += " color__button__disable";
+  }
+
+  let rightClasses = "";
+  if (pagenumber == total) {
+    rightClasses += " color__button__disable";
+  }
 
   return (
     <div className="container__pagination" ref={ref}>
@@ -103,6 +95,7 @@ export default function CustomPagination({ total, pagenumber, callback }) {
       <span>{"  of " + total + " "}</span>
       <button
         id="chevronLeft"
+        className={leftClasses}
         type="button"
         onClick={() => pagenumber > 1 && setState(state - 1)}
       >
@@ -110,6 +103,7 @@ export default function CustomPagination({ total, pagenumber, callback }) {
       </button>
       <button
         id="chevronRight"
+        className={rightClasses}
         type="button"
         onClick={() => pagenumber < total && setState(state + 1)}
       >
