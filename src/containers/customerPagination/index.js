@@ -27,13 +27,20 @@ export default function CustomPagination({ total, pagenumber, callback }) {
     if (pagenumber == 1) {
       left.classList.add("color__button__disable");
     }
-    if (pagenumber > 1 && pagenumber < total) {
-      right.classList.remove("color__button__disable");
+
+    if (pagenumber > 1) {
       left.classList.remove("color__button__disable");
     }
+
+    if (pagenumber < total) {
+      right.classList.remove("color__button__disable");
+    }
+
     if (pagenumber == total) {
       right.classList.add("color__button__disable");
     }
+
+    setState(pagenumber);
   }, [pagenumber]);
 
   const handleClick = (event) => {

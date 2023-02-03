@@ -1,5 +1,4 @@
 // main
-import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import usePageTitle from "../../hooks/usePageTitle";
@@ -10,7 +9,6 @@ import CardPlaceholder from "../../components/placeholders/CardPlaceholder";
 import ErrorPage from "../../containers/ErrorPage";
 import ProductsListLayout from "../../layout/ProductsListLayout";
 import ErrorBoundary from "../../components/ErrorBoundary";
-import Search from "../../containers/Navbar/Search";
 import useSearchTour from "../../hooks/useSearchTour";
 
 // apis
@@ -22,6 +20,7 @@ import {
 } from "../../store/tours.slice";
 
 import SearchBar from "./SearchBar";
+import placesMap from "../../services/constants/placesMap";
 
 const PAGE_SIZE = 8;
 
@@ -30,48 +29,62 @@ function TourSearching() {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
   const location = useLocation();
-  const params = new URL(document.location).searchParams;
 
-  const page = params.get("page") || 1;
+  // lấy params
+  const params = new URL(document.location).searchParams;
   const sort = params.get("sort") || "";
   const searchTerm = params.get("search") || "";
-  const province = params.get("province");
-  const country = params.get("country");
+  let { place, page, placeOrPage } = useParams();
 
-  let total_tours = useSearchTour(searchTerm);
+  if (placeOrPage) {
+    if (!isNaN(Number(placeOrPage)) && Number.isInteger(Number(placeOrPage))) {
+      page = Number(placeOrPage);
+    } else {
+      place = placeOrPage;
+    }
+  }
+
+  if (!page) {
+    page = 1;
+  }
 
   const status = useSelector(selectToursStatus);
   const error = useSelector(selectToursError);
 
-  if (province) {
-    total_tours = total_tours.filter((item) =>
-      item.destinations.some((dest) => dest.province === province)
-    );
-  }
+  // lọc tours
+  let total_tours = useSearchTour(searchTerm);
 
-  if (country) {
+  if (place) {
     total_tours = total_tours.filter((item) =>
-      item.destinations.some((dest) => dest.country === country)
+      item.destinations.some(
+        (dest) => dest.province === place || dest.country === place
+      )
     );
   }
 
   const sortHandler = (e) => {
     let path = location.pathname;
-    path += `?page=${page}`;
+
     if (e.target.value) {
       path += `&sort=${e.target.value}`;
     }
-    if (province) {
-      path += `&province=${province}`;
-    }
-    if (country) {
-      path += `&country=${country}`;
-    }
+
     navigate(path);
   };
 
   const changePageHandler = (num) => {
-    navigate(`${location.pathname}?page=${num}`);
+    let path = location.pathname;
+    if (place) {
+      path = `/du-lich/tim-kiem/${place}/${num}`;
+    } else {
+      path = `/du-lich/tim-kiem/${num}/`;
+    }
+
+    if (searchTerm) {
+      path += `?search=${searchTerm}`;
+    }
+
+    navigate(path);
   };
 
   let tours = total_tours.slice(
@@ -102,24 +115,39 @@ function TourSearching() {
     tours = tours.sort((a, b) => a.duration.days - b.duration.days);
   }
 
-  const products =
-    status === "succeed" &&
-    tours.map((tour) => ({
-      component: (
-        <TourCard
-          tour={{
-            ...tour,
-            to: `/du-lich/${tour.slug}`,
-          }}
-        />
-      ),
-      id: tour._id,
-    }));
+  const products = tours.map((tour) => ({
+    component: (
+      <TourCard
+        tour={{
+          ...tour,
+          to: `/du-lich/${tour.slug}`,
+        }}
+      />
+    ),
+    id: tour._id,
+  }));
 
   const page_count = Math.ceil(total_tours.length / PAGE_SIZE);
 
   // ********** side effects *************
-  const title = lang === "vi" ? "Tìm kiếm tour" : "Search for tours";
+  let title = lang === "vi" ? "Tìm kiếm tour" : "Search for tours";
+  if (searchTerm) {
+    title =
+      lang === "en"
+        ? `Results for "${searchTerm}"`
+        : `Kết quả tìm kiếm của "${searchTerm}"`;
+  }
+
+  if (place) {
+    title =
+      lang === "en"
+        ? `Tours list for ${
+            placesMap.get(place) ? placesMap.get(place)[lang] : place
+          }`
+        : `Danh sách tour ${
+            placesMap.get(place) ? placesMap.get(place)[lang] : place
+          }`;
+  }
 
   usePageTitle(title + " | Joya Travel");
   return (

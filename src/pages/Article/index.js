@@ -17,7 +17,7 @@ import QuillReader from "../../components/QuillReader";
 // css
 import styles from "./Article.module.css";
 import { useSelector } from "react-redux";
-import { selectGuides } from "../../store/guides.slice";
+import { selectGuides, selectGuidesStatus } from "../../store/guides.slice";
 
 function Article() {
   const [sendRequest, isLoading, data, error] = useAxios();
@@ -25,6 +25,7 @@ function Article() {
   const { slug } = useParams();
 
   const guides = useSelector(selectGuides);
+  const status = useSelector(selectGuidesStatus);
   const foundArticle = guides.find((item) => item.slug === slug);
 
   const articleId = foundArticle?._id;
@@ -53,24 +54,27 @@ function Article() {
     }
   }, [i18n.language, articleId]);
 
-  usePageTitle(`${data?.data.title} || Joya Travel`);
+  let title = data?.data.title || "";
+  usePageTitle(`${title + " || "}Joya Travel`);
+
+  const loading = isLoading || status === "idle" || status === "pending";
 
   return (
     <>
-      {!foundArticle && <h1>404 ne</h1>}
+      {!foundArticle && status === "succeed" && <h1>404 ne</h1>}
       {!error && foundArticle && (
         <div className="container-md mx-auto py-5">
           <div className="row">
             <div className="col-12 col-lg-10 mx-auto">
               {/* ==================== title ========================  */}
               <h1 className="mb-4 pb-1 text-dark fw-bold text-center">
-                {article && !isLoading && article.title}
-                {isLoading && <span className="placeholder col-8"></span>}
+                {article && !loading && article.title}
+                {loading && <span className="placeholder col-8"></span>}
               </h1>
 
               {/* ==================== breadcrumb ========================  */}
               <h6 className="text-dark">
-                {article && !isLoading && (
+                {article && !loading && (
                   <>
                     <Link
                       className={styles.breadCrumb + " text-dark"}
@@ -82,16 +86,16 @@ function Article() {
                   </>
                 )}
 
-                {isLoading && <span className="placeholder col-4" />}
+                {loading && <span className="placeholder col-4" />}
               </h6>
 
               {/* ==================== banner ========================  */}
               <div className={styles.banner}>
                 <div className={styles.inner}>
-                  {article && !isLoading && (
+                  {article && !loading && (
                     <img src={article.banner} alt={article.title} />
                   )}
-                  {isLoading && <div className="bg-secondary h-100"></div>}
+                  {loading && <div className="bg-secondary h-100"></div>}
                 </div>
               </div>
 
@@ -99,24 +103,24 @@ function Article() {
               <div className={styles.author}>
                 <div
                   className={
-                    styles.nameLetter + " " + (isLoading && "bg-secondary")
+                    styles.nameLetter + " " + (loading && "bg-secondary")
                   }
                 >
                   {article && article.author.slice(0, 1)}
                 </div>
                 <div className={styles.info}>
                   <p className={styles.name}>
-                    {article && !isLoading && article.author}
-                    {isLoading && <span className="placeholder col-4 " />}
+                    {article && !loading && article.author}
+                    {loading && <span className="placeholder col-4 " />}
                   </p>
                   <p className={styles.time}>
                     {article &&
-                      !isLoading &&
+                      !loading &&
                       format(
                         new Date(article.createdAt || article.updatedAt),
                         "dd/MM/yyyy"
                       )}
-                    {isLoading && <span className="placeholder col-2" />}
+                    {loading && <span className="placeholder col-2" />}
                   </p>
                 </div>
               </div>
@@ -125,10 +129,8 @@ function Article() {
             {/* ==================== content ========================  */}
             <div className="col-12 col-lg-7 mx-auto">
               <div className={styles.content}>
-                {article && !isLoading && (
-                  <QuillReader delta={article.content} />
-                )}
-                {isLoading && <ArticleContentPlaceholder />}
+                {article && !loading && <QuillReader delta={article.content} />}
+                {loading && <ArticleContentPlaceholder />}
               </div>
             </div>
           </div>

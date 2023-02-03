@@ -1,6 +1,6 @@
 // main
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 // components
 import ArticleCard from "../../containers/ArticleCard";
@@ -28,17 +28,16 @@ function GuidesCategory({
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const location = useLocation();
   const status = useSelector(selectGuidesStatus);
   const error = useSelector(selectGuidesError);
 
-  let page = new URLSearchParams(location.search).get("page");
+  let { page } = useParams();
   if (!page || isNaN(Number(page))) {
     page = 1;
   }
 
   const changePageHandler = (num) => {
-    navigate(`/guides/${categoryPath}/?page=${num}`);
+    navigate(`/guides/${categoryPath}/${num}`);
   };
 
   const getCategoryLabel = (cat) => {

@@ -40,9 +40,21 @@ function App() {
       <GoToTop />
       <Routes>
         <Route element={<DefaultLayout />}>
-          {routes.map((route) => (
-            <Route key={route.path} path={route.path} element={route.element} />
-          ))}
+          {routes.map((route) => {
+            if (route.path) {
+              return (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  element={route.element}
+                />
+              );
+            } else {
+              return route.paths.map((path) => (
+                <Route key={path} path={path} element={route.element} />
+              ));
+            }
+          })}
         </Route>
       </Routes>
     </>

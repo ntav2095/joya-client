@@ -104,7 +104,7 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
               {statistic.eu.countByPlace.map((country) => (
                 <li key={country.name} className="col-4 mb-1">
                   <Link
-                    to={`/du-lich/tim-kiem/?country=${country.place}`}
+                    to={`/du-lich/tim-kiem/${country.place}`}
                     className="text-dark"
                     onClick={onHide}
                   >
@@ -130,7 +130,7 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
               {statistic.vn.countByPlace.map((province) => (
                 <li key={province.place} className="col-4 mb-1">
                   <Link
-                    to={`/du-lich/tim-kiem/?province=${province.place}`}
+                    to={`/du-lich/tim-kiem/${province.place}`}
                     className="text-dark"
                     onClick={onHide}
                   >

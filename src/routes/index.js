@@ -29,15 +29,19 @@ export default [
     element: <Home />,
   },
   {
-    path: "/du-lich-chau-au",
+    paths: ["/du-lich-chau-au", "/du-lich-chau-au/:page"],
     element: <TourList />,
   },
   {
-    path: "/du-lich-trong-nuoc",
+    paths: ["/du-lich-trong-nuoc", "/du-lich-trong-nuoc/:page"],
     element: <TourList />,
   },
   {
-    path: "/du-lich/tim-kiem",
+    paths: [
+      "/du-lich/tim-kiem",
+      "/du-lich/tim-kiem/:placeOrPage",
+      "/du-lich/tim-kiem/:place/:page",
+    ],
     element: <TourSearching />,
   },
   {
@@ -57,7 +61,7 @@ export default [
     element: <Guides />,
   },
   {
-    path: "/guides/:categoryPath",
+    paths: ["/guides/:categoryPath", "/guides/:categoryPath/:page"],
     element: <GuidesCategory />,
   },
   {

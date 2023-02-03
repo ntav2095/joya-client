@@ -36,7 +36,10 @@
 
 .color__button__disable {
   background-color: rgba(243, 246, 247, 255) !important;
+  pointer-events: none;
+  cursor: normal;
 }
+
 .container__pagination #chevronLeft.color__button__disable svg,
 .container__pagination #chevronRight.color__button__disable svg {
   color: rgb(156, 156, 156) !important;

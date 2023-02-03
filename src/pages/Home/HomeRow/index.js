@@ -23,6 +23,7 @@ function HomeRow({ title, rowData, type, to }) {
   // fetched => products = Tour Cards hoặc Article Cards
   if (status === "succeed") {
     if (type === "article") {
+      console.log(data);
       products = data?.map((article) => ({
         card: (
           <ArticleCard

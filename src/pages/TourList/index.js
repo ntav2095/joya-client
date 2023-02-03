@@ -27,9 +27,13 @@ function TourList() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const location = useLocation();
+  let { page } = useParams();
+  if (!page || isNaN(Number(page))) {
+    page = 1;
+  }
+
   const params = new URL(document.location).searchParams;
 
-  const page = params.get("page") || 1;
   const sort = params.get("sort") || "";
   const category = location.pathname
     .toLowerCase()
@@ -43,16 +47,27 @@ function TourList() {
   const error = useSelector(selectToursError);
 
   const sortHandler = (e) => {
-    let path = location.pathname;
-    path += `?page=${page}`;
+    let path =
+      category === "vietnam"
+        ? `/du-lich-trong-nuoc/${page}`
+        : `/du-lich-chau-au/${page}`;
+
     if (e.target.value) {
-      path += `&sort=${e.target.value}`;
+      path += `?sort=${e.target.value}`;
     }
     navigate(path);
   };
 
   const changePageHandler = (num) => {
-    navigate(`${location.pathname}?page=${num}`);
+    let path =
+      category === "vietnam"
+        ? `/du-lich-trong-nuoc/${num}`
+        : `/du-lich-chau-au/${num}`;
+
+    if (sort) {
+      path += `?sort=${sort}`;
+    }
+    navigate(path);
   };
 
   let total_tours = category === "europe" ? euTours : vnTours;
