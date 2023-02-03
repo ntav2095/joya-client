@@ -17,13 +17,7 @@ function Guides() {
   usePageTitle(t("pageTitles.guides.guides"));
   return (
     <>
-      <Banner
-        storedBanner={{
-          key: "guides",
-          type: "slider",
-          productType: "article",
-        }}
-      />
+      <Banner />
 
       <Container>
         <div className="pt-5">

@@ -9,12 +9,13 @@ const seeAll = {
 };
 
 function SliderPortion({ title, cards, error, to }) {
+  console.log("From slider portion: ", error);
   const lang = useTranslation().i18n.language;
   return (
     <div className={styles.container}>
       <h2 className={styles.margin}>{title}</h2>
 
-      {cards && <CardCarousel cards={cards} />}
+      {cards && !error && <CardCarousel cards={cards} />}
 
       {!error && (
         <div className={styles.button + " " + styles.margin}>

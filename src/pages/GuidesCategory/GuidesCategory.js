@@ -76,13 +76,7 @@ function GuidesCategory({
 
   return (
     <>
-      <Banner
-        storedBanner={{
-          type: "slider",
-          key: bannerKey,
-          productType: "article",
-        }}
-      />
+      {!error && <Banner />}
 
       {!error && (
         <ProductsListLayout

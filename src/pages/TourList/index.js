@@ -150,9 +150,11 @@ function TourList() {
 
   return (
     <>
-      <ErrorBoundary>
-        <Banner />
-      </ErrorBoundary>
+      {!error && (
+        <ErrorBoundary>
+          <Banner />
+        </ErrorBoundary>
+      )}
 
       {!error && (
         <ErrorBoundary>

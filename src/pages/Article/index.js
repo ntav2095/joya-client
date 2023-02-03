@@ -18,12 +18,17 @@ import QuillReader from "../../components/QuillReader";
 // css
 import styles from "./Article.module.css";
 import { useSelector } from "react-redux";
-import { selectGuides, selectGuidesStatus } from "../../store/guides.slice";
+import {
+  selectGuides,
+  selectGuidesError,
+  selectGuidesStatus,
+} from "../../store/guides.slice";
 import useScroll from "../../hooks/useScroll";
 
 function Article() {
   const [sendRequest, isLoading, data, error] = useAxios();
   const { i18n, t } = useTranslation();
+  const lang = i18n.language;
   const { slug } = useParams();
 
   useScroll();
@@ -37,6 +42,7 @@ function Article() {
   }
   const guides = useSelector(selectGuides);
   const status = useSelector(selectGuidesStatus);
+  const fetchGuidesError = useSelector(selectGuidesError);
   const foundArticle = guides.find((item) => item.slug === slug);
 
   const articleId = foundArticle?._id;
@@ -70,137 +76,93 @@ function Article() {
 
   const loading = isLoading || status === "idle" || status === "pending";
 
-  useEffect(() => {
-    if (data) {
-      // window.scroll({
-      //   top: 0,
-      //   left: 0,
-      //   behavior: "auto",
-      // });
-    }
-  }, [data]);
+  if (fetchGuidesError) {
+    return (
+      <ErrorPage
+        code={fetchGuidesError.httpCode}
+        message={fetchGuidesError.message}
+      />
+    );
+  }
+
+  if (!foundArticle && status === "succeed") {
+    const errorMessage =
+      lang === "en" ? "Artilce Not Found" : "Không tìm thấy bài viết";
+    return <ErrorPage code="404" message={errorMessage} />;
+  }
+
+  if (error) {
+    return <ErrorPage code={error.httpCode} message={error.message} />;
+  }
+
   return (
-    <>
-      {!foundArticle && status === "succeed" && (
-        <ErrorPage code="404" message="Bài viết không tồn tại" />
-      )}
+    <div className="container-md mx-auto py-5">
+      <div className="row">
+        <div className="col-12 col-lg-10 mx-auto">
+          {/* ==================== title ========================  */}
+          <h1 className="mb-4 pb-1 text-dark fw-bold text-center">
+            {article && !loading && article.title}
+            {loading && <span className="placeholder col-8"></span>}
+          </h1>
 
-      {!error && foundArticle && (
-        <div className="container-md mx-auto py-5">
-          <div className="row">
-            <div className="col-12 col-lg-10 mx-auto">
-              {/* ==================== title ========================  */}
-              <h1 className="mb-4 pb-1 text-dark fw-bold text-center">
-                {article && !loading && article.title}
-                {loading && <span className="placeholder col-8"></span>}
-              </h1>
+          {/* ==================== breadcrumb ========================  */}
+          <h6 className="text-dark">
+            {article && !loading && (
+              <>
+                <Link className={styles.breadCrumb + " text-dark"} to="/guides">
+                  Guides
+                </Link>{" "}
+                / {categoryLabel}
+              </>
+            )}
 
-              {/* ==================== breadcrumb ========================  */}
-              <h6 className="text-dark">
-                {article && !loading && (
-                  <>
-                    <Link
-                      className={styles.breadCrumb + " text-dark"}
-                      to="/guides"
-                    >
-                      Guides
-                    </Link>{" "}
-                    / {categoryLabel}
-                  </>
-                )}
+            {loading && <span className="placeholder col-4" />}
+          </h6>
 
-                {loading && <span className="placeholder col-4" />}
-              </h6>
-
-              {/* ==================== banner ========================  */}
-              <div className={styles.banner}>
-                <div className={styles.inner}>
-                  {article && !loading && (
-                    <img src={article.banner} alt={article.title} />
-                  )}
-                  {loading && <div className="bg-secondary h-100"></div>}
-                </div>
-              </div>
-
-              {/* ==================== author ========================  */}
-              <div className={styles.author}>
-                <div
-                  className={
-                    styles.nameLetter + " " + (loading && "bg-secondary")
-                  }
-                >
-                  {article && article.author.slice(0, 1)}
-                </div>
-                <div className={styles.info}>
-                  <p className={styles.name}>
-                    {article && !loading && article.author}
-                    {loading && <span className="placeholder col-4 " />}
-                  </p>
-                  <p className={styles.time}>
-                    {article &&
-                      !loading &&
-                      format(
-                        new Date(article.createdAt || article.updatedAt),
-                        "dd/MM/yyyy"
-                      )}
-                    {loading && <span className="placeholder col-2" />}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* ==================== content ========================  */}
-            <div className="col-12 col-lg-7 mx-auto">
-              <div className={styles.content}>
-                {article && !loading && <QuillReader delta={article.content} />}
-                {loading && <ArticleContentPlaceholder />}
-              </div>
+          {/* ==================== banner ========================  */}
+          <div className={styles.banner}>
+            <div className={styles.inner}>
+              {article && !loading && (
+                <img src={article.banner} alt={article.title} />
+              )}
+              {loading && <div className="bg-secondary h-100"></div>}
             </div>
           </div>
 
-          {/* ==================== related artilces ========================  */}
-
-          {/* <div className="mt-4 border-top pt-4 pb-5">
-            <h5 className={styles.relatedStoriesTitle + " mb-3"}>
-              Bài viết liên quan
-            </h5>
-            <div className="row">
-              {relatedArtilces &&
-                !isLoading &&
-                relatedArtilces.map((item) => (
-                  <div key={item._id} className="col-12 col-sm-4 col-lg-4 mb-4">
-                    <ArticleCard
-                      thumb={item.thumb}
-                      title={item.title}
-                      to={`/guides/${
-                        GUIDES_MAP.find((g) =>
-                          item.category.includes(g.category)
-                        ).path
-                      }/${item._id}`}
-                      category={
-                        GUIDES_MAP.find((g) =>
-                          item.category.includes(g.category)
-                        ).label[lang]
-                      }
-                    />
-                  </div>
-                ))}
-
-              {isLoading &&
-                new Array(3).fill(1).map((_, index) => (
-                  <li key={index} className="col-12 col-sm-6 col-lg-4">
-                    <CardPlaceholder type="article" />
-                  </li>
-                ))}
+          {/* ==================== author ========================  */}
+          <div className={styles.author}>
+            <div
+              className={styles.nameLetter + " " + (loading && "bg-secondary")}
+            >
+              {article && article.author.slice(0, 1)}
             </div>
-          </div> */}
+            <div className={styles.info}>
+              <p className={styles.name}>
+                {article && !loading && article.author}
+                {loading && <span className="placeholder col-4 " />}
+              </p>
+              <p className={styles.time}>
+                {article &&
+                  !loading &&
+                  format(
+                    new Date(article.createdAt || article.updatedAt),
+                    "dd/MM/yyyy"
+                  )}
+                {loading && <span className="placeholder col-2" />}
+              </p>
+            </div>
+          </div>
         </div>
-      )}
 
-      {error && foundArticle && (
-        <ErrorPage code={error.httpCode} message={error.message} />
-      )}
-    </>
+        {/* ==================== content ========================  */}
+        <div className="col-12 col-lg-7 mx-auto">
+          <div className={styles.content}>
+            {article && !loading && <QuillReader delta={article.content} />}
+            {loading && <ArticleContentPlaceholder />}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

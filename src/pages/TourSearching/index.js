@@ -159,13 +159,13 @@ function TourSearching() {
     });
   }, [location]);
 
-  console.log(page_count);
-  console.log(page);
   return (
     <>
-      <div className="mt-4">
-        <SearchBar />
-      </div>
+      {status !== "failed" && (
+        <div className="mt-4">
+          <SearchBar />
+        </div>
+      )}
 
       {!error && (
         <ErrorBoundary>

@@ -21,7 +21,7 @@ import { fetchSingleTour } from "../../services/apis";
 // other
 import usePageTitle from "../../hooks/usePageTitle";
 import useLazyImgs from "../../hooks/uselazyLoading";
-import { selectTours } from "../../store/tours.slice";
+import { selectTours, selectToursError } from "../../store/tours.slice";
 
 //  css
 import styles from "./TourDetail.module.css";
@@ -31,6 +31,7 @@ function TourDetail() {
   const { urlEndpoint } = useParams();
   const { i18n, t } = useTranslation();
   const tours = useSelector(selectTours);
+  const fetchToursError = useSelector(selectToursError);
   const tourId = tours.find((item) => item.slug === urlEndpoint)?._id;
 
   const tour = data?.data || null;
@@ -45,10 +46,23 @@ function TourDetail() {
   useLazyImgs([data]);
   usePageTitle(`${tourName} || Joya Travel`);
 
+  if (fetchToursError) {
+    return (
+      <ErrorPage
+        code={fetchToursError.httpCode}
+        message={fetchToursError.message}
+      />
+    );
+  }
+
   if (!tourId) {
     return (
       <ErrorPage code={404} message={t("tourDetailPage.errors.notFound")} />
     );
+  }
+
+  if (error) {
+    return <ErrorPage code={error.httpCode} message={error.message} />;
   }
 
   // handle slider data
@@ -116,8 +130,6 @@ function TourDetail() {
             </div>
           </div>
         )}
-
-        {error && <ErrorPage code={error.httpCode} message={error.message} />}
       </div>
     </>
   );

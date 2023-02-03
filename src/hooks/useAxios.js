@@ -18,9 +18,9 @@ function useAxios(dataHandler = defaultDataHadnler) {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
   const abortController = useRef();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   if (!isLoading && data) {
-    dispatch(lazzyLoading())
+    dispatch(lazzyLoading());
   }
   const sendRequest = useCallback(async (config) => {
     try {
@@ -47,8 +47,8 @@ function useAxios(dataHandler = defaultDataHadnler) {
 
       if (error.response) {
         setError({
-          httpCode: error.response.data.code,
-          message: error.response.data.message[i18n.language],
+          httpCode: error.response.status,
+          message: error.response.data.message,
         });
       } else if (error.request) {
         if (!window.navigator.onLine) {

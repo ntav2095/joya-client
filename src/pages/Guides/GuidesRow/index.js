@@ -65,14 +65,6 @@ function GuidesRow({ category }) {
   const GUIDE_ITEM = guidesMap.find((item) => item.category === category);
   const title = GUIDE_ITEM.title;
 
-  useEffect(() => {
-    // window.scroll({
-    //   top: 0,
-    //   left: 0,
-    //   // behavior: "smooth",
-    // });
-  }, [lang, location.search]);
-
   const placeholders = new Array(6).fill(1).map((_, index) => ({
     card: <CardPlaceholder key={index} type="article" />,
     id: index,
@@ -104,8 +96,8 @@ function GuidesRow({ category }) {
   return (
     <SliderPortion
       title={title}
-      to={!error && `/guides/${GUIDE_ITEM.path}`}
-      error={error}
+      to={`/guides/${GUIDE_ITEM.path}`}
+      error={errorMessage}
       cards={cards}
     />
   );

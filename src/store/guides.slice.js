@@ -8,10 +8,27 @@ const initialState = {
   error: null,
 };
 
-export const fetchGuides = createAsyncThunk("guides/fetchGuides", async () => {
-  const response = await axios(fetchGuidesApi());
-  return response.data.data;
-});
+export const fetchGuides = createAsyncThunk(
+  "guides/fetchGuides",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios(fetchGuidesApi());
+      return response.data.data;
+    } catch (error) {
+      if (error.response?.data) {
+        return rejectWithValue({
+          httpCode: error.response.status,
+          message: error.response.data.message,
+        });
+      } else {
+        return rejectWithValue({
+          httpCode: null,
+          message: error.message,
+        });
+      }
+    }
+  }
+);
 
 const guidesSlice = createSlice({
   name: "guides",
@@ -30,6 +47,7 @@ const guidesSlice = createSlice({
       })
       .addCase(fetchGuides.rejected, (state, action) => {
         state.status = "failed";
+        state.error = action.payload;
       });
   },
 });

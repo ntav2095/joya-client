@@ -138,6 +138,8 @@ function Banner({ banner }) {
     );
   }
 
+  console.log("From banner", status);
+
   return <BannerContainer>{content}</BannerContainer>;
 }
 

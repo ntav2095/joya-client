@@ -61,7 +61,16 @@ export default [
     element: <Guides />,
   },
   {
-    paths: ["/guides/:categoryPath", "/guides/:categoryPath/:page"],
+    paths: [
+      "/guides/cam-nang-du-lich",
+      "/guides/trai-nghiem-kham-pha",
+      "/guides/nhat-ky-hanh-trinh",
+      "/guides/diem-den-hap-dan",
+      "/guides/cam-nang-du-lich/:page",
+      "/guides/trai-nghiem-kham-pha/:page",
+      "/guides/nhat-ky-hanh-trinh/:page",
+      "/guides/diem-den-hap-dan/:page",
+    ],
     element: <GuidesCategory />,
   },
   {

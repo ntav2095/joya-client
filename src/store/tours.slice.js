@@ -8,10 +8,28 @@ const initialState = {
   error: null,
 };
 
-export const fetchTours = createAsyncThunk("tours/fetchTours", async () => {
-  const response = await axios(fetchToursApi());
-  return response.data.data;
-});
+export const fetchTours = createAsyncThunk(
+  "tours/fetchTours",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios(fetchToursApi());
+      return response.data.data;
+    } catch (error) {
+      console.error(error);
+      if (error.response?.data) {
+        return rejectWithValue({
+          message: error.response.data.message || "",
+          httpCode: error.response.status,
+        });
+      } else {
+        rejectWithValue({
+          message: error.message,
+          httpCode: null,
+        });
+      }
+    }
+  }
+);
 
 const toursSlice = createSlice({
   name: "tours",
@@ -36,7 +54,10 @@ const toursSlice = createSlice({
           return tour;
         });
       })
-      .addCase(fetchTours.rejected, (state, action) => {});
+      .addCase(fetchTours.rejected, (state, action) => {
+        state.error = action.payload;
+        state.status = "failed";
+      });
   },
 });
 

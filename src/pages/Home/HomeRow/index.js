@@ -12,7 +12,8 @@ function HomeRow({ title, rowData, type, to }) {
   // *************************** handle products ********************************************
   let products = []; // [ { card: <TourCard /> | <ArticleCard /> | <PlaceholderCard />, id: uid } ]
 
-  // loading => products = placeholder Cards
+  // đang loading thì products là list PlaceholderCard
+  // tùy vào type mà PlaceholderCard sẽ render ra placeholder cho tour hay guide
   if (status === "idle" || status === "pending") {
     products = new Array(6).fill(1).map((_, index) => ({
       card: <PlaceholderCard type={type} />,
@@ -20,7 +21,7 @@ function HomeRow({ title, rowData, type, to }) {
     }));
   }
 
-  // fetched => products = Tour Cards hoặc Article Cards
+  // load xong rồi thì products là list Tour hoăc Guide Card
   if (status === "succeed") {
     if (type === "article") {
       products = data?.map((article) => ({
@@ -48,7 +49,7 @@ function HomeRow({ title, rowData, type, to }) {
     }
   }
 
-  // ******************************* handle error ****************************************
+  // handle error
   let errorMessage = "";
   if (error) {
     errorMessage = error.httpCode
@@ -59,7 +60,7 @@ function HomeRow({ title, rowData, type, to }) {
   return (
     <SliderPortion
       title={title}
-      to={!error && to} // link cho nút "xem tất cả"
+      to={to} // link cho nút "xem tất cả"
       error={errorMessage}
       cards={products}
     />

@@ -1,7 +1,7 @@
 // main
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import {
   selectGuidesExperiences,
   selectGuidesHandbooks,
@@ -15,11 +15,12 @@ import GuidesCategory from "./GuidesCategory";
 
 function GuidesCategoryProxy() {
   const { t } = useTranslation();
-  const { categoryPath } = useParams();
   const experiences = useSelector(selectGuidesExperiences);
   const handbooks = useSelector(selectGuidesHandbooks);
   const nicePlaces = useSelector(selectGuidesNicePlaces);
   const diaries = useSelector(selectGuidesDiaries);
+  const location = useLocation();
+  console.log(location);
 
   const MAP = [
     {
@@ -52,7 +53,9 @@ function GuidesCategoryProxy() {
     },
   ];
 
-  const guideItem = MAP.find((item) => item.categoryPath === categoryPath);
+  const guideItem = MAP.find((item) =>
+    location.pathname.startsWith(`/guides/${item.categoryPath}`)
+  );
   if (!guideItem) return <NotFound />;
 
   return <GuidesCategory {...guideItem} />;

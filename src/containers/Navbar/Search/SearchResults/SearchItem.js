@@ -1,53 +1,30 @@
-import styles from "../Search.module.css";
-import { Link, useNavigate } from "react-router-dom";
-import { brokenImage } from "../../../../assets/images";
-import {
-  TOUR_MAP,
-  GUIDES_MAP,
-} from "../../../../services/constants/productsMap";
+import { Link } from "react-router-dom";
 
-function SearchItem({ searchItem, type }) {
-  if (type === "tour") {
-    const path = TOUR_MAP.find((item) =>
-      searchItem.category.includes(item.category)
-    ).path;
-    return (
-      <Link to={`/${path}/${searchItem._id}`}>
-        <div className={styles.image}>
-          <img
-            src={searchItem.thumb}
-            onError={(e) => (e.target.src = brokenImage)}
-          />
-        </div>
-        <div className={styles.textbox}>
-          <p>
-            {searchItem.name} [{searchItem.code}]
-          </p>
-          {searchItem.countries && (
-            <em className="d-block">{searchItem.countries}</em>
-          )}
-          {searchItem.journey && (
-            <em className="d-block">{searchItem.journey}</em>
-          )}
-        </div>
-      </Link>
-    );
-  }
+import placesMap from "../../../../services/constants/placesMap";
+import { useTranslation } from "react-i18next";
+import styles from "./SearchItem.module.css";
 
-  const path = GUIDES_MAP.find((item) =>
-    searchItem.category.includes(item.category)
-  ).path;
+function SearchItem({ tour }) {
+  const lang = useTranslation().i18n.language;
   return (
-    <Link to={`/guides/${path}/${searchItem._id}`}>
+    <Link className={styles.searchItem} to={`/du-lich/${tour.slug}`}>
       <div className={styles.image}>
-        <img
-          src={searchItem.thumb}
-          onError={(e) => (e.target.src = brokenImage)}
-        />
+        <img src={tour.thumb} alt={tour.name} />
       </div>
-      <div className={styles.textbox}>
-        <p>{searchItem.title}</p>
-        <em>{searchItem.lead.slice(0, 30)}...</em>
+
+      <div className={styles.textBox}>
+        <p className={styles.tourName}>
+          <strong>{tour.name}</strong>
+        </p>
+        <p className="text-secondary m-0 text-nowrap">
+          {/* {tour.destinations
+            .map((item) => {
+              if (tour.is_eu_tour) return placesMap.get(item.country)[lang];
+              return placesMap.get(item.province)[lang];
+            })
+            .join(", ")} */}
+          {tour.price.toLocaleString()} vnđ
+        </p>
       </div>
     </Link>
   );

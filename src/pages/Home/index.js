@@ -1,5 +1,5 @@
 // main
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
@@ -12,7 +12,6 @@ import ErrorBoundary from "../../components/ErrorBoundary";
 
 // other
 import usePageTitle from "../../hooks/usePageTitle";
-import useScroll from "../../hooks/useScroll";
 import {
   selectHotEuTours,
   selectHotVnTours,
@@ -43,10 +42,10 @@ function Home() {
   const guidesError = useSelector(selectGuidesError);
 
   usePageTitle(t("pageTitles.home"));
-  useScroll({
-    reScroll: { top: 0 },
-    dependencies: [],
-  });
+
+  useEffect(() => {
+    window.scroll({ top: 0 });
+  }, []);
   return (
     <>
       <ErrorBoundary>
