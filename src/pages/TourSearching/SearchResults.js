@@ -50,34 +50,29 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
           <ul className="list-group">
             {results.map((tour) => (
               <li key={tour.code} className="mb-2 ">
-                <Link to={`/du-lich/${tour.slug}`} onClick={onHide}>
-                  <div className="row">
-                    <div className="col-2">
-                      <div>
-                        <img
-                          className="img-fluid"
-                          src={tour.thumb}
-                          alt={tour.name}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-10">
-                      <p className="text-dark m-0">
-                        <strong>{tour.name}</strong>
-                      </p>
-                      <p className="text-secondary m-0">
-                        {tour.destinations
-                          .map((item) => {
-                            if (tour.is_eu_tour)
-                              return placesMap.get(item.country)[lang];
-                            return placesMap.get(item.province)[lang];
-                          })
-                          .join(", ")}
-                      </p>
-                      <p>{tour.price.toLocaleString()} vnđ</p>
-                    </div>
+                <Link
+                  to={`/du-lich/${tour.slug}`}
+                  onClick={onHide}
+                  className={styles.resultItem}
+                  title={tour.name}
+                >
+                  <div className={styles.image}>
+                    <img src={tour.thumb} alt={tour.name} />
                   </div>
-                </Link>{" "}
+
+                  <div className={styles.textBox}>
+                    <p className="text-dark m-0">
+                      <strong>
+                        {tour.name.slice(0, 120)}
+                        {tour.name.length >= 120 ? "..." : ""}
+                      </strong>
+                    </p>
+                    <p className="text-secondary m-0">
+                      {tour.duration.days} days, {tour.duration.nights} nights
+                    </p>
+                    <p>{tour.price.toLocaleString()} vnđ</p>
+                  </div>
+                </Link>
               </li>
             ))}
           </ul>

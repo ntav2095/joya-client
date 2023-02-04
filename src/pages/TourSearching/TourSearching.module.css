@@ -32,10 +32,41 @@
 }
 
 .searchResults {
-  max-height: 500px;
+  max-height: calc(100vh - 210px);
   overflow-y: auto;
 }
 
-/* .seeAll:hover {
-  text-decoration: underline;
-} */
+.resultItem {
+  display: flex;
+  background: white;
+  padding: 4px;
+  border-radius: 3.6px;
+}
+
+.resultItem:hover {
+  background: rgb(231, 233, 235);
+}
+
+.image {
+  width: 120px;
+  height: 80px;
+  border-radius: 3.6px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.textBox {
+  padding-left: 16px;
+}
+
+.textBox p:last-of-type {
+  color: #050505;
+  margin: 0;
+}

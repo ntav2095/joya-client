@@ -65,7 +65,12 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
   }
 
   if (!error && hasText && results.length === 0 && !isLoading) {
-    <p className="m-0">Not matches anything</p>;
+    content = (
+      <p className="m-0">
+        {lang === "en" && "Not matches anything"}
+        {lang !== "en" && "Không tìm thấy kết quả phù hợp"}
+      </p>
+    );
   }
 
   if (!error && hasText && results.length > 0 && !isLoading) {
