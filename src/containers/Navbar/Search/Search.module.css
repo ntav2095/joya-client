@@ -40,7 +40,7 @@
   box-shadow: var(--box-shadow);
   border-radius: 3.8px;
   border: 1px solid #ccc;
-  max-height: calc(100vh - 100px);
+  max-height: calc(100vh - 142px);
   overflow-y: auto;
   overflow-x: hidden;
   width: calc(100vw - 48px);
