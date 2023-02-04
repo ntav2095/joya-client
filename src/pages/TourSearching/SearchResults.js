@@ -62,10 +62,7 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
 
                   <div className={styles.textBox}>
                     <p className="text-dark m-0">
-                      <strong>
-                        {tour.name.slice(0, 120)}
-                        {tour.name.length >= 120 ? "..." : ""}
-                      </strong>
+                      <strong>{tour.name}</strong>
                     </p>
                     <p className="text-secondary m-0">
                       {tour.duration.days} days, {tour.duration.nights} nights

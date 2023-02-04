@@ -1,12 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import Modal from "react-bootstrap/Modal";
 import { brokenImage } from "../../../assets/images";
-import {
-  xMark as closeSVG,
-  chevronLeft,
-  chevronRight,
-} from "../../../assets/svgs";
+import { xMark as closeSVG } from "../../../assets/svgs";
 import Slider from "react-slick";
 
 import styles from "./TourCarousel.module.css";
@@ -77,11 +73,19 @@ function TourCarousel({ slider, isLoading, size = "md" }) {
                   className={styles.image}
                   onClick={() => setIsShowModal(true)}
                 >
-                  <img
+                  {/* <img
                     src={item.image}
                     alt={item.caption}
                     onError={handlerBrokenImg}
-                  />
+                  /> */}
+                  <div>
+                    <img
+                      src={item.image}
+                      alt={item.caption}
+                      onError={handlerBrokenImg}
+                    />
+                    <p className={styles.imageCaption}>{item.caption}</p>
+                  </div>
                 </div>
               ))}
           </Slider>
@@ -122,7 +126,11 @@ function TourCarousel({ slider, isLoading, size = "md" }) {
           <button className={styles.closeModalBtn} onClick={closeModalHandler}>
             {closeSVG}
           </button>
-          <Carousel activeIndex={index} onSelect={handleSelect}>
+          <Carousel
+            activeIndex={index}
+            onSelect={handleSelect}
+            indicators={false}
+          >
             {!isLoading &&
               hasSlider &&
               slider.map((item) => (
@@ -136,6 +144,7 @@ function TourCarousel({ slider, isLoading, size = "md" }) {
                       alt={item.caption}
                       onError={handlerBrokenImg}
                     />
+                    <p className={styles.imageCaption}>{item.caption}</p>
                   </div>
                 </Carousel.Item>
               ))}

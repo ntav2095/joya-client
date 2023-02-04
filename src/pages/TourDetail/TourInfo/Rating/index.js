@@ -13,7 +13,7 @@ import {
   SlickArrowRight,
 } from "../../../../components/slickArrows";
 
-import "./override.css";
+import "./TourRating.override.css";
 
 // 3.5
 const starsMap = (grade) => {
@@ -90,8 +90,14 @@ function Rating({ tour }) {
                   <span>/5</span>
                 </h3>
                 <div className="mb-1">
-                  {starsMap(average).map((item) =>
-                    item === 1 ? starFill : item === 0.5 ? starHalfFill : star
+                  {starsMap(average).map((item, index) =>
+                    item === 1 ? (
+                      <span key={index}>{starFill}</span>
+                    ) : item === 0.5 ? (
+                      <span key={index}>{starHalfFill}</span>
+                    ) : (
+                      <span key={index}>{star}</span>
+                    )
                   )}
                 </div>
                 <p>From our current customers</p>
@@ -99,7 +105,7 @@ function Rating({ tour }) {
             </div>
 
             {tour.rating.map((item) => (
-              <div key={item._id} className={styles.ratingItem + " mx-2"}>
+              <div key={item._id} className={styles.ratingItem}>
                 <div className={styles.comment + " p-4"}>
                   <p className={styles.quotes + " " + styles.openQuotes}>
                     {openQuotes}

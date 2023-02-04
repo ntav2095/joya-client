@@ -37,3 +37,7 @@
 .tourDetail__rating .slick-arrow.slick-prev {
   left: 8px;
 }
+
+.tourDetail__rating .slick-slide {
+  margin-right: 6px;
+}

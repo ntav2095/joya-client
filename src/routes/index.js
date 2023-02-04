@@ -45,7 +45,7 @@ export default [
     element: <TourSearching />,
   },
   {
-    path: "/du-lich/:urlEndpoint",
+    path: "/du-lich/:slug",
     element: <TourDetail />,
   },
   {

@@ -21,18 +21,23 @@ import { fetchSingleTour } from "../../services/apis";
 // other
 import usePageTitle from "../../hooks/usePageTitle";
 import useLazyImgs from "../../hooks/uselazyLoading";
-import { selectTours, selectToursError } from "../../store/tours.slice";
+import {
+  selectTours,
+  selectToursError,
+  selectToursStatus,
+} from "../../store/tours.slice";
 
 //  css
 import styles from "./TourDetail.module.css";
 
 function TourDetail() {
   const [sendRequest, isLoading, data, error] = useAxios();
-  const { urlEndpoint } = useParams();
+  const { slug } = useParams();
   const { i18n, t } = useTranslation();
   const tours = useSelector(selectTours);
   const fetchToursError = useSelector(selectToursError);
-  const tourId = tours.find((item) => item.slug === urlEndpoint)?._id;
+  const tourId = tours.find((item) => item.slug === slug)?._id;
+  const status = useSelector(selectToursStatus);
 
   const tour = data?.data || null;
   const tourName = tour?.name || "Tour du lịch";
@@ -46,6 +51,13 @@ function TourDetail() {
   useLazyImgs([data]);
   usePageTitle(`${tourName} || Joya Travel`);
 
+  useEffect(() => {
+    window.scroll({
+      top: 0,
+      left: 0,
+    });
+  }, [slug]);
+
   if (fetchToursError) {
     return (
       <ErrorPage
@@ -55,7 +67,7 @@ function TourDetail() {
     );
   }
 
-  if (!tourId) {
+  if (!tourId && status === "succeed") {
     return (
       <ErrorPage code={404} message={t("tourDetailPage.errors.notFound")} />
     );
@@ -80,12 +92,14 @@ function TourDetail() {
     }
   }
 
+  const loading = isLoading || status === "idle" || status === "pending";
+
   return (
     <>
       <ErrorBoundary>
         <Banner
           banner={{
-            isLoading,
+            isLoading: loading,
             error,
             image: tour?.banner,
           }}
@@ -96,26 +110,26 @@ function TourDetail() {
         {!error && (
           <div>
             <h1 className="text-uppercase my-4 fs-4 fw-bold ">
-              {tour && !isLoading && tour?.name + " [" + tour?.code + "]"}
-              {isLoading && <Placeholder height={30} width={"60%"} />}
+              {tour && !loading && tour?.name + " [" + tour?.code + "]"}
+              {loading && <Placeholder height={30} width={"60%"} />}
             </h1>
 
             <div className="row ">
               <div className="col-12 col-lg-8 mb-4 px-0 px-md-1">
                 <ErrorBoundary>
-                  <TourCarousel slider={slider} isLoading={isLoading} />
+                  <TourCarousel slider={slider} isLoading={loading} />
                 </ErrorBoundary>
 
                 <div className="pt-5 ">
                   <ErrorBoundary>
-                    <TourInfo tour={tour} isLoading={isLoading} />
+                    <TourInfo tour={tour} isLoading={loading} />
                   </ErrorBoundary>
                 </div>
               </div>
 
               <div className="col-12 col-lg-4 mb-4">
                 <ErrorBoundary>
-                  <ContactTable tour={tour} isLoading={isLoading} />
+                  <ContactTable tour={tour} isLoading={loading} />
                 </ErrorBoundary>
               </div>
             </div>
