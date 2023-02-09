@@ -13,7 +13,8 @@ export const fetchTours = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios(fetchToursApi());
-      return response.data.data;
+      const tours = response.data.data;
+      return tours;
     } catch (error) {
       console.error(error);
       if (error.response?.data) {
@@ -42,17 +43,7 @@ const toursSlice = createSlice({
       })
       .addCase(fetchTours.fulfilled, (state, action) => {
         state.status = "succeed";
-        state.tours = action.payload.map((tour) => {
-          if (tour.destinations.every((dest) => dest.country === "vietnam")) {
-            return { ...tour, is_vn_tour: true };
-          }
-
-          if (tour.destinations.some((dest) => dest.continent === "europe")) {
-            return { ...tour, is_eu_tour: true };
-          }
-
-          return tour;
-        });
+        state.tours = action.payload;
       })
       .addCase(fetchTours.rejected, (state, action) => {
         state.error = action.payload;
@@ -63,9 +54,9 @@ const toursSlice = createSlice({
 
 // selectors
 const isEuTour = (destinations) =>
-  destinations.some((item) => item.continent === "europe");
+  destinations.some((item) => item.continent?.slug === "chau-au");
 const isVnTour = (destinations) =>
-  destinations.every((item) => item.country === "vietnam");
+  destinations.every((item) => item.country?.slug === "viet-nam");
 
 export const selectTours = (state) => state.tours.tours;
 
@@ -77,11 +68,11 @@ export const selectHotVnTours = (state) =>
 
 // tour châu âu
 export const selectEuTours = (state) =>
-  state.tours.tours.filter((tour) => isEuTour(tour.destinations));
+  state.tours.tours.filter((tour) => tour.is_eu_tour);
 
 // tour việt nam
 export const selectVnTours = (state) =>
-  state.tours.tours.filter((tour) => isVnTour(tour.destinations));
+  state.tours.tours.filter((tour) => tour.is_vn_tour);
 
 export const selectToursStatus = (state) => state.tours.status;
 export const selectToursError = (state) => state.tours.error;
@@ -95,41 +86,84 @@ export const selectVnSliderTours = (state) =>
   state.tours.tours.filter((tour) => tour.layout.includes("vn-tours"));
 
 export const selectToursStatistic = (state) => {
-  const euTours = state.tours.tours.filter((tour) =>
-    isEuTour(tour.destinations)
-  );
+  const euTours = state.tours.tours.filter((tour) => tour.is_eu_tour);
 
-  const vnTours = state.tours.tours.filter((tour) =>
-    isVnTour(tour.destinations)
-  );
+  const vnTours = state.tours.tours.filter((tour) => {
+    return tour.is_vn_tour;
+  });
 
-  const euCountries = Array.from(
+  let euCountries = Array.from(
     new Set(
       euTours
         .reduce((prev, cur) => [...prev, ...cur.destinations], [])
-        .map((dest) => dest.country)
+        .filter(
+          (dest) =>
+            (dest.country || dest.type === "country") &&
+            dest.continent.slug === "chau-au"
+        )
+        .map((dest) => {
+          if (dest.country)
+            return {
+              name: dest.country.name,
+              slug: dest.country.slug,
+            };
+
+          if (dest.type === "country")
+            return {
+              name: dest.name,
+              slug: dest.slug,
+            };
+        })
     )
   );
 
-  const vnProvinces = Array.from(
-    new Set(
-      vnTours
-        .reduce((prev, cur) => [...prev, ...cur.destinations], [])
-        .map((dest) => dest.province)
-    )
-  );
+  let vnProvinces = vnTours
+    .reduce((prev, cur) => [...prev, ...cur.destinations], [])
+    .filter((dest) => dest.country.slug === "viet-nam")
+    .map((dest) => {
+      if ((dest.type === "city" && !dest.province) || dest.type === "province")
+        return {
+          name: dest.name,
+          slug: dest.slug,
+        };
+
+      if (dest.province)
+        return {
+          name: dest.province.name,
+          slug: dest.province.slug,
+        };
+
+      console.log(dest);
+    });
+
+  vnProvinces = Array.from(
+    new Set(vnProvinces.map((item) => JSON.stringify(item)))
+  ).map((item) => JSON.parse(item));
+
+  euCountries = Array.from(
+    new Set(euCountries.map((item) => JSON.stringify(item)))
+  ).map((item) => JSON.parse(item));
 
   const euToursCatalogue = euCountries.map((country) => {
     const toursCount = euTours.filter((tour) =>
-      tour.destinations.some((dest) => dest.country === country)
+      tour.destinations.some(
+        (dest) =>
+          dest.country?.name === country.name ||
+          (dest.type === "country" && dest.name === country.name)
+      )
     ).length;
 
     return { place: country, toursCount };
   });
 
+  console.log(vnProvinces);
   const vnToursCatalogue = vnProvinces.map((province) => {
     const toursCount = vnTours.filter((tour) =>
-      tour.destinations.some((dest) => dest.province === province)
+      tour.destinations.some(
+        (dest) =>
+          dest.province?.name === province.name ||
+          (dest.type === "province" && dest.name === province.name)
+      )
     ).length;
 
     return { place: province, toursCount };

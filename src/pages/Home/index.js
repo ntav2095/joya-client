@@ -17,6 +17,7 @@ import {
   selectHotVnTours,
   selectToursStatus,
   selectToursError,
+  selectHomeSliderTours,
 } from "../../store/tours.slice";
 import {
   selectGuidesError,
@@ -41,15 +42,27 @@ function Home() {
   const guidesStatus = useSelector(selectGuidesStatus);
   const guidesError = useSelector(selectGuidesError);
 
+  // slider
+  const homeSliders = useSelector(selectHomeSliderTours);
+
   usePageTitle(t("pageTitles.home"));
 
   useEffect(() => {
     window.scroll({ top: 0 });
   }, []);
+
+  console.log(status);
   return (
     <>
       <ErrorBoundary>
-        <Banner />
+        <Banner
+          carousel={{
+            items: homeSliders,
+            isLoading: status === "idle" || status === "pending",
+            error: error,
+            type: "tour",
+          }}
+        />
       </ErrorBoundary>
 
       <Container>

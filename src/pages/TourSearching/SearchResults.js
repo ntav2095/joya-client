@@ -94,14 +94,13 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
 
             <ul className="row">
               {statistic.eu.countByPlace.map((country) => (
-                <li key={country.place} className="col-4 mb-1">
+                <li key={country.place.slug} className="col-4 mb-1">
                   <Link
-                    to={`/du-lich/tim-kiem/${country.place}`}
+                    to={`/du-lich/tim-kiem/${country.place.slug}`}
                     className="text-dark"
                     onClick={onHide}
                   >
-                    <strong>{placesMap.get(country.place)[lang]}</strong> (
-                    {country.toursCount}{" "}
+                    <strong>{country.place.name}</strong> ({country.toursCount}{" "}
                     {country.toursCount > 1 ? "tours" : "tour"})
                   </Link>
                 </li>
@@ -120,13 +119,13 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
             </h6>
             <ul className="row">
               {statistic.vn.countByPlace.map((province) => (
-                <li key={province.place} className="col-4 mb-1">
+                <li key={province.place.slug} className="col-4 mb-1">
                   <Link
-                    to={`/du-lich/tim-kiem/${province.place}`}
+                    to={`/du-lich/tim-kiem/${province.place.slug}`}
                     className="text-dark"
                     onClick={onHide}
                   >
-                    <strong>{placesMap.get(province.place)[lang]}</strong> (
+                    <strong>{province.place.name}</strong> (
                     {province.toursCount}{" "}
                     {province.toursCount > 1 ? "tours" : "tour"})
                   </Link>

@@ -58,7 +58,10 @@ function TourSearching() {
   if (place) {
     total_tours = total_tours.filter((item) =>
       item.destinations.some(
-        (dest) => dest.province === place || dest.country === place
+        (dest) =>
+          dest.province?.slug === place ||
+          dest.country?.slug === place ||
+          dest.slug === place
       )
     );
   }
@@ -66,8 +69,15 @@ function TourSearching() {
   const sortHandler = (e) => {
     let path = location.pathname;
 
-    if (e.target.value) {
-      path += `&sort=${e.target.value}`;
+    if (searchTerm) {
+      path += `?search=${searchTerm}`;
+      if (e.target.value) {
+        path += `&sort=${e.target.value}`;
+      }
+    } else {
+      if (e.target.value) {
+        path += `?sort=${e.target.value}`;
+      }
     }
 
     navigate(path);
@@ -83,6 +93,13 @@ function TourSearching() {
 
     if (searchTerm) {
       path += `?search=${searchTerm}`;
+      if (sort) {
+        path += `&sort=${sort}`;
+      }
+    } else {
+      if (sort) {
+        path += `?sort=${sort}`;
+      }
     }
 
     navigate(path);

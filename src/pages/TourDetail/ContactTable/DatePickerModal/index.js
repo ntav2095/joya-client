@@ -25,7 +25,11 @@ function DatePickerModal({ setSelectedDate, setModalShow, tour, ...props }) {
         </button>
         <h6 className="text-center pt-1">{trans.pick_date[lang]}</h6>
         <Calendar
-          availableDates={tour.departure_dates.map((item) => new Date(item))}
+          availableDates={tour.departure_dates
+            .map((item) => new Date(item))
+            .filter((d) => {
+              return d.getTime() >= Date.now();
+            })}
           onSelect={(d) => {
             setSelectedDate(d);
             setModalShow("book");

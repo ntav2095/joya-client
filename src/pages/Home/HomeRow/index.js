@@ -30,11 +30,12 @@ function HomeRow({ title, rowData, type, to }) {
             title={article.title}
             thumb={article.thumb}
             to={`/guides/bai-viet/${article.slug}`}
-            category={
-              GUIDES_MAP.find((item) =>
-                article.category.includes(item.category)
-              ).label[lang]
-            }
+            // category={
+            //   GUIDES_MAP.find((item) =>
+            //     article.category.includes(item.category)
+            //   ).label[lang]
+            // }
+            category={article.category.name}
           />
         ),
         id: article._id,

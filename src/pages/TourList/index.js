@@ -152,7 +152,14 @@ function TourList() {
     <>
       {!error && (
         <ErrorBoundary>
-          <Banner />
+          <Banner
+              carousel={{
+                items: total_tours.filter((tour) => tour.hot),
+                isLoading: status === "idle" || status === "pending",
+                error: error,
+                type: "tour",
+              }}
+          />
         </ErrorBoundary>
       )}
 

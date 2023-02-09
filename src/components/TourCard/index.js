@@ -14,18 +14,7 @@ function TourCard({ tour }) {
   };
 
   let destination = "";
-
-  if (tour.is_eu_tour) {
-    destination = tour.destinations
-      .map((dest) => placesMap.get(dest.country)[lang])
-      .join(", ");
-  }
-
-  if (tour.is_vn_tour) {
-    destination = tour.destinations
-      .map((dest) => placesMap.get(dest.province)[lang])
-      .join(", ");
-  }
+  destination = tour.destinations.map((item) => item.name).join(", ");
 
   return (
     <div className={styles.card}>

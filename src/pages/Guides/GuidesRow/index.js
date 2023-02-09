@@ -1,87 +1,47 @@
 // main
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 
 // components
 import SliderPortion from "../../../components/SliderPortion";
 import CardPlaceholder from "../../../components/placeholders/CardPlaceholder";
 
 // apis
-import useAxios from "../../../hooks/useAxios";
-import { postsApi } from "../../../services/apis";
 import ArticleCard from "../../../containers/ArticleCard";
 import { useSelector } from "react-redux";
 
 // selectors
 import {
-  selectGuidesHandbooks,
-  selectGuidesExperiences,
-  selectGuidesNicePlaces,
-  selectGuidesDiaries,
   selectGuidesStatus,
   selectGuidesError,
+  selectGuides,
 } from "../../../store/guides.slice";
 
 function GuidesRow({ category }) {
-  const location = useLocation();
-  const lang = useTranslation().i18n.language;
-  const { t } = useTranslation();
-
-  const handbooks = useSelector(selectGuidesHandbooks).slice(0, 6);
-  const experiences = useSelector(selectGuidesExperiences).slice(0, 6);
-  const nicePlaces = useSelector(selectGuidesNicePlaces).slice(0, 6);
-  const diaries = useSelector(selectGuidesDiaries).slice(0, 6);
+  const guides = useSelector(selectGuides);
   const status = useSelector(selectGuidesStatus);
   const error = useSelector(selectGuidesError);
 
-  const guidesMap = [
-    {
-      category: "diem-den",
-      title: t("guidesPage.title.nicePlaces"),
-      path: "diem-den-hap-dan",
-      articles: nicePlaces,
-    },
-    {
-      category: "cam-nang",
-      title: t("guidesPage.title.handbooks"),
-      path: "cam-nang-du-lich",
-      articles: handbooks,
-    },
-    {
-      category: "trai-nghiem",
-      title: t("guidesPage.title.experiences"),
-      path: "trai-nghiem-kham-pha",
-      articles: experiences,
-    },
-    {
-      category: "nhat-ky",
-      title: t("guidesPage.title.diaries"),
-      path: "nhat-ky-hanh-trinh",
-      articles: diaries,
-    },
-  ];
-
-  const GUIDE_ITEM = guidesMap.find((item) => item.category === category);
-  const title = GUIDE_ITEM.title;
+  const title = category.name;
+  // const title = GUIDE_ITEM.title;
 
   const placeholders = new Array(6).fill(1).map((_, index) => ({
     card: <CardPlaceholder key={index} type="article" />,
     id: index,
   }));
 
-  const products =
-    GUIDE_ITEM.articles.map((article) => ({
+  const products = guides
+    .filter((guide) => guide.category.slug === category.slug)
+    .slice(0, 6)
+    .map((article) => ({
       card: (
         <ArticleCard
           title={article.title}
           thumb={article.thumb}
           to={`/guides/bai-viet/${article.slug}`}
-          category={GUIDE_ITEM.title}
+          category={category.name}
         />
       ),
       id: article._id,
-    })) || null;
+    }));
 
   let errorMessage = "";
   if (error) {
@@ -93,10 +53,12 @@ function GuidesRow({ category }) {
   const cards =
     status === "idle" || status === "pending" ? placeholders : products;
 
+  if (products.length === 0) return null;
+
   return (
     <SliderPortion
       title={title}
-      to={`/guides/${GUIDE_ITEM.path}`}
+      to={`/guides/${category.slug}`}
       error={errorMessage}
       cards={cards}
     />

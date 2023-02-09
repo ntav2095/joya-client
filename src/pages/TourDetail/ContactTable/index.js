@@ -1,12 +1,18 @@
+// main
 import React, { useState } from "react";
-import BookingModal from "./BookingModal";
-import { phone as phonePng } from "../../../assets/images";
-import { arrowRight as arrowSvg } from "../../../assets/svgs";
-import styles from "./ContactTable.module.css";
 import { useTranslation } from "react-i18next";
+
+// components
+import BookingModal from "./BookingModal";
 import Placeholder from "../../../components/placeholders/Placeholder";
 import DatePickerModal from "./DatePickerModal";
 import ContactModal from "./ContactModal";
+
+// other
+import { phone as phonePng } from "../../../assets/images";
+import { arrowRight as arrowSvg } from "../../../assets/svgs";
+import placesMap from "../../../services/constants/placesMap";
+import styles from "./ContactTable.module.css";
 
 const translation = {
   fullPackage: {
@@ -63,13 +69,15 @@ function ContactTable({ tour, isLoading }) {
     setSuccessModal(succ);
   };
   const pointOfDeparture = tour ? tour.journey.split("-")[0].trim() : "";
-  const destinations = tour
-    ? tour.journey
-        .split("-")
-        .map((item) => item.trim())
-        .filter((item) => item.toLowerCase() !== pointOfDeparture.toLowerCase())
-        .join(" - ")
-    : "";
+
+  // const destinations =
+  //   tour?.destinations
+  //     .map((dest) => {
+  //       if (dest.type === "country") return dest.name;
+  //       if (dest.country) return dest.country.name;
+  //       return "";
+  //     })
+  //     .join(" - ") || "";
 
   return (
     <>
@@ -115,7 +123,7 @@ function ContactTable({ tour, isLoading }) {
               </li>
               <li>
                 <span>{translation.dest[lang]}</span>
-                <strong>{destinations}</strong>
+                <strong>{tour.destinations_text}</strong>
               </li>
               <li>
                 <span>{translation.duration[lang]}</span>

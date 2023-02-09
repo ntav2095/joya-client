@@ -34,24 +34,8 @@ import "./Banner.override.css";
 
 // banner: {image, isLoading, error}
 // banner nhập từ ngoài vào: cái bài chi tiết tour / bài viết
-function Banner({ banner }) {
-  // ************* DECLARATIONS ***********
+function Banner({ banner, carousel }) {
   let content;
-
-  const homeSliderTours = useSelector(selectHomeSliderTours);
-  const euSliderTours = useSelector(selectEuSliderTours);
-  const vnSliderTours = useSelector(selectVnSliderTours);
-  const status = useSelector(selectToursStatus);
-  const error = useSelector(selectToursError);
-  const location = useLocation();
-
-  const sliderGuides = useSelector(selectGuidesSliders);
-  const sliderHandbooks = useSelector(selectHandbookSliders);
-  const sliderExperiences = useSelector(selectExperienceSliders);
-  const sliderDiaries = useSelector(selectDiarySliders);
-  const sliderNicePlaces = useSelector(selectNicePlaceSliders);
-  const guidesStatus = useSelector(selectGuidesStatus);
-  const guidesError = useSelector(selectGuidesError);
 
   // ************* BANNER LÀ HÌNH TRUYỀN TỪ NGOÀI VÀO (KHÔNG PHẢI SLIDER) ***********
   if (banner) {
@@ -71,74 +55,39 @@ function Banner({ banner }) {
   // ************* END ***********
 
   // ************* SLIDER ***********
-
-  if (status === "pending" || status === "idle") {
-    content = <Pending />;
-  }
-
-  if (status === "failed") {
-    content = <Failure msg={createMsg(error.httpCode, error.message)} />;
-  }
-
-  if (status === "succeed") {
-    let products = [];
-    const pathname = location.pathname;
-
-    // home
-    if (pathname === "/") {
-      products = homeSliderTours;
+  if (carousel) {
+    const { items: carouselItems, isLoading, error, type } = carousel;
+    console.log(carouselItems);
+    let basePath = "";
+    if (type === "tour") {
+      basePath = "/du-lich";
     }
 
-    // tours
-    if (pathname.toLowerCase().startsWith("/du-lich-trong-nuoc")) {
-      products = vnSliderTours;
-    }
-
-    if (pathname.toLowerCase().startsWith("/du-lich-chau-au")) {
-      products = euSliderTours;
-    }
-
-    // guides
-    if (pathname.toLowerCase().startsWith("/guides")) {
-      products = sliderGuides;
-    }
-
-    if (pathname.toLowerCase().startsWith("/guides/trai-nghiem-kham-pha")) {
-      products = sliderExperiences;
-    }
-
-    if (pathname.toLowerCase().startsWith("/guides/diem-den-hap-dan")) {
-      products = sliderNicePlaces;
-    }
-
-    if (pathname.toLowerCase().startsWith("/guides/cam-nang-du-lich")) {
-      products = sliderHandbooks;
-    }
-
-    if (pathname.toLowerCase().startsWith("/guides/nhat-ky-hanh-trinh")) {
-      products = sliderDiaries;
-    }
-
-    let basePath = "/du-lich";
-    if (pathname.toLowerCase().startsWith("/guides")) {
+    if (type === "guides") {
       basePath = "/guides/bai-viet";
     }
 
-    content = (
-      <Slider {...settings}>
-        {products.map((item) => (
-          <SliderItem
-            key={item._id}
-            to={`${basePath}/${item.slug || item._id}`}
-            image={item.banner}
-            alt={item.name || item.title}
-          />
-        ))}
-      </Slider>
-    );
-  }
+    content = <Pending />;
 
-  console.log("From banner", status);
+    if (error) {
+      content = <Failure msg={createMsg(error.httpCode, error.message)} />;
+    }
+
+    if (!error && !isLoading) {
+      content = (
+        <Slider {...settings}>
+          {carouselItems.map((item) => (
+            <SliderItem
+              key={item._id}
+              to={`${basePath}/${item.slug}`}
+              image={item.banner}
+              alt={item.name || item.title}
+            />
+          ))}
+        </Slider>
+      );
+    }
+  }
 
   return <BannerContainer>{content}</BannerContainer>;
 }

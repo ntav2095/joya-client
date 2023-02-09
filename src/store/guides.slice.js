@@ -4,6 +4,7 @@ import axios from "../services/axios";
 
 const initialState = {
   articles: [],
+  category: [],
   status: "idle", // idle | pending | succeed | failed
   error: null,
 };
@@ -13,7 +14,10 @@ export const fetchGuides = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios(fetchGuidesApi());
-      return response.data.data;
+      return {
+        guides: response.data.data,
+        category: response.data.metadata.category,
+      };
     } catch (error) {
       if (error.response?.data) {
         return rejectWithValue({
@@ -43,7 +47,8 @@ const guidesSlice = createSlice({
       })
       .addCase(fetchGuides.fulfilled, (state, action) => {
         state.status = "succeed";
-        state.articles = action.payload;
+        state.articles = action.payload.guides;
+        state.category = action.payload.category;
       })
       .addCase(fetchGuides.rejected, (state, action) => {
         state.status = "failed";
@@ -56,28 +61,49 @@ export default guidesSlice.reducer;
 
 // selectors
 export const selectGuides = (state) => state.guides.articles;
-export const selectGuidesExperiences = (state) =>
-  state.guides.articles.filter((article) =>
-    article.category.includes("trai-nghiem")
-  );
-export const selectGuidesHandbooks = (state) =>
-  state.guides.articles.filter((article) =>
-    article.category.includes("cam-nang")
-  );
-export const selectGuidesNicePlaces = (state) =>
-  state.guides.articles.filter((article) =>
-    article.category.includes("diem-den")
-  );
-export const selectGuidesDiaries = (state) =>
-  state.guides.articles.filter((article) =>
-    article.category.includes("nhat-ky")
-  );
-export const selectHotGuides = (state) =>
-  state.guides.articles.filter((article) => article.hot);
+// export const selectGuidesExperiences = (state) =>
+//   state.guides.articles.filter((article) =>
+//     article.category.includes("trai-nghiem")
+//   );
+// export const selectGuidesHandbooks = (state) =>
+//   state.guides.articles.filter((article) =>
+//     article.category.includes("cam-nang")
+//   );
+// export const selectGuidesNicePlaces = (state) =>
+//   state.guides.articles.filter((article) =>
+//     article.category.includes("diem-den")
+//   );
+// export const selectGuidesDiaries = (state) =>
+//   state.guides.articles.filter((article) =>
+//     article.category.includes("nhat-ky")
+//   );
+
+export const selectGuidesExperiences = (state) => state.guides.articles;
+export const selectGuidesHandbooks = (state) => state.guides.articles;
+export const selectGuidesNicePlaces = (state) => state.guides.articles;
+export const selectGuidesDiaries = (state) => state.guides.articles;
+
 export const selectGuidesStatus = (state) => state.guides.status;
 export const selectGuidesError = (state) => state.guides.error;
 
 // sliders
+// export const selectGuidesSliders = (state) =>
+//   state.guides.articles.filter((article) => article.layout.includes("guides"));
+// export const selectHandbookSliders = (state) =>
+//   state.guides.articles.filter((article) =>
+//     article.layout.includes("cam-nang")
+//   );
+// export const selectDiarySliders = (state) =>
+//   state.guides.articles.filter((article) => article.layout.includes("nhat-ky"));
+// export const selectExperienceSliders = (state) =>
+//   state.guides.articles.filter((article) =>
+//     article.layout.includes("trai-nghiem")
+//   );
+// export const selectNicePlaceSliders = (state) =>
+//   state.guides.articles.filter((article) =>
+//     article.layout.includes("diem-den")
+//   );
+
 export const selectGuidesSliders = (state) =>
   state.guides.articles.filter((article) => article.layout.includes("guides"));
 export const selectHandbookSliders = (state) =>
@@ -94,3 +120,6 @@ export const selectNicePlaceSliders = (state) =>
   state.guides.articles.filter((article) =>
     article.layout.includes("diem-den")
   );
+
+// category
+export const selectGuidesCategory = (state) => state.guides.category;
