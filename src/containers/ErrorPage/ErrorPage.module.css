@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(242, 239, 239);
+  /* background: rgb(242, 239, 239); */
 }
 
 .container h2 {

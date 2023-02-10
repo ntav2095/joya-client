@@ -88,6 +88,12 @@
   display: block;
 }
 
+.content figcaption {
+  margin-top: 2px;
+  font-style: italic;
+  color: rgb(82, 82, 82);
+}
+
 /* =============== related articles ==================  */
 .relatedArticle {
   border-radius: 3.8px;

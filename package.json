@@ -2,6 +2,7 @@
   "name": "funix-travelling-frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://joya.com.vn",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",

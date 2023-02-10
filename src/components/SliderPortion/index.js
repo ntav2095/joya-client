@@ -16,7 +16,7 @@ function SliderPortion({ title, cards, error, to }) {
 
       {cards && !error && <CardCarousel cards={cards} />}
 
-      {!error && (
+      {!error && to && (
         <div className={styles.button + " " + styles.margin}>
           {<RoundedButton to={to}>{seeAll[lang]}</RoundedButton>}
         </div>

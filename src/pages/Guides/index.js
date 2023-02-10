@@ -6,6 +6,9 @@ import { useTranslation } from "react-i18next";
 import Banner from "../../components/Banner";
 import Container from "../../components/Container";
 import GuidesRow from "./GuidesRow";
+import SliderPortion from "../../components/SliderPortion";
+import CardPlaceholder from "../../components/placeholders/CardPlaceholder";
+import ErrorPage from "../../containers/ErrorPage";
 
 // other
 import {
@@ -25,6 +28,23 @@ function Guides() {
   const status = useSelector(selectGuidesStatus);
   const error = useSelector(selectGuidesError);
   const guides = useSelector(selectGuides);
+
+  const placeholders = new Array(6).fill(1).map((_, index) => ({
+    card: <CardPlaceholder key={index} type="article" />,
+    id: index,
+  }));
+
+  const rowPlaceholder = (
+    <SliderPortion
+      title={
+        <span className="placeholder  bg-secondary col-4 col-sm-3 col-md-2 p-3 rounded" />
+      }
+      error={null}
+      cards={placeholders}
+    />
+  );
+
+  console.log(error);
   return (
     <>
       <Banner
@@ -41,6 +61,17 @@ function Guides() {
           {guidesCategory.map((item) => (
             <GuidesRow key={item.slug} category={item} />
           ))}
+
+          {(status === "idle" || status === "pending") && (
+            <>
+              {rowPlaceholder}
+              {rowPlaceholder}
+              {rowPlaceholder}
+              {rowPlaceholder}
+            </>
+          )}
+
+          {error && <ErrorPage code={error.httpCode} message={error.message} />}
         </div>
       </Container>
     </>

@@ -21,7 +21,6 @@ function GuidesRow({ category }) {
   const error = useSelector(selectGuidesError);
 
   const title = category.name;
-  // const title = GUIDE_ITEM.title;
 
   const placeholders = new Array(6).fill(1).map((_, index) => ({
     card: <CardPlaceholder key={index} type="article" />,
@@ -44,6 +43,7 @@ function GuidesRow({ category }) {
     }));
 
   let errorMessage = "";
+
   if (error) {
     errorMessage = error.httpCode
       ? error.httpCode + " - " + error.message
