@@ -57,7 +57,6 @@ function Banner({ banner, carousel }) {
   // ************* SLIDER ***********
   if (carousel) {
     const { items: carouselItems, isLoading, error, type } = carousel;
-    console.log(carouselItems);
     let basePath = "";
     if (type === "tour") {
       basePath = "/du-lich";

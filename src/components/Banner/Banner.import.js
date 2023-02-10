@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import Slider from "react-slick";
 import { useSelector } from "react-redux";
-
+import LLink from "../LLink";
 import { SlickArrowLeft, SlickArrowRight } from "../slickArrows";
 import {
   brokenImage,
@@ -104,9 +104,9 @@ const createMsg = (httpCode, message) =>
 
 const SliderItem = ({ to, image, alt }) => {
   return (
-    <Link className={styles.sliderItem} to={to}>
+    <LLink className={styles.sliderItem} to={to}>
       <img src={image} alt={alt} onError={handlerBrokenImg} />
-    </Link>
+    </LLink>
   );
 };
 

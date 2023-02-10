@@ -23,61 +23,122 @@ import Term from "../pages/Term";
 // not found
 import NotFound from "../pages/NotFound";
 
-export default [
+// export default [
+//   {
+//     path: "/",
+//     element: <Home />,
+//   },
+//   {
+//     paths: ["/du-lich-chau-au", "/du-lich-chau-au/:page"],
+//     element: <TourList />,
+//   },
+//   {
+//     paths: ["/du-lich-trong-nuoc", "/du-lich-trong-nuoc/:page"],
+//     element: <TourList />,
+//   },
+//   {
+//     paths: [
+//       "/du-lich/tim-kiem",
+//       "/du-lich/tim-kiem/:placeOrPage",
+//       "/du-lich/tim-kiem/:place/:page",
+//     ],
+//     element: <TourSearching />,
+//   },
+//   {
+//     path: "/du-lich/:slug",
+//     element: <TourDetail />,
+//   },
+//   {
+//     path: "/dich-vu-visa",
+//     element: <Visa />,
+//   },
+//   {
+//     path: "/dich-vu-visa/:visaCountry",
+//     element: <VisaProducts />,
+//   },
+//   {
+//     path: "/guides",
+//     element: <Guides />,
+//   },
+//   {
+//     paths: ["/guides/:category", "/guides/:category/:page"],
+//     element: <GuidesCategory />,
+//   },
+//   {
+//     path: "/guides/bai-viet/:slug",
+//     element: <Article />,
+//   },
+//   {
+//     path: "/dieu-khoan/:typeOfTerm",
+//     element: <Term />,
+//   },
+//   {
+//     path: "/gioi-thieu",
+//     element: <About />,
+//   },
+//   {
+//     path: "/*",
+//     element: <NotFound />,
+//   },
+// ];
+
+const routes = [
   {
-    path: "/",
+    path: "",
     element: <Home />,
   },
   {
-    paths: ["/du-lich-chau-au", "/du-lich-chau-au/:page"],
+    paths: ["du-lich-chau-au", "du-lich-chau-au/:page"],
     element: <TourList />,
   },
   {
-    paths: ["/du-lich-trong-nuoc", "/du-lich-trong-nuoc/:page"],
+    paths: ["du-lich-trong-nuoc", "du-lich-trong-nuoc/:page"],
     element: <TourList />,
   },
   {
     paths: [
-      "/du-lich/tim-kiem",
-      "/du-lich/tim-kiem/:placeOrPage",
-      "/du-lich/tim-kiem/:place/:page",
+      "du-lich/tim-kiem",
+      "du-lich/tim-kiem/:placeOrPage",
+      "du-lich/tim-kiem/:place/:page",
     ],
     element: <TourSearching />,
   },
   {
-    path: "/du-lich/:slug",
+    path: "du-lich/:slug",
     element: <TourDetail />,
   },
   {
-    path: "/dich-vu-visa",
+    path: "dich-vu-visa",
     element: <Visa />,
   },
   {
-    path: "/dich-vu-visa/:visaCountry",
+    path: "dich-vu-visa/:visaCountry",
     element: <VisaProducts />,
   },
   {
-    path: "/guides",
+    path: "guides",
     element: <Guides />,
   },
   {
-    paths: ["/guides/:category", "/guides/:category/:page"],
+    paths: ["guides/:category", "guides/:category/:page"],
     element: <GuidesCategory />,
   },
   {
-    path: "/guides/bai-viet/:slug",
+    path: "guides/bai-viet/:slug",
     element: <Article />,
   },
   {
-    path: "/dieu-khoan/:typeOfTerm",
+    path: "dieu-khoan/:typeOfTerm",
     element: <Term />,
   },
   {
-    path: "/gioi-thieu",
+    path: "gioi-thieu",
     element: <About />,
   },
   {
-    path: "/*",
+    path: "*",
     element: <NotFound />,
   },
 ];
+
+export default routes;

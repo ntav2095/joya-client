@@ -1,7 +1,7 @@
 import styles from "./SearchResults.module.css";
-import { Link } from "react-router-dom";
 import { earth } from "../../../assets/svgs";
 import { searchResults } from "../mock";
+import LLink from "../../../components/LLink";
 
 function SearchResults() {
   return (
@@ -10,7 +10,7 @@ function SearchResults() {
       <ul>
         {searchResults.map((item) => (
           <li key={item.id}>
-            <Link to={`/dich-vu-vi-sa/1`}>
+            <LLink to={`/dich-vu-vi-sa/1`}>
               <div className={styles.imageWrapper}>
                 <div
                   style={{
@@ -20,7 +20,7 @@ function SearchResults() {
                 ></div>
               </div>
               <span>{item.name}</span>
-            </Link>
+            </LLink>
           </li>
         ))}
       </ul>

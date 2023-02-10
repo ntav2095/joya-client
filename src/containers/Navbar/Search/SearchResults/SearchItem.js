@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
 
-import placesMap from "../../../../services/constants/placesMap";
 import { useTranslation } from "react-i18next";
 import styles from "./SearchItem.module.css";
+import LLink from "../../../../components/LLink";
 
 function SearchItem({ tour }) {
-  const lang = useTranslation().i18n.language;
   return (
-    <Link className={styles.searchItem} to={`/du-lich/${tour.slug}`}>
+    <LLink className={styles.searchItem} to={`/du-lich/${tour.slug}`}>
       <div className={styles.image}>
         <img src={tour.thumb} alt={tour.name} />
       </div>
@@ -26,7 +25,7 @@ function SearchItem({ tour }) {
           {tour.price.toLocaleString()} vnđ
         </p>
       </div>
-    </Link>
+    </LLink>
   );
 }
 

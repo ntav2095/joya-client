@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import Search from "../Search";
 import "./NavTopBar.css";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const trans = {
   language: {
@@ -14,12 +14,22 @@ const trans = {
 };
 
 function NavTopBar() {
-  const lang = useTranslation().i18n.language;
+  // const lang = useTranslation().i18n.language;
+  let { lang } = useParams();
+  if (!lang) {
+    lang = "";
+  }
   const location = useLocation();
+  const navigate = useNavigate();
 
   const langChangeHandler = (e) => {
-    i18next.changeLanguage(e.target.value);
-    localStorage.setItem("language", e.target.value);
+    // i18next.changeLanguage(e.target.value);
+    if (!e.target.value) {
+      navigate(location.pathname.slice(3));
+    } else {
+      navigate("/en" + location.pathname);
+    }
+    // localStorage.setItem("language", e.target.value);
   };
 
   return (
@@ -37,7 +47,7 @@ function NavTopBar() {
           {earthSVG}{" "}
           <span className="d-none d-md-inline">{trans.language[lang]}</span>
           <select onChange={langChangeHandler} value={lang}>
-            <option value="vi">Tiếng Việt</option>
+            <option value="">Tiếng Việt</option>
             <option value="en">English</option>
           </select>
         </label>

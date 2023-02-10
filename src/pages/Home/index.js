@@ -27,9 +27,12 @@ import {
 
 // css
 import styles from "./Home.module.css";
+import { useParams } from "react-router-dom";
 
 function Home() {
   const { t } = useTranslation();
+  const { lang } = useParams();
+  console.log("From home page: ", lang);
 
   // tours
   const hotEuTours = useSelector(selectHotEuTours);

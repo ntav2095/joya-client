@@ -1,11 +1,11 @@
 import { NavLink, useLocation, Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-// lang
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import LNavLink from "../../components/LNavLink";
 
 // css
 import "./navbar.css";
@@ -106,9 +106,9 @@ function Header() {
                 <Offcanvas.Body>
                   <Nav className="justify-content-end flex-grow-1 pe-3">
                     {navItems.map((item) => (
-                      <NavLink key={item.to} end to={item.to}>
+                      <LNavLink key={item.to} end to={item.to}>
                         {item.label[lang]}
-                      </NavLink>
+                      </LNavLink>
                     ))}
                   </Nav>
                   {!location.pathname.startsWith("/du-lich/tim-kiem") && (

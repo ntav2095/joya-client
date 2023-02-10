@@ -13,6 +13,7 @@ export const fetchTours = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios(fetchToursApi());
+
       const tours = response.data.data;
       return tours;
     } catch (error) {
@@ -23,7 +24,7 @@ export const fetchTours = createAsyncThunk(
           httpCode: error.response.status,
         });
       } else {
-        rejectWithValue({
+        return rejectWithValue({
           message: error.message,
           httpCode: null,
         });
@@ -52,17 +53,14 @@ const toursSlice = createSlice({
   },
 });
 
-// selectors
-const isEuTour = (destinations) =>
-  destinations.some((item) => item.continent?.slug === "chau-au");
-const isVnTour = (destinations) =>
-  destinations.every((item) => item.country?.slug === "viet-nam");
-
 export const selectTours = (state) => state.tours.tours;
 
 // hot tours
-export const selectHotEuTours = (state) =>
-  state.tours.tours.filter((tour) => tour.hot && tour.is_eu_tour).slice(0, 6);
+export const selectHotEuTours = (state) => {
+  return state.tours.tours
+    .filter((tour) => tour.hot && tour.is_eu_tour)
+    .slice(0, 6);
+};
 export const selectHotVnTours = (state) =>
   state.tours.tours.filter((tour) => tour.hot && tour.is_vn_tour).slice(0, 6);
 
@@ -132,8 +130,6 @@ export const selectToursStatistic = (state) => {
           name: dest.province.name,
           slug: dest.province.slug,
         };
-
-      console.log(dest);
     });
 
   vnProvinces = Array.from(
@@ -156,7 +152,6 @@ export const selectToursStatistic = (state) => {
     return { place: country, toursCount };
   });
 
-  console.log(vnProvinces);
   const vnToursCatalogue = vnProvinces.map((province) => {
     const toursCount = vnTours.filter((tour) =>
       tour.destinations.some(

@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import LLink from "../../../components/LLink";
 
 function FooterGroup({ footerItem }) {
   const lang = useTranslation().i18n.language;
@@ -16,7 +16,7 @@ function FooterGroup({ footerItem }) {
                 {item.icon} {item.label[lang]}
               </a>
             ) : item.path ? (
-              <Link
+              <LLink
                 className="d-block mb-1 "
                 to={item.path}
                 onClick={() =>
@@ -27,7 +27,7 @@ function FooterGroup({ footerItem }) {
                 }
               >
                 {item.icon} {item.label[lang]}
-              </Link>
+              </LLink>
             ) : (
               <p className="mb-1 ">
                 {item.icon} {item.label[lang]}

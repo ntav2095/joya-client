@@ -1,5 +1,4 @@
 // main
-import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import Slider from "react-slick";
@@ -8,6 +7,7 @@ import Slider from "react-slick";
 import Banner from "../../components/Banner";
 import SignupConsultModal from "./SignupConsultModal";
 import VisaSteps from "./VisaSteps";
+import LLink from "../../components/LLink";
 
 // other
 import accentsRemover from "../../services/helpers/accentsRemover";
@@ -82,12 +82,12 @@ function VisaService() {
                         key={item.code}
                         className="list-group-item list-group-item-action"
                       >
-                        <Link
+                        <LLink
                           to={`/dich-vu-visa/${item.code}`}
                           className="d-block"
                         >
                           Dịch vụ visa {item.name}
-                        </Link>
+                        </LLink>
                       </li>
                     ))}
                   </ul>
@@ -109,7 +109,7 @@ function VisaService() {
             <div className={styles.chooseVisa}>
               <Slider {...settings}>
                 {visa.availableCountries.map((item, index) => (
-                  <Link key={index} to={`/dich-vu-visa/${item.code}`}>
+                  <LLink key={index} to={`/dich-vu-visa/${item.code}`}>
                     <div className={styles.visaProduct}>
                       <div className={styles.inner}>
                         <div
@@ -127,7 +127,7 @@ function VisaService() {
                         </div>
                       </div>
                     </div>
-                  </Link>
+                  </LLink>
                 ))}
               </Slider>
             </div>

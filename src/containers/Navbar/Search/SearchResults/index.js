@@ -8,9 +8,8 @@ import {
   selectToursStatistic,
   selectToursStatus,
 } from "../../../../store/tours.slice";
-import { Link } from "react-router-dom";
-import placesMap from "../../../../services/constants/placesMap";
 import SearchItem from "./SearchItem";
+import LLink from "../../../../components/LLink";
 
 function SearchResults({ inputRef, onHide, searchTerm }) {
   const lang = useTranslation().i18n.language;
@@ -76,7 +75,7 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
   if (!error && hasText && results.length > 0 && !isLoading) {
     content = (
       <div>
-        <Link
+        <LLink
           className="text-secondary pb-1 d-block"
           to={`/du-lich/tim-kiem/?search=${searchTerm}`}
         >
@@ -86,7 +85,7 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
               {lang !== "en" && `Xem tất cả ${results.length} kết quả`}
             </i>
           </u>
-        </Link>
+        </LLink>
         <ul className="list-group">
           {results.map((tour) => (
             <li key={tour.code}>
@@ -115,13 +114,13 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
                 key={country.place.slug}
                 className="col-6 col-sm-4 mb-1 text-nowrap"
               >
-                <Link
+                <LLink
                   to={`/du-lich/tim-kiem/${country.place.slug}`}
                   className="text-dark"
                 >
                   <strong>{country.place.name}</strong> ({country.toursCount}{" "}
                   {country.toursCount > 1 ? "tours" : "tour"})
-                </Link>
+                </LLink>
               </li>
             ))}
           </ul>
@@ -140,13 +139,13 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
                 key={province.place.slug}
                 className="col-6 col-sm-4 mb-1 text-nowrap"
               >
-                <Link
+                <LLink
                   to={`/du-lich/tim-kiem/${province.place.slug}`}
                   className="text-dark"
                 >
                   <strong>{province.place.name}</strong> ({province.toursCount}{" "}
                   {province.toursCount > 1 ? "tours" : "tour"})
-                </Link>
+                </LLink>
               </li>
             ))}
           </ul>

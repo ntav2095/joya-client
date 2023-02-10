@@ -6,6 +6,7 @@ import { format } from "date-fns";
 
 // components
 import ErrorPage from "../../containers/ErrorPage";
+import LLink from "../../components/LLink";
 
 import ArticleContentPlaceholder from "./ArticleContentPlaceholder";
 
@@ -109,9 +110,12 @@ function Article() {
           <h6 className="text-dark">
             {article && !loading && (
               <>
-                <Link className={styles.breadCrumb + " text-dark"} to="/guides">
+                <LLink
+                  className={styles.breadCrumb + " text-dark"}
+                  to="/guides"
+                >
                   Guides
-                </Link>{" "}
+                </LLink>{" "}
                 / {categoryLabel}
               </>
             )}

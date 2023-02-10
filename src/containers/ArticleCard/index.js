@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { altThumbnail } from "../../assets/images";
 import styles from "./ArticleCard.module.css";
+import LLink from "../../components/LLink";
 
 function ArticleCard({ thumb, title, to, category }) {
   return (
-    <Link className={styles.cartItem} to={to}>
+    <LLink className={styles.cartItem} to={to}>
       <div className={styles.image}>
         <div className={styles.imageInner}>
           <img
@@ -18,7 +19,7 @@ function ArticleCard({ thumb, title, to, category }) {
         <h5>{title}</h5>
         <p>{category}</p>
       </div>
-    </Link>
+    </LLink>
   );
 }
 

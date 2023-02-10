@@ -2,11 +2,10 @@ import { useRef } from "react";
 import { useSelector } from "react-redux";
 import { selectToursStatistic } from "../../store/tours.slice";
 import useSearchTour from "../../hooks/useSearchTour";
-import placesMap from "../../services/constants/placesMap";
-import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import styles from "./TourSearching.module.css";
 import { useTranslation } from "react-i18next";
+import LLink from "../../components/LLink";
 
 function SearchResults({ inputRef, onHide, searchTerm }) {
   const lang = useTranslation().i18n.language;
@@ -37,7 +36,10 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
     >
       {hasText && results.length > 0 && (
         <div>
-          <Link to={`/du-lich/tim-kiem/?search=${searchTerm}`} onClick={onHide}>
+          <LLink
+            to={`/du-lich/tim-kiem/?search=${searchTerm}`}
+            onClick={onHide}
+          >
             <p className="text-secondary mb-2 text-underline">
               <u>
                 {lang === "en" ? "See all" : "Xem tất cả"} {results.length}{" "}
@@ -46,11 +48,11 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
                   : "kết quả"}
               </u>
             </p>
-          </Link>
+          </LLink>
           <ul className="list-group">
             {results.map((tour) => (
               <li key={tour.code} className="mb-2 ">
-                <Link
+                <LLink
                   to={`/du-lich/${tour.slug}`}
                   onClick={onHide}
                   className={styles.resultItem}
@@ -69,7 +71,7 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
                     </p>
                     <p>{tour.price.toLocaleString()} vnđ</p>
                   </div>
-                </Link>
+                </LLink>
               </li>
             ))}
           </ul>
@@ -95,14 +97,14 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
             <ul className="row">
               {statistic.eu.countByPlace.map((country) => (
                 <li key={country.place.slug} className="col-4 mb-1">
-                  <Link
+                  <LLink
                     to={`/du-lich/tim-kiem/${country.place.slug}`}
                     className="text-dark"
                     onClick={onHide}
                   >
                     <strong>{country.place.name}</strong> ({country.toursCount}{" "}
                     {country.toursCount > 1 ? "tours" : "tour"})
-                  </Link>
+                  </LLink>
                 </li>
               ))}
             </ul>
@@ -120,7 +122,7 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
             <ul className="row">
               {statistic.vn.countByPlace.map((province) => (
                 <li key={province.place.slug} className="col-4 mb-1">
-                  <Link
+                  <LLink
                     to={`/du-lich/tim-kiem/${province.place.slug}`}
                     className="text-dark"
                     onClick={onHide}
@@ -128,7 +130,7 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
                     <strong>{province.place.name}</strong> (
                     {province.toursCount}{" "}
                     {province.toursCount > 1 ? "tours" : "tour"})
-                  </Link>
+                  </LLink>
                 </li>
               ))}
             </ul>

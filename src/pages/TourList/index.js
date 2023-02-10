@@ -40,7 +40,8 @@ function TourList() {
   const sort = params.get("sort") || "";
   const category = location.pathname
     .toLowerCase()
-    .startsWith("/du-lich-trong-nuoc")
+    .slice(0, 25)
+    .includes("/du-lich-trong-nuoc")
     ? "vietnam"
     : "europe";
 
@@ -153,12 +154,12 @@ function TourList() {
       {!error && (
         <ErrorBoundary>
           <Banner
-              carousel={{
-                items: total_tours.filter((tour) => tour.hot),
-                isLoading: status === "idle" || status === "pending",
-                error: error,
-                type: "tour",
-              }}
+            carousel={{
+              items: total_tours.filter((tour) => tour.hot),
+              isLoading: status === "idle" || status === "pending",
+              error: error,
+              type: "tour",
+            }}
           />
         </ErrorBoundary>
       )}

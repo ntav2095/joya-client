@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { altThumbnail, lazyImg } from "../../assets/images";
 import placesMap from "../../services/constants/placesMap";
 import styles from "./TourCard.module.css";
+import LLink from "../../components/LLink";
 
 function TourCard({ tour }) {
   const { to, thumb, name, price, countries, journey, duration } = tour;
@@ -18,7 +19,7 @@ function TourCard({ tour }) {
 
   return (
     <div className={styles.card}>
-      <Link to={to}>
+      <LLink to={to}>
         <div className={styles.img}>
           <img src={thumb} alt={name} onError={errorHandler} />
         </div>
@@ -37,7 +38,7 @@ function TourCard({ tour }) {
             <strong>{price.toLocaleString()} đ</strong>
           </p>
         </div>
-      </Link>
+      </LLink>
     </div>
   );
 }

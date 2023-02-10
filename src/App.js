@@ -10,10 +10,12 @@ import routes from "./routes";
 import { fetchTours } from "./store/tours.slice";
 import { fetchGuides } from "./store/guides.slice";
 import { useTranslation } from "react-i18next";
+import LanguageProxy from "./components/LanguageProxy";
 
 function App() {
   const dispatch = useDispatch();
   const lang = useTranslation().i18n.language;
+  const location = useLocation();
 
   useEffect(() => {
     setTimeout(() => {
@@ -28,27 +30,81 @@ function App() {
     dispatch(fetchGuides());
   }, [lang]);
 
+  const availableLanguages = ["en"];
+
+  const isForeignLanguage = availableLanguages.some((item) =>
+    location.pathname.startsWith(`/${item}`)
+  );
+
   return (
     <>
       <GoToTop />
       <Routes>
-        <Route element={<DefaultLayout />}>
-          {routes.map((route) => {
-            if (route.path) {
-              return (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  element={route.element}
-                />
-              );
-            } else {
-              return route.paths.map((path) => (
-                <Route key={path} path={path} element={route.element} />
-              ));
-            }
-          })}
-        </Route>
+        {isForeignLanguage && (
+          <Route path=":lang" element={<LanguageProxy />}>
+            <Route element={<DefaultLayout />}>
+              {routes.map((route) => {
+                if (route.path || route.path === "") {
+                  if (route.path === "") {
+                    return (
+                      <Route
+                        key={route.path}
+                        index={true}
+                        element={route.element}
+                      />
+                    );
+                  } else {
+                    return (
+                      <Route
+                        key={route.path}
+                        path={route.path}
+                        element={route.element}
+                      />
+                    );
+                  }
+                } else {
+                  return route.paths.map((path) => (
+                    <Route key={path} path={path} element={route.element} />
+                  ));
+                }
+              })}
+            </Route>
+          </Route>
+        )}
+
+        {!isForeignLanguage && (
+          <Route path="/" element={<LanguageProxy />}>
+            <Route element={<DefaultLayout />}>
+              {routes.map((route) => {
+                if (route.path || route.path === "") {
+                  if (route.path === "") {
+                    return (
+                      <Route
+                        key={route.path}
+                        index={true}
+                        element={route.element}
+                      />
+                    );
+                  } else {
+                    return (
+                      <Route
+                        key={route.path}
+                        path={route.path}
+                        element={route.element}
+                      />
+                    );
+                  }
+                } else {
+                  return route.paths.map((path) => (
+                    <Route key={path} path={path} element={route.element} />
+                  ));
+                }
+              })}
+            </Route>
+          </Route>
+        )}
+
+        {/* <Route path="*" element={<h1>404</h1>} /> */}
       </Routes>
     </>
   );

@@ -1,9 +1,11 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
-let initialLanguage =
-  ["vi", "en"].find((item) => item === localStorage.getItem("language")) ||
-  "vi";
+// let initialLanguage =
+//   ["vi", "en"].find((item) => item === localStorage.getItem("language")) ||
+//   "vi";
+
+let initialLanguage = "vi";
 
 const resources = {
   vi: require("./translations/vi.json"),
