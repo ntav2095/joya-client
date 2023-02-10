@@ -44,7 +44,8 @@ function Guides() {
     />
   );
 
-  console.log(error);
+  if (error) return <ErrorPage code={error.httpCode} message={error.message} />;
+
   return (
     <>
       <Banner
@@ -70,8 +71,6 @@ function Guides() {
               {rowPlaceholder}
             </>
           )}
-
-          {error && <ErrorPage code={error.httpCode} message={error.message} />}
         </div>
       </Container>
     </>

@@ -49,7 +49,7 @@ function TourDetail() {
   }, [i18n.language, tourId]);
 
   useLazyImgs([data]);
-  usePageTitle(`${tourName} || Joya Travel`);
+  usePageTitle(`${tourName} | Joya Travel`);
 
   useEffect(() => {
     window.scroll({

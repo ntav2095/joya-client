@@ -166,6 +166,13 @@
         "notFound": "Tour Not Found"
       }
     },
+    "notFoundPage": {
+      "title": "Page Not Found | Joya Travel",
+      "messagePart1": "THE PAGE YOU REQUESTED",
+      "messagePart2": "COULD NOT FOUND",
+      "goHomeButton": "Go to home",
+      "goBackButton": "Go back"
+    },
     "components": {
       "calendar": {
         "notAvailableNextMonth": "No availabe dates in next month",

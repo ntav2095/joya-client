@@ -70,37 +70,34 @@ function GuidesCategory() {
 
   // không có category phù hợp (not found)
   const notFound = status === "succeed" && !categoryItem;
+
+  if (error) return <ErrorPage code={error.httpCode} message={error.message} />;
+
+  if (notFound) return <NotFound />;
+
   return (
     <>
-      {notFound && <NotFound />}
+      <Banner
+        carousel={{
+          items: guides.slice(0, 3),
+          isLoading: status === "idle" || status === "pending",
+          error: error,
+          type: "guides",
+        }}
+      />
 
-      {!notFound && (
-        <Banner
-          carousel={{
-            items: guides.slice(0, 3),
-            isLoading: status === "idle" || status === "pending",
-            error: error,
-            type: "guides",
-          }}
-        />
-      )}
-
-      {!error && !notFound && (
-        <ProductsListLayout
-          title={categoryItem?.name}
-          pagination={{
-            pageCount: Math.ceil(guides.length / PAGE_SIZE),
-            currentPage: Number(page),
-            changePageHandler: changePageHandler,
-          }}
-          products={filteredProducts}
-          placeholder={<CardPlaceholder type="article" />}
-          isLoading={status === "idle" || status === "pending"}
-          status={status}
-        />
-      )}
-
-      {error && <ErrorPage code={error.httpCode} message={error.message} />}
+      <ProductsListLayout
+        title={categoryItem?.name}
+        pagination={{
+          pageCount: Math.ceil(guides.length / PAGE_SIZE),
+          currentPage: Number(page),
+          changePageHandler: changePageHandler,
+        }}
+        products={filteredProducts}
+        placeholder={<CardPlaceholder type="article" />}
+        isLoading={status === "idle" || status === "pending"}
+        status={status}
+      />
     </>
   );
 }

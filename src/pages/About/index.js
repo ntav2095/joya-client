@@ -67,17 +67,17 @@ function About() {
 
       <div className={styles.content}>
         <div className="row mt-5 mb-4 ">
-          <div className="col-6">
+          <div className="col-12 col-md-6 mb-2">
             <div
               className={
-                styles.aboutDescription + " p-4 border rounded bg-white"
+                styles.aboutDescription + " p-3 p-lg-4 border rounded bg-white"
               }
             >
               <h2>{trans.about[lang]}</h2>
               <p>{trans.aboutContent[lang]}</p>
             </div>
           </div>
-          <div className="col-6">
+          <div className="col-12 col-md-6 mb-2">
             <div className={styles.descriptionImage}>
               <img className="img-fluid" src={aboutCompany} alt="staffs" />
             </div>

@@ -3,6 +3,7 @@ import Container from "../../components/Container";
 import { useTranslation } from "react-i18next";
 
 import styles from "./ErrorPage.module.css";
+import LLink from "../../components/LLink";
 
 const trans = {
   goHome: {
@@ -27,33 +28,36 @@ function ErrorPage({ code, message }) {
   const lang = useTranslation().i18n.language;
 
   const navigate = useNavigate();
+
+  // code
+  let httpCode = code ? code.toString() : "ERROR";
+  let codeContent = httpCode;
+  if (httpCode.length === 3) {
+    codeContent = (
+      <>
+        {httpCode[0]}
+        <span>{httpCode[1]}</span>
+        {httpCode[2]}
+      </>
+    );
+  }
+
+  const goBackHandler = () => {
+    navigate(-1);
+  };
+
   return (
-    <Container>
-      <div className={styles.container}>
-        {code === 404 && (
-          <div>
-            <h2>404</h2>
-            <h3 className="mb-2">{message || "Not Found"}</h3>
+    <div className={styles.container}>
+      <div className={styles.box}>
+        <h1 className={styles.number}>{codeContent}</h1>
+        <h2 className={styles.text}>{message}</h2>
 
-            <button onClick={() => navigate("/")}>{trans.goHome[lang]}</button>
-            <button onClick={() => navigate(-1)}>{trans.goBack[lang]}</button>
-          </div>
-        )}
-
-        {code !== 404 && (
-          <div>
-            {code && <h2>{code}</h2>}
-
-            <h3 className="mb-2">{message}</h3>
-
-            {/* <p className="mb-2">{message}</p> */}
-
-            <button onClick={() => navigate("/")}>{trans.goHome[lang]}</button>
-            <button onClick={() => navigate(-1)}>{trans.goBack[lang]}</button>
-          </div>
-        )}
+        <div className={styles.buttons}>
+          <LLink to="/">{trans.goHome[lang]}</LLink>
+          <button onClick={goBackHandler}>{trans.goBack[lang]}</button>
+        </div>
       </div>
-    </Container>
+    </div>
   );
 }
 

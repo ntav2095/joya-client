@@ -166,6 +166,13 @@
         "notFound": "Tour không tồn tại"
       }
     },
+    "notFoundPage": {
+      "title": "Trang không tồn tại | Joya Travel",
+      "messagePart1": "Trang bạn yêu cầu",
+      "messagePart2": "không tồn tại",
+      "goHomeButton": "Về trang chủ",
+      "goBackButton": "Quay lại"
+    },
     "components": {
       "calendar": {
         "notAvailableNextMonth": "Không có hàng ở tháng sau",
