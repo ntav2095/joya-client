@@ -314,7 +314,7 @@ function BookingModal({ selectedDate, onHide, ...props }) {
                       {showCalendar && (
                         <div ref={calendarRef} className={styles.calendar}>
                           <Calendar
-                            availableDates={props.tour.departureDates.map(
+                            availableDates={props.tour.departure_dates.map(
                               (item) => new Date(item)
                             )}
                             onSelect={(selectedDate) => {

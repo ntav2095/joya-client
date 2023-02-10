@@ -1,33 +1,13 @@
 import {
-  selectEuSliderTours,
-  selectHomeSliderTours,
-  selectToursStatus,
-  selectToursError,
-  selectVnSliderTours,
-} from "../../store/tours.slice";
-import {
-  selectGuidesSliders,
-  selectHandbookSliders,
-  selectExperienceSliders,
-  selectDiarySliders,
-  selectNicePlaceSliders,
-  selectGuidesStatus,
-  selectGuidesError,
-} from "../../store/guides.slice";
-import {
   Image,
   Failure,
   Pending,
   BannerContainer,
   React,
-  useLocation,
   Slider,
-  useSelector,
-  getPath,
   settings,
   createMsg,
   SliderItem,
-  styles,
 } from "./Banner.import";
 
 import "./Banner.override.css";
@@ -57,6 +37,7 @@ function Banner({ banner, carousel }) {
   // ************* SLIDER ***********
   if (carousel) {
     const { items: carouselItems, isLoading, error, type } = carousel;
+    console.log("banner rerender");
     let basePath = "";
     if (type === "tour") {
       basePath = "/du-lich";

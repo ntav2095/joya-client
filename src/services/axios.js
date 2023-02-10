@@ -18,7 +18,6 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   function (error) {
-    console.log("From custom axios", error);
     return Promise.reject(error);
   }
 );
