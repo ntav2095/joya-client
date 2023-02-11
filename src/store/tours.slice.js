@@ -132,6 +132,10 @@ export const selectToursStatistic = (state) => {
         };
     });
 
+  console.log(vnTours);
+  console.log(
+    Array.from(new Set(vnProvinces.map((item) => JSON.stringify(item))))
+  );
   vnProvinces = Array.from(
     new Set(vnProvinces.map((item) => JSON.stringify(item)))
   ).map((item) => JSON.parse(item));
@@ -152,13 +156,23 @@ export const selectToursStatistic = (state) => {
     return { place: country, toursCount };
   });
 
+  const matchesProvince = (tour, province) =>
+    tour.destinations.some((dest) => {
+      // xét 3 trường hợp
+      // 1: type === province: {... type: province, name: Đồng Nai }
+      // 2: type !== province: {... type: city, name: Biên Hòa, province: { type: province, name: Đồng Nai } }
+      // 3: thành phố trực thuộc trung ương: type === city, province === null: { type: city, province: null, name: TP Đà Nẵng }
+      console.log(dest);
+      return (
+        dest.province?.name === province.name ||
+        (dest.type === "province" && dest.name === province.name) ||
+        (dest.type === "city" && !dest.province && dest.name === province.name)
+      );
+    });
+
   const vnToursCatalogue = vnProvinces.map((province) => {
     const toursCount = vnTours.filter((tour) =>
-      tour.destinations.some(
-        (dest) =>
-          dest.province?.name === province.name ||
-          (dest.type === "province" && dest.name === province.name)
-      )
+      matchesProvince(tour, province)
     ).length;
 
     return { place: province, toursCount };

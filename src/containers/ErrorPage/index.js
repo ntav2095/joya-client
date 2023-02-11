@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import styles from "./ErrorPage.module.css";
 import LLink from "../../components/LLink";
+import usePageTitle from "../../hooks/usePageTitle";
 
 const trans = {
   goHome: {
@@ -30,7 +31,14 @@ function ErrorPage({ code, message }) {
   const navigate = useNavigate();
 
   // code
-  let httpCode = code ? code.toString() : "ERROR";
+  let httpCode =
+    code && false ? (
+      code.toString()
+    ) : (
+      <>
+        <span>O</span>ops!
+      </>
+    );
   let codeContent = httpCode;
   if (httpCode.length === 3) {
     codeContent = (
@@ -45,6 +53,8 @@ function ErrorPage({ code, message }) {
   const goBackHandler = () => {
     navigate(-1);
   };
+
+  usePageTitle(`${message} | Joya Travel`);
 
   return (
     <div className={styles.container}>

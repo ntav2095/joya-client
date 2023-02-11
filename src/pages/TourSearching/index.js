@@ -55,14 +55,36 @@ function TourSearching() {
   // lọc tours
   let total_tours = useSearchTour(searchTerm);
 
+  let placeName = place;
+  const destinationMatches = (dest) => {
+    // nước
+    if (dest.country?.slug === place) return dest.country.name;
+    if (dest.type === "country" && dest.slug === place) return dest.name;
+
+    // tỉnh
+    if (dest.province?.slug === place) return dest.province.name;
+    if (dest.type === "province" && dest.slug === place) return dest.name;
+
+    // thành phố thuộc trung ương
+    if (!dest.province && dest.type === "city" && dest.slug === place)
+      return dest.name;
+    if (!dest.province && dest.city?.slug === place) return dest.city.name;
+
+    return false;
+  };
+
   if (place) {
-    total_tours = total_tours.filter((item) =>
-      item.destinations.some(
-        (dest) =>
-          dest.province?.slug === place ||
-          dest.country?.slug === place ||
-          dest.slug === place
-      )
+    total_tours = total_tours.filter((tour) =>
+      tour.destinations.some((dest) => {
+        const nameMatches = destinationMatches(dest);
+        console.log(nameMatches);
+        if (nameMatches) {
+          placeName = nameMatches;
+          console.log("MATCHESSSSSSSSSSSSS");
+          return true;
+        }
+        return false;
+      })
     );
   }
 
@@ -159,12 +181,8 @@ function TourSearching() {
   if (place) {
     title =
       lang === "en"
-        ? `Tours list for ${
-            placesMap.get(place) ? placesMap.get(place)[lang] : place
-          }`
-        : `Danh sách tour ${
-            placesMap.get(place) ? placesMap.get(place)[lang] : place
-          }`;
+        ? `Tours list for ${placeName}`
+        : `Danh sách tour ${placeName}`;
   }
 
   usePageTitle(title + " | Joya Travel");
