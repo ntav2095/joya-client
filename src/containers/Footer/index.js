@@ -6,8 +6,7 @@ export default function Footer() {
   const company = useSelector((state) => state.company.company);
   const status = useSelector((state) => state.company.status);
   const error = useSelector((state) => state.company.error);
-  console.log(company);
-  const footerItems = {
+  let footerItems = {
     contact: {
       title: {
         vi: company.name,
@@ -195,6 +194,73 @@ export default function Footer() {
       ],
     },
   };
+
+  if (status === "idle" || status === "pending") {
+    const placeholder = <span className="placeholder col-6" />;
+    footerItems = {
+      ...footerItems,
+      contact: {
+        title: {
+          vi: <span className="placeholder col-4 p-2" />,
+          en: <span className="placeholder col-4 p-2" />,
+        },
+        classes: "col-12 col-sm-9 col-lg-5",
+        items: [
+          {
+            url: "",
+            label: {
+              vi: <span className="placeholder col-8" />,
+              en: <span className="placeholder col-8" />,
+            },
+          },
+          {
+            url: "",
+            label: {
+              vi: <span className="placeholder col-6" />,
+              en: <span className="placeholder col-6" />,
+            },
+          },
+          {
+            url: "",
+            label: {
+              vi: <span className="placeholder col-3" />,
+              en: <span className="placeholder col-3" />,
+            },
+          },
+          {
+            url: "",
+            label: {
+              vi: <span className="placeholder col-4" />,
+              en: <span className="placeholder col-4" />,
+            },
+          },
+        ],
+      },
+      business_registration: {
+        title: {
+          vi: <span className="placeholder col-8 p-2" />,
+          en: <span className="placeholder col-8 p-2" />,
+        },
+        classes: "col-12 col-lg-5",
+        items: [
+          {
+            url: "",
+            label: {
+              vi: <span className="placeholder col-6" />,
+              en: <span className="placeholder col-6" />,
+            },
+          },
+          {
+            url: "",
+            label: {
+              vi: <span className="placeholder col-4" />,
+              en: <span className="placeholder col-4" />,
+            },
+          },
+        ],
+      },
+    };
+  }
   return (
     <div className={styles.footer}>
       <div className="container-fluid  pt-5">
