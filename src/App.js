@@ -9,6 +9,7 @@ import routes from "./routes";
 // import useLazyLoading from "./hooks/useLazyLoading";
 import { fetchTours } from "./store/tours.slice";
 import { fetchGuides } from "./store/guides.slice";
+import { getCompanyInfo } from "./store/company.slice";
 import { useTranslation } from "react-i18next";
 import LanguageProxy from "./components/LanguageProxy";
 
@@ -28,6 +29,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchTours());
     dispatch(fetchGuides());
+    dispatch(getCompanyInfo());
   }, [lang]);
 
   const availableLanguages = ["en"];
