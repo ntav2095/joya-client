@@ -169,7 +169,7 @@
     "notFoundPage": {
       "title": "Page Not Found | Joya Travel",
       "messagePart1": "THE PAGE YOU REQUESTED",
-      "messagePart2": "COULD NOT FOUND",
+      "messagePart2": "COULD NOT BE FOUND",
       "goHomeButton": "Go to home",
       "goBackButton": "Go back"
     },

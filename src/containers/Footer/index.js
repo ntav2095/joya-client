@@ -33,8 +33,8 @@ const footerItems = {
       {
         url: "",
         label: {
-          en: `Website: joya.vn`,
-          vi: `Website: joya.vn`,
+          en: `Website: https://www.joya.com.vn`,
+          vi: `Website: https://www.joya.com.vn`,
         },
       },
     ],
@@ -200,15 +200,15 @@ export default function Footer() {
             <FooterGroup footerItem={footerItems.business_registration} />
           </div>
 
-          <div>
-            <FooterGroup footerItem={footerItems.services} />
-          </div>
-
-          <div>
+          <div className={styles.smallColumn}>
             <FooterGroup footerItem={footerItems.terms} />
           </div>
 
-          <div>
+          <div className={styles.smallColumn}>
+            <FooterGroup footerItem={footerItems.services} />
+          </div>
+
+          <div className={styles.smallColumn}>
             <FooterGroup footerItem={footerItems.links} />
           </div>
         </div>

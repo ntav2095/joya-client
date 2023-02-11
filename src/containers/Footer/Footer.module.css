@@ -20,7 +20,7 @@
   font-size: 13px;
   letter-spacing: 0.3px;
   font-weight: 600;
-  /* white-space: nowrap; */
+  white-space: nowrap;
 }
 
 .footer a,
@@ -28,6 +28,7 @@
 .footer li {
   font-size: 13px;
   color: white;
+  white-space: nowrap;
 }
 
 .footer a:hover {
@@ -47,7 +48,7 @@
 
   .inner > div:nth-of-type(2),
   .inner > div:nth-of-type(4) {
-    width: 20%;
+    width: 30%;
   }
 }
 
@@ -58,7 +59,26 @@
 }
 
 @media screen and (max-width: 576px) {
-  .inner > div {
+  .inner > div:not(.smallColumn) {
+    width: 100% !important;
+  }
+
+  .inner .smallColumn {
+    width: 50% !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .footer a,
+  .footer p,
+  .footer li,
+  .footer h6 {
+    white-space: normal;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .inner > div:nth-of-type(2) {
     width: 100% !important;
   }
 }
