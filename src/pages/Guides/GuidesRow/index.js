@@ -19,6 +19,7 @@ function GuidesRow({ category }) {
   const guides = useSelector(selectGuides);
   const status = useSelector(selectGuidesStatus);
   const error = useSelector(selectGuidesError);
+  const isLoading = status === "idle" || status === "pending";
 
   const title = category.name;
 
@@ -50,8 +51,7 @@ function GuidesRow({ category }) {
       : error.message;
   }
 
-  const cards =
-    status === "idle" || status === "pending" ? placeholders : products;
+  const cards = isLoading ? placeholders : products;
 
   if (products.length === 0) return null;
 

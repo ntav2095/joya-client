@@ -14,6 +14,7 @@ function Itinerary({ data }) {
   };
 
   const isActive = (id) => show.includes(id);
+
   return (
     <div className={styles.itinerary}>
       {data.map((item) => (
@@ -23,7 +24,7 @@ function Itinerary({ data }) {
               ? styles.tabItem + " " + styles.active
               : styles.tabItem
           }
-          key={item.id}
+          key={item._id}
         >
           <div className={styles.header} onClick={() => toggleHandler(item.id)}>
             <div>

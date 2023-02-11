@@ -77,10 +77,8 @@ function TourSearching() {
     total_tours = total_tours.filter((tour) =>
       tour.destinations.some((dest) => {
         const nameMatches = destinationMatches(dest);
-        console.log(nameMatches);
         if (nameMatches) {
           placeName = nameMatches;
-          console.log("MATCHESSSSSSSSSSSSS");
           return true;
         }
         return false;

@@ -73,11 +73,6 @@ function TourCarousel({ slider, isLoading, size = "md" }) {
                   className={styles.image}
                   onClick={() => setIsShowModal(true)}
                 >
-                  {/* <img
-                    src={item.image}
-                    alt={item.caption}
-                    onError={handlerBrokenImg}
-                  /> */}
                   <div>
                     <img
                       src={item.image}

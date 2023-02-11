@@ -32,6 +32,7 @@ function GuidesCategory() {
   const guides = useSelector(selectGuides).filter(
     (guide) => guide.category.slug === category.trim()
   );
+  const isLoading = status === "idle" || status === "pending";
 
   const categoryItem = guidesCategory.find(
     (item) => item.slug === category.trim()
@@ -80,7 +81,7 @@ function GuidesCategory() {
       <Banner
         carousel={{
           items: guides.slice(0, 3),
-          isLoading: status === "idle" || status === "pending",
+          isLoading: isLoading,
           error: error,
           type: "guides",
         }}
@@ -95,7 +96,7 @@ function GuidesCategory() {
         }}
         products={filteredProducts}
         placeholder={<CardPlaceholder type="article" />}
-        isLoading={status === "idle" || status === "pending"}
+        isLoading={isLoading}
         status={status}
       />
     </>

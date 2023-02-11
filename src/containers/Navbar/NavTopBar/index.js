@@ -14,7 +14,6 @@ const trans = {
 };
 
 function NavTopBar() {
-  // const lang = useTranslation().i18n.language;
   let { lang } = useParams();
   if (!lang) {
     lang = "";
@@ -23,14 +22,17 @@ function NavTopBar() {
   const navigate = useNavigate();
 
   const langChangeHandler = (e) => {
-    // i18next.changeLanguage(e.target.value);
     if (!e.target.value) {
       navigate(location.pathname.slice(3));
     } else {
       navigate("/en" + location.pathname);
     }
-    // localStorage.setItem("language", e.target.value);
   };
+
+  const isShowSearchBar = !(
+    location.pathname.startsWith("/du-lich/tim-kiem") ||
+    location.pathname.slice(3).startsWith("/du-lich/tim-kiem")
+  );
 
   return (
     <div className="container-fluid travel__topbar d-flex align-items-center justify-content-lg-between">
@@ -53,7 +55,7 @@ function NavTopBar() {
         </label>
       </div>
 
-      {!location.pathname.startsWith("/du-lich/tim-kiem") && (
+      {isShowSearchBar && (
         <div className="d-none d-sm-flex d-lg-none justify-content-end  w-100">
           <Search />
         </div>

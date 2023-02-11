@@ -67,47 +67,10 @@ function Term() {
   const [sendRequest, isLoading, data, error, resetStates] = useAxios();
   const lang = useTranslation().i18n.language;
 
-  // const delta = useMemo(
-  //   () => (data ? data.data.content : [{ insert: "/n" }]),
-  //   [data]
-  // );
-
-  // const delta = { ops: [{ insert1: "2" }], x: 2 };
-
-  const delta = {
-    ops: [
-      // Unbold and italicize "Gandalf"
-      { retain: 7, attributes: { bold: null, italic: true } },
-
-      // Keep " the " as is
-      { retain: 5 },
-
-      // Insert "White" formatted with color #fff
-      { insert: "White", attributes: { color: "#fff" } },
-
-      // Delete "Grey"
-      { delete: 4 },
-    ],
-  };
-
-  // const isValidDelta = (delta) => {
-  //   const type = Object.prototype.toString.call(delta).slice(8, -1);
-  //   console.log(type);
-  //   if (type !== "Object") return false;
-
-  //   if (Object.keys(delta).length > 1) return false;
-
-  //   if (!delta.ops) return false;
-
-  //   if (Object.prototype.toString.call(delta.ops).slice(8, -1) !== "Array")
-  //     return false;
-
-  //   if (delta.ops.some((item) => !item.insert)) return false;
-
-  //   return true;
-  // };
-
-  // console.log(isValidDelta(delta));
+  const delta = useMemo(
+    () => (data ? data.data.content : [{ insert: "/n" }]),
+    [data]
+  );
 
   const termItem = TERM_ITEMS.get(typeOfTerm);
   const isCorrectCode = Boolean(termItem);

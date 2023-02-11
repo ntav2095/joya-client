@@ -1,14 +1,14 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { selectToursStatistic } from "../../store/tours.slice";
 import useSearchTour from "../../hooks/useSearchTour";
-import { useEffect } from "react";
-import styles from "./TourSearching.module.css";
-import { useTranslation } from "react-i18next";
 import LLink from "../../components/LLink";
+import styles from "./TourSearching.module.css";
 
 function SearchResults({ inputRef, onHide, searchTerm }) {
   const lang = useTranslation().i18n.language;
+  const { t } = useTranslation();
   const containerRef = useRef();
   const statistic = useSelector(selectToursStatistic);
   const results = useSearchTour(searchTerm);
@@ -79,11 +79,11 @@ function SearchResults({ inputRef, onHide, searchTerm }) {
       )}
 
       {hasText && results.length === 0 && (
-        <p className="m-0">Not matches anything</p>
+        <p className="m-0">{t("search.tour.notMatch")}</p>
       )}
 
       {!hasText && (
-        <div>
+        <div className={styles.catalogue}>
           <div className="border-bottom">
             <h6>
               <strong>

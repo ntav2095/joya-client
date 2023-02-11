@@ -1,7 +1,5 @@
 const config = {
-
-  baseURL: "https://ntav.org/api",
-
+  baseURL: "https://api.joya.com.vn",
 };
 
 export default config;

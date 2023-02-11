@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 
 // components
 import Banner from "../../components/Banner";
@@ -27,12 +28,9 @@ import {
 
 // css
 import styles from "./Home.module.css";
-import { useParams } from "react-router-dom";
 
 function Home() {
   const { t } = useTranslation();
-  const { lang } = useParams();
-  console.log("From home page: ", lang);
 
   // tours
   const hotEuTours = useSelector(selectHotEuTours);
@@ -54,7 +52,6 @@ function Home() {
     window.scroll({ top: 0 });
   }, []);
 
-  console.log(status);
   return (
     <>
       <ErrorBoundary>

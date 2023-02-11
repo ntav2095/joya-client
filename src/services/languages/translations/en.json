@@ -228,6 +228,16 @@
       "offline": "Bạn đang offline. Vui lòng kiểm tra kết nối internet.",
       "networkError": "Lỗi kết nối: có thể server đã sập."
     },
+    "search": {
+      "tour": {
+        "title": "Search for tours",
+        "placholder": "Country, province, city, place",
+        "notMatch": "Not match any tours",
+        "seeAll": "See all",
+        "result": "result",
+        "results": "results"
+      }
+    },
     "pageTitles": {
       "home": "Home | Joya Travel",
       "tours": {
@@ -247,6 +257,9 @@
       "notFound": {
         "routeNotFound": "Page Not Found | Joya Travel"
       }
+    },
+    "buttons": {
+      "seeAll": "See all"
     }
   }
 }

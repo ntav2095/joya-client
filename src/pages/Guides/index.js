@@ -21,13 +21,13 @@ import usePageTitle from "../../hooks/usePageTitle";
 import useScroll from "../../hooks/useScroll";
 
 function Guides() {
-  useScroll();
   const { t } = useTranslation();
-  usePageTitle(t("pageTitles.guides.guides"));
+
   const guidesCategory = useSelector(selectGuidesCategory);
+  const guides = useSelector(selectGuides);
   const status = useSelector(selectGuidesStatus);
   const error = useSelector(selectGuidesError);
-  const guides = useSelector(selectGuides);
+  const isLoading = status === "idle" || status === "pending";
 
   const placeholders = new Array(6).fill(1).map((_, index) => ({
     card: <CardPlaceholder key={index} type="article" />,
@@ -37,12 +37,15 @@ function Guides() {
   const rowPlaceholder = (
     <SliderPortion
       title={
-        <span className="placeholder  bg-secondary col-4 col-sm-3 col-md-2 p-3 rounded" />
+        <span className="placeholder bg-secondary col-4 col-sm-3 col-md-2 p-3 rounded" />
       }
       error={null}
       cards={placeholders}
     />
   );
+
+  useScroll();
+  usePageTitle(t("pageTitles.guides.guides"));
 
   if (error) return <ErrorPage code={error.httpCode} message={error.message} />;
 
@@ -51,7 +54,7 @@ function Guides() {
       <Banner
         carousel={{
           items: guides.slice(0, 3),
-          isLoading: status === "pending" || status === "idle",
+          isLoading: isLoading,
           error: error,
           type: "guides",
         }}
@@ -63,7 +66,7 @@ function Guides() {
             <GuidesRow key={item.slug} category={item} />
           ))}
 
-          {(status === "idle" || status === "pending") && (
+          {isLoading && (
             <>
               {rowPlaceholder}
               {rowPlaceholder}

@@ -1,15 +1,11 @@
-import styles from "./SliderPortion.module.css";
-import CardCarousel from "../../containers/CardCarousel";
 import { useTranslation } from "react-i18next";
+import CardCarousel from "../../containers/CardCarousel";
 import RoundedButton from "../RoundedButton";
-
-const seeAll = {
-  en: "See all",
-  vi: "Xem tất cả",
-};
+import styles from "./SliderPortion.module.css";
 
 function SliderPortion({ title, cards, error, to }) {
-  const lang = useTranslation().i18n.language;
+  const { t } = useTranslation();
+
   return (
     <div className={styles.container}>
       <h2 className={styles.margin}>{title}</h2>
@@ -18,7 +14,7 @@ function SliderPortion({ title, cards, error, to }) {
 
       {!error && to && (
         <div className={styles.button + " " + styles.margin}>
-          {<RoundedButton to={to}>{seeAll[lang]}</RoundedButton>}
+          {<RoundedButton to={to}>{t("buttons.seeAll")}</RoundedButton>}
         </div>
       )}
 

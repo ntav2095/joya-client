@@ -13,7 +13,6 @@ export default function CustomPagination({ total, pagenumber, callback }) {
   const { t } = useTranslation();
 
   const ref = useRef(null);
-
   useEffect(() => {
     if (state !== pagenumber) {
       callback(state);

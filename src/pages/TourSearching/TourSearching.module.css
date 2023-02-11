@@ -5,7 +5,7 @@
   padding: 16px;
   background: white;
   border: 0.5px solid #ccc;
-  border-radius: 6px;
+  border-radius: 3.6px;
   position: relative;
 }
 
@@ -69,4 +69,8 @@
 .textBox p:last-of-type {
   color: #050505;
   margin: 0;
+}
+
+.catalogue li:hover {
+  text-decoration: underline;
 }

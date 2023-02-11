@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom";
 import { altThumbnail } from "../../assets/images";
-import styles from "./ArticleCard.module.css";
 import LLink from "../../components/LLink";
+import styles from "./ArticleCard.module.css";
 
 function ArticleCard({ thumb, title, to, category }) {
   return (

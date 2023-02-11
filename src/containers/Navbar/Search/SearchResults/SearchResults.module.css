@@ -2,6 +2,10 @@
   list-style-type: none;
 }
 
+.catalogue ul li:hover {
+  text-decoration: underline;
+}
+
 @media screen and (max-width: 445px) {
   .catalogue ul {
     padding-left: 0;

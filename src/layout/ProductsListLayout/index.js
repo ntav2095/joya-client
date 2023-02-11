@@ -82,7 +82,7 @@ function ProductsListLayout({
           ))}
       </div>
 
-      {status === "succeed" && (
+      {status === "succeed" && pageCount > 0 && (
         <CustomPagination
           total={pageCount}
           pagenumber={currentPage}
