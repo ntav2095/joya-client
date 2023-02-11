@@ -1,6 +1,6 @@
+import { useRef } from "react";
 import Slider from "react-slick";
-import styles from "./Rating.module.css";
-import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   star,
   starHalfFill,
@@ -13,6 +13,7 @@ import {
   SlickArrowRight,
 } from "../../../../components/slickArrows";
 
+import styles from "./Rating.module.css";
 import "./TourRating.override.css";
 
 // 3.5
@@ -32,6 +33,7 @@ const starsMap = (grade) => {
 };
 
 function Rating({ tour }) {
+  const { t } = useTranslation();
   const sliderRef = useRef();
 
   const { width } = useWindowReSize();
@@ -75,6 +77,9 @@ function Rating({ tour }) {
 
   return (
     <div className={styles.wrapper + " tourDetail__rating"}>
+      {tour.rating.length === 0 && (
+        <h6>{t("tourDetailPage.tourDetail.rating.noReview")}</h6>
+      )}
       <div className={styles.inner + " pt-5"}>
         {tour.rating.length > 0 && (
           <Slider ref={sliderRef} {...settings}>
@@ -100,7 +105,11 @@ function Rating({ tour }) {
                     )
                   )}
                 </div>
-                <p>From our current customers</p>
+                <p>
+                  {t(
+                    "tourDetailPage.tourDetail.rating.fromOurCurrentCustomers"
+                  )}
+                </p>
               </div>
             </div>
 
@@ -128,8 +137,6 @@ function Rating({ tour }) {
             )}
           </Slider>
         )}
-
-        {tour.rating.length === 0 && <h5>Hiện chưa có đánh giá nào</h5>}
       </div>
     </div>
   );

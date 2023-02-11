@@ -1,114 +1,34 @@
 import React from "react";
-
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
-
-import "./TourInfo.module.css";
 import { useTranslation } from "react-i18next";
-import "./tourinfo_override.css";
+
 import Overview from "./Overview";
 import DropdownItems from "./DropdownItems";
 import Itinerary from "./Itinerary";
-import styles from "./TourInfo.module.css";
 import Rating from "./Rating";
 
-const trans = {
-  tabTitle: {
-    overview: {
-      en: "OVERVIEW",
-      vi: "MÔ TẢ",
-    },
-    itinerary: {
-      en: "ITINERARY",
-      vi: "LỊCH TRÌNH",
-    },
-    price: {
-      en: "PRICE",
-      vi: "BẢNG GIÁ",
-    },
-    terms: {
-      en: "TERMS",
-      vi: "ĐIỀU KHOẢN",
-    },
-    rating: {
-      en: "RATING",
-      vi: "ĐÁNH GIÁ",
-    },
-  },
-  tabContent: {
-    overview: {
-      tour_name: {
-        en: "Tour's name:",
-        vi: "Tên hành trình:",
-      },
-      itinerary: {
-        en: "Itinerary:",
-        vi: "Lộ trình:",
-      },
-      duration: {
-        en: "Duration: ",
-        vi: "Thời gian: ",
-      },
-      days: {
-        en: "days",
-        vi: "ngày",
-      },
-      nights: {
-        en: "nights",
-        vi: "đêm",
-      },
-      description: {
-        en: "Description: ",
-        vi: "Mô tả: ",
-      },
-      highlights: {
-        en: "Highlights:",
-        vi: "Điểm nổi bật: ",
-      },
-      points_of_departure: {
-        en: "Points of departure:",
-        vi: "Khởi hành:",
-      },
-    },
-    price: {
-      price_includes: {
-        en: "Price includes",
-        vi: "Giá bao gồm",
-      },
-      price_excludes: {
-        en: "Price excludes",
-        vi: "Giá không bao gồm",
-      },
-    },
-    terms: {
-      cancellation_policy: {
-        en: "Cancellation Policy",
-        vi: "Điều kiện hoàn hủy",
-      },
-    },
-  },
-};
-{
-}
+import styles from "./TourInfo.module.css";
+import "./TourInfo.override.css";
 
 const TourInfo = ({ tour, isLoading }) => {
-  const lang = useTranslation().i18n.language;
+  const { t } = useTranslation();
 
   const pricePolicies = tour
     ? [
         {
           id: "includes",
-          title: "Giá bao gồm",
+          title: t("tourDetailPage.tourDetail.pricePolicy.includes"),
           content: tour.price_policies.includes,
         },
         {
           id: "excludes",
-          title: "Giá không bao gồm",
+          title: t("tourDetailPage.tourDetail.pricePolicy.excludes"),
           content: tour.price_policies.excludes,
         },
         {
           id: "other",
-          title: "Trẻ em và phụ thu",
+          title: t("tourDetailPage.tourDetail.pricePolicy.childrenAndOther"),
           content: tour.price_policies.other,
         },
       ]
@@ -118,18 +38,23 @@ const TourInfo = ({ tour, isLoading }) => {
     ? [
         {
           id: "registration",
-          title: "Điều khoản đăng ký",
+          title: t("tourDetailPage.tourDetail.terms.registration"),
           content: tour.terms.registration,
         },
         {
           id: "cancellation",
-          title: "Điều kiện hoàn hủy",
+          title: t("tourDetailPage.tourDetail.terms.cancellation"),
           content: tour.terms.cancellation,
         },
         {
           id: "payment",
-          title: "Phương thức thanh toán",
+          title: t("tourDetailPage.tourDetail.terms.paymentMethods"),
           content: tour.terms.payment,
+        },
+        {
+          id: "notes",
+          title: t("tourDetailPage.tourDetail.terms.notes"),
+          content: tour.terms.notes,
         },
       ]
     : [];
@@ -150,28 +75,43 @@ const TourInfo = ({ tour, isLoading }) => {
         defaultActiveKey="overview"
         className={styles.tabs + " mb-0 border-0"}
       >
-        <Tab eventKey="overview" title={trans.tabTitle.overview[lang]}>
+        <Tab
+          eventKey="overview"
+          title={t("tourDetailPage.tourDetail.overview.title").toUpperCase()}
+        >
           <div className="p-3 border rounded-0">
             {tour && <Overview tour={tour} />}
           </div>
         </Tab>
-        <Tab eventKey="itinerary" title={trans.tabTitle.itinerary[lang]}>
+        <Tab
+          eventKey="itinerary"
+          title={t("tourDetailPage.tourDetail.itinerary.title").toUpperCase()}
+        >
           <div className="p-3 border rounded-0">
             <Itinerary data={itinerary} />
           </div>
         </Tab>
-        <Tab eventKey="price" title={trans.tabTitle.price[lang]}>
+        <Tab
+          eventKey="price"
+          title={t("tourDetailPage.tourDetail.pricePolicy.title").toUpperCase()}
+        >
           <div className="p-3 border rounded-0">
             <DropdownItems data={pricePolicies} />
           </div>
         </Tab>
 
-        <Tab eventKey="terms" title={trans.tabTitle.terms[lang]}>
+        <Tab
+          eventKey="terms"
+          title={t("tourDetailPage.tourDetail.terms.title").toUpperCase()}
+        >
           <div className="p-3 border rounded-0">
             <DropdownItems data={terms} />
           </div>
         </Tab>
-        <Tab eventKey="rating" title={trans.tabTitle.rating[lang]}>
+        <Tab
+          eventKey="rating"
+          title={t("tourDetailPage.tourDetail.rating.title").toUpperCase()}
+        >
           <div className="p-3 border rounded-0">
             {tour && <Rating tour={tour} />}
           </div>

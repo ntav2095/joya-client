@@ -24,7 +24,7 @@ const initialValues = {
   gender: "",
 };
 
-function ContactModal({ success, onHide, ...props }) {
+function ContactModal({ onHide, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -185,11 +185,11 @@ function ContactModal({ success, onHide, ...props }) {
 
                   {error && (
                     <p className={styles.errorMessage + " mb-2 text-danger"}>
-                      {t("components.form.errors.callMeBack")}
+                      {t("components.form.title.callMe")}
                     </p>
                   )}
                   <button className="btn btn-dark btn-sm" type="submit">
-                    {t("components.form.title.callMe")}
+                    {t("buttons.callMe")}
                   </button>
                 </Form>
               )}

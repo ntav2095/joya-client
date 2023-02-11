@@ -18,53 +18,34 @@ import "./navbar.css";
 function Header() {
   const [expanded, setExpanded] = useState(false);
   const location = useLocation();
-  const lang = useTranslation().i18n.language;
+  const { t } = useTranslation();
 
   const navItems = [
     {
-      label: {
-        vi: "TRANG CHỦ",
-        en: "HOME",
-      },
+      label: t("header.navBar.home"),
       to: "/",
     },
     {
-      label: {
-        vi: "DU LỊCH CHÂU ÂU",
-        en: "EUROPE TOURS",
-      },
+      label: t("header.navBar.euTours"),
       to: "/du-lich-chau-au",
     },
     {
-      label: {
-        vi: "DU LỊCH TRONG NƯỚC",
-        en: "VIETNAM TOURS",
-      },
+      label: t("header.navBar.viTours"),
       to: "/du-lich-trong-nuoc",
     },
     {
-      label: {
-        vi: "DỊCH VỤ VISA",
-        en: "VISA SERVICES",
-      },
+      label: t("header.navBar.visaService"),
       to: "/dich-vu-visa",
     },
     {
-      label: {
-        vi: "GIỚI THIỆU",
-        en: "ABOUT",
-      },
+      label: t("header.navBar.about"),
       to: "/gioi-thieu",
     },
     {
-      label: {
-        vi: "GUIDES",
-        en: "GUIDES",
-      },
+      label: t("header.navBar.guides"),
       to: "/guides",
     },
   ];
-
   useEffect(() => {
     if (expanded) {
       setExpanded(false);
@@ -115,7 +96,7 @@ function Header() {
                   <Nav className="justify-content-end flex-grow-1 pe-3">
                     {navItems.map((item) => (
                       <LNavLink key={item.to} end to={item.to}>
-                        {item.label[lang]}
+                        {item.label}
                       </LNavLink>
                     ))}
                   </Nav>

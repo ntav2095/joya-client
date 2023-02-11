@@ -1,26 +1,19 @@
 import { earth as earthSVG } from "../../../assets/svgs";
-import i18next from "../../../services/languages/i18n";
 import { useTranslation } from "react-i18next";
 import Search from "../Search";
 import "./NavTopBar.css";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-const trans = {
-  language: {
-    en: "Language:",
-    vi: "Ngôn ngữ:",
-  },
-};
-
 function NavTopBar() {
+  const { t } = useTranslation();
   let { lang } = useParams();
   if (!lang) {
     lang = "";
   }
   const location = useLocation();
   const navigate = useNavigate();
-
+  const hotline = useSelector((state) => state.company.company.hotline);
   const langChangeHandler = (e) => {
     if (!e.target.value) {
       navigate(location.pathname.slice(3));
@@ -37,17 +30,21 @@ function NavTopBar() {
   return (
     <div className="container-fluid travel__topbar d-flex align-items-center justify-content-lg-between">
       <div className="travel__topbar__contact  pe-2">
-        <p className="m-0 text-nowrap ">
-          <strong>Hotline:</strong>{" "}
-          <a className="travel__topbar__tel" href="tel:123.456.789">
-            123.456.789
-          </a>
-        </p>
+        {hotline && (
+          <p className="m-0 text-nowrap ">
+            <strong>Hotline:</strong>{" "}
+            <a className="travel__topbar__tel" href={`tel: ${hotline}`}>
+              {hotline}
+            </a>
+          </p>
+        )}
       </div>
       <div className="ms-2 travel__language">
         <label className="d-flex align-items-center text-nowrap">
           {earthSVG}{" "}
-          <span className="d-none d-md-inline">{trans.language[lang]}</span>
+          <span className="d-none d-md-inline">
+            {t("header.topBar.language")}
+          </span>
           <select onChange={langChangeHandler} value={lang}>
             <option value="">Tiếng Việt</option>
             <option value="en">English</option>

@@ -2,9 +2,7 @@
   "translation": {
     "header": {
       "topBar": {
-        "language": "Ngôn ngữ",
-        "english": "English",
-        "vietnam": "Tiếng Việt"
+        "language": "Ngôn ngữ"
       },
       "navBar": {
         "home": "Trang chủ",
@@ -16,21 +14,9 @@
       }
     },
     "footer": {
-      "companyInfo": {
-        "title": "CÔNG TY CỔ PHẦN JOYA",
-        "content": {
-          "address": "Địa chỉ: Hoa Sữa 11-52 Vinhomes Riveside, Long Biên, Hà Nội",
-          "phone": "Điện thoại: 123456789 | Hotline : 123456789",
-          "email": "Email: info@joya.vn",
-          "website": "Website: joya.vn"
-        }
-      },
-      "bussinessLicense": {
-        "title": "GIẤY PHÉP KINH DOANH DỊCH VỤ LỮ HÀNH QUỐC TẾ",
-        "content": {
-          "No": "Số GP/No: 79-042/2022/TCDL - GP LHQT",
-          "issuedBy": "Do TCDL cấp ngày 30/10/2022"
-        }
+      "other": {
+        "issuedBy": "Do",
+        "issuedOn": "cấp ngày"
       },
       "services": {
         "title": "DU LỊCH",
@@ -113,15 +99,6 @@
     "visaServicesPage": {},
     "tourDetailPage": {
       "sideBar": {
-        "fullPackage": "Trọn gói",
-        "destinations": "Điểm đến",
-        "duration": "Thời gian",
-        "depaturePoint": "Điểm khởi hành",
-        "day": "ngày",
-        "days": "ngày",
-        "night": "đêm",
-        "nights": "đêm",
-        "departureDates": "Ngày khởi hành",
         "bookTour": "Đặt tour",
         "contactForConsultation": "Liên hệ tư vấn",
         "contactInfo": "Thông tin liên hệ",
@@ -139,7 +116,8 @@
       "tourDetail": {
         "overview": {
           "title": "Tổng quan",
-          "tourName": "Tên tour",
+          "tourName": "Hành trình",
+          "tourCode": "Mã tour",
           "itinerary": "Lộ trình",
           "countries": "Nước",
           "duration": "Thời gian",
@@ -147,19 +125,26 @@
           "description": "Mô tả",
           "highlights": "Điểm nhấn"
         },
+        "itinerary": {
+          "title": "Lộ trình"
+        },
         "pricePolicy": {
+          "title": "Bảng giá",
           "includes": "Các khoản bao gồm",
           "excludes": "Các khoản không bao gồm",
           "childrenAndOther": "Bảng giá cho trẻ em và phụ phí"
         },
         "terms": {
+          "title": "Điều khoản",
           "registration": "Điều kiện đăng ký",
           "cancellation": "Điều kiện hủy đổi",
-          "paymentMethod": "Phương thức thanh toán",
+          "paymentMethods": "Phương thức thanh toán",
           "notes": "Thông tin cần lưu ý"
         },
         "rating": {
-          "fromOurCurrentCustomers": "Từ các khách hàng đáng quý của chúng tôi"
+          "title": "Đánh giá",
+          "fromOurCurrentCustomers": "Từ các khách hàng đáng quý của chúng tôi",
+          "noReview": "Hiện chưa có đánh giá nào"
         }
       },
       "errors": {
@@ -176,7 +161,8 @@
     "components": {
       "calendar": {
         "notAvailableNextMonth": "Không có hàng ở tháng sau",
-        "notAvailablePrevMonth": "Không có hàng ở tháng trước"
+        "notAvailablePrevMonth": "Không có hàng ở tháng trước",
+        "pickDepartureDate": "Chọn ngày khởi hành"
       },
       "form": {
         "title": {
@@ -222,7 +208,16 @@
       "diaries": "Nhật ký hành trình",
       "experiences": "Trải nghiệm - Khám phá",
       "nicePlaces": "Điểm đến hấp dẫn",
-      "fullPackage": "Trọn gói"
+      "fullPackage": "Trọn gói",
+      "language": "Ngôn ngữ",
+      "address": "Địa chỉ",
+      "phoneNumber": "Điện thoại",
+      "licenseNumber": "Số giấy phép",
+      "destinations": "Điểm đến",
+      "duration": "Thời gian",
+      "departurePoint": "Điểm khởi hành",
+      "departureDates": "Ngày khởi hành",
+      "contactInfo": "Liên hệ"
     },
     "errorMessage": {
       "offline": "Bạn đang offline. Vui lòng kiểm tra kết nối internet.",
@@ -258,7 +253,10 @@
       }
     },
     "buttons": {
-      "seeAll": "Xem tất cả"
+      "seeAll": "Xem tất cả",
+      "bookTour": "Đặt tour",
+      "contactUs": "Liên hệ tư vấn",
+      "callMe": "Gọi lại cho tôi"
     }
   }
 }

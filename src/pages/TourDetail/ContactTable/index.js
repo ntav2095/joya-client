@@ -1,6 +1,7 @@
 // main
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 // components
 import BookingModal from "./BookingModal";
@@ -11,73 +12,20 @@ import ContactModal from "./ContactModal";
 // other
 import { phone as phonePng } from "../../../assets/images";
 import { arrowRight as arrowSvg } from "../../../assets/svgs";
-import placesMap from "../../../services/constants/placesMap";
 import styles from "./ContactTable.module.css";
-
-const translation = {
-  fullPackage: {
-    en: "Full package: ",
-    vi: "Trọn gói: ",
-  },
-  dest: {
-    en: "Destinations: ",
-    vi: "Điểm đến: ",
-  },
-  duration: {
-    en: "Duration: ",
-    vi: "Thời gian: ",
-  },
-  days: {
-    en: "days",
-    vi: "ngày",
-  },
-  nights: {
-    en: "nights",
-    vi: "đêm",
-  },
-  pointOfDeparture: {
-    en: "Point of departure: ",
-    vi: "Điểm khởi hành: ",
-  },
-  departureDates: {
-    en: "Departure date",
-    vi: "Ngày khởi hành",
-  },
-  book: {
-    en: "Book now",
-    vi: "Đặt tour",
-  },
-  contactNow: {
-    en: "Contact us",
-    vi: "Liên hệ tư vấn",
-  },
-  contact: {
-    en: "Contact:",
-    vi: "Thông tin liên hệ",
-  },
-};
 
 function ContactTable({ tour, isLoading }) {
   const [modalShow, setModalShow] = useState(""); // "" | "pick-date" | "book" | "contact"
   const [selectedDate, setSelectedDate] = useState(null);
-  const [successModal, setSuccessModal] = useState(false);
+  const { t } = useTranslation();
+  const companyStatus = useSelector((state) => state.company.status);
+  const company = useSelector((state) => state.company.company);
 
-  const { i18n } = useTranslation();
-  const lang = i18n.language;
-
-  const success = (succ) => {
-    setSuccessModal(succ);
-  };
   const pointOfDeparture = tour ? tour.journey.split("-")[0].trim() : "";
 
-  // const destinations =
-  //   tour?.destinations
-  //     .map((dest) => {
-  //       if (dest.type === "country") return dest.name;
-  //       if (dest.country) return dest.country.name;
-  //       return "";
-  //     })
-  //     .join(" - ") || "";
+  const isLoadingContact =
+    companyStatus === "idle" || companyStatus === "pending";
+  const loadedContact = companyStatus === "succeeded";
 
   return (
     <>
@@ -103,7 +51,6 @@ function ContactTable({ tour, isLoading }) {
       <ContactModal
         show={modalShow === "contact"}
         onHide={() => setModalShow("")}
-        success={success}
       />
 
       <div
@@ -116,24 +63,30 @@ function ContactTable({ tour, isLoading }) {
           <div className={styles.card + " mx-auto"}>
             <ul className={styles.tourInfo}>
               <li>
-                <span>{translation.fullPackage[lang]}</span>
+                <span>{t("general.fullPackage")}: </span>
                 <strong className={styles.price}>
-                  {tour.price.toLocaleString()} đ
+                  {tour.price.toLocaleString()} vnđ
                 </strong>
               </li>
               <li>
-                <span>{translation.dest[lang]}</span>
+                <span>{t("general.destinations")}: </span>
                 <strong>{tour.destinations_text}</strong>
               </li>
               <li>
-                <span>{translation.duration[lang]}</span>
+                <span>{t("general.duration")}: </span>
                 <strong>
-                  {tour.duration.days} {translation.days[lang]}{" "}
-                  {tour.duration.nights} {translation.nights[lang]}
+                  {tour.duration.days}{" "}
+                  {tour.duration.days > 1
+                    ? t("general.days")
+                    : t("general.day")}{" "}
+                  {tour.duration.nights}{" "}
+                  {tour.duration.days > 1
+                    ? t("general.nights")
+                    : t("general.night")}
                 </strong>
               </li>
               <li>
-                <span>{translation.pointOfDeparture[lang]}</span>
+                <span>{t("general.departurePoint")}: </span>
                 <strong>{pointOfDeparture}</strong>
               </li>
             </ul>
@@ -142,7 +95,7 @@ function ContactTable({ tour, isLoading }) {
               className={styles.orderBtn}
               onClick={() => setModalShow("pick-date")}
             >
-              {translation.departureDates[lang]}
+              {t("general.departureDates")}
               {arrowSvg}
             </button>
 
@@ -150,14 +103,14 @@ function ContactTable({ tour, isLoading }) {
               className={styles.orderBtn}
               onClick={() => setModalShow("book")}
             >
-              {translation.book[lang]}
+              {t("buttons.bookTour")}
             </button>
 
             <button
               className={styles.orderBtn}
               onClick={() => setModalShow("contact")}
             >
-              {translation.contactNow[lang]}
+              {t("buttons.contactUs")}
             </button>
           </div>
         )}
@@ -168,23 +121,24 @@ function ContactTable({ tour, isLoading }) {
           </div>
         )}
 
-        {!isLoading && (
+        {loadedContact && (
           <div
             className={
               styles.contactInfo + " row  mt-4 mt-sm-0 mt-lg-4 mx-auto"
             }
           >
             <div className="col-8 ">
-              <h4 className="mb-2 fs-6 fw-bold">{translation.contact[lang]}</h4>
+              <h4 className="mb-2 fs-6 fw-bold">{t("general.contactInfo")}</h4>
               <ul>
                 <li>
-                  Hotline: <a href="tel:123456789">0123 456 789</a>
+                  Hotline:{" "}
+                  <a href={`tel:${company.hotline}`}>{company.hotline}</a>
                 </li>
                 <li>
-                  Zalo: <a href="tel:123456789">0123 456 789</a>
+                  Zalo: <a href={`tel:${company.phone}`}>{company.phone}</a>
                 </li>
                 <li>
-                  Email: <a href="mailto:abcxyz@gmail.com">abcxyz@gmail.com</a>
+                  Email: <a href={`mailto:${company.email}`}>{company.email}</a>
                 </li>
               </ul>
             </div>
@@ -194,7 +148,7 @@ function ContactTable({ tour, isLoading }) {
           </div>
         )}
 
-        {isLoading && (
+        {isLoadingContact && (
           <div
             className={
               styles.contactInfo + " row  mt-4 mt-sm-0 mt-lg-4 mx-auto"

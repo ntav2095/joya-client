@@ -2,9 +2,7 @@
   "translation": {
     "header": {
       "topBar": {
-        "language": "Language",
-        "english": "English",
-        "vietnam": "Vietnamese"
+        "language": "Language"
       },
       "navBar": {
         "home": "Home",
@@ -16,21 +14,9 @@
       }
     },
     "footer": {
-      "companyInfo": {
-        "title": "JOYA JOINT STOCK COMPANY",
-        "content": {
-          "address": "Address: Hoa Sua 11-52 Vinhomes Riveside, Long Bien, Ha Noi.",
-          "phone": "Phone number: 123456789 | Hotline : 123456789",
-          "email": "Email: info@joya.vn",
-          "website": "Website: joya.vn"
-        }
-      },
-      "bussinessLicense": {
-        "title": "INTERNATIONAL FESTIVAL SERVICE BUSINESS LICENSE",
-        "content": {
-          "No": "License number: 79-042/2022/TCDL - GP LHQT",
-          "issuedBy": "Issued by TCDL on October 30, 2022"
-        }
+      "other": {
+        "issuedBy": "Issued by",
+        "issuedOn": "on"
       },
       "services": {
         "title": "TRAVEL",
@@ -113,14 +99,9 @@
     "visaServicesPage": {},
     "tourDetailPage": {
       "sideBar": {
-        "fullPackage": "Full package",
         "destinations": "Destinations",
         "duration": "Duration",
         "depaturePoint": "Departure point",
-        "day": "day",
-        "days": "days",
-        "night": "night",
-        "nights": "nights",
         "departureDates": "Departure Dates",
         "bookTour": "Book",
         "contactForConsultation": "Contact",
@@ -136,10 +117,11 @@
           "callMeBack": "Call me back"
         }
       },
-      "tourDetai": {
+      "tourDetail": {
         "overview": {
           "title": "Overview",
           "tourName": "Name",
+          "tourCode": "code",
           "itinerary": "Itinerary",
           "countries": "Countries",
           "duration": "Duration",
@@ -147,19 +129,26 @@
           "description": "Description",
           "highlights": "Highlights"
         },
+        "itinerary": {
+          "title": "Itinerary"
+        },
         "pricePolicy": {
+          "title": "Price",
           "includes": "Price includes",
           "excludes": "Price excludes",
           "childrenAndOther": "Price for children and extra charge"
         },
         "terms": {
+          "title": "Terms",
           "registration": "Registration Policy",
           "cancellation": "Cancellation Policy",
           "paymentMethods": "Payment Methods",
           "notes": "Notes"
         },
         "rating": {
-          "fromOurCurrentCustomers": "From our current customers"
+          "title": "Rating",
+          "fromOurCurrentCustomers": "From our current customers",
+          "noReview": "There are currently no reviews yet"
         }
       },
       "errors": {
@@ -176,11 +165,12 @@
     "components": {
       "calendar": {
         "notAvailableNextMonth": "No availabe dates in next month",
-        "notAvailablePrevMonth": "No availabe dates in previous month"
+        "notAvailablePrevMonth": "No availabe dates in previous month",
+        "pickDepartureDate": "Pick departure date"
       },
       "form": {
         "title": {
-          "callMeBack": "Call me"
+          "callMe": "Contact me"
         },
         "firstname": "First name",
         "surname": "Surname",
@@ -222,7 +212,16 @@
       "diaries": "Travel diaries",
       "experiences": "Travel experiences",
       "nicePlaces": "Nice places",
-      "fullPackage": "Full package"
+      "fullPackage": "Full package",
+      "language": "Language",
+      "address": "Address",
+      "phoneNumber": "Phone number",
+      "licenseNumber": "License number",
+      "destinations": "Destinations",
+      "duration": "Duration",
+      "departurePoint": "Point of departure",
+      "departureDates": "Departure dates",
+      "contactInfo": "Contact"
     },
     "errorMessage": {
       "offline": "Bạn đang offline. Vui lòng kiểm tra kết nối internet.",
@@ -259,7 +258,10 @@
       }
     },
     "buttons": {
-      "seeAll": "See all"
+      "seeAll": "See all",
+      "bookTour": "Book",
+      "contactUs": "Contact Us",
+      "callMe": "Contact me"
     }
   }
 }

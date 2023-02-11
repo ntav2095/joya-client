@@ -53,7 +53,7 @@ const companySlice = createSlice({
         state.status = "pending";
       })
       .addCase(getCompanyInfo.fulfilled, (state, action) => {
-        state.status = "succeed";
+        state.status = "succeeded";
         state.company = action.payload;
       })
       .addCase(getCompanyInfo.rejected, (state, action) => {

@@ -42,12 +42,6 @@ function TourDetail() {
   const tour = data?.data || null;
   const tourName = tour?.name || "Tour du lịch";
 
-  // useEffect(() => {
-  //   if (tourId) {
-  //     sendRequest(fetchSingleTour(tourId));
-  //   }
-  // }, [i18n.language, tourId]);
-
   useEffect(() => {
     if (tourId && status === "succeed") {
       sendRequest(fetchSingleTour(tourId));

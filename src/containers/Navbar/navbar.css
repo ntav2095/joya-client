@@ -47,6 +47,7 @@
   padding: 6px 4px;
   margin: 0 2px;
   position: relative;
+  text-transform: uppercase;
 }
 
 .navbar-nav a:hover {

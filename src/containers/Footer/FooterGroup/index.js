@@ -1,19 +1,16 @@
-import { useTranslation } from "react-i18next";
 import LLink from "../../../components/LLink";
 
 function FooterGroup({ footerItem }) {
-  const lang = useTranslation().i18n.language;
-
   return (
     <div className="mb-4">
-      <h6>{footerItem.title[lang]}</h6>
+      <h6>{footerItem.title}</h6>
 
       <ul>
         {footerItem.items.map((item, index) => (
           <li key={index}>
             {item.url ? (
               <a className="d-block mb-1 " href={item.url}>
-                {item.icon} {item.label[lang]}
+                {item.icon} {item.label}
               </a>
             ) : item.path ? (
               <LLink
@@ -26,11 +23,11 @@ function FooterGroup({ footerItem }) {
                   })
                 }
               >
-                {item.icon} {item.label[lang]}
+                {item.icon} {item.label}
               </LLink>
             ) : (
               <p className="mb-1 ">
-                {item.icon} {item.label[lang]}
+                {item.icon} {item.label}
               </p>
             )}
           </li>
